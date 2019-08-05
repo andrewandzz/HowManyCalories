@@ -1,0 +1,30 @@
+{
+  "name": "howmanycalories",
+  "version": "1.0.0",
+  "description": "Calculate calories",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewandzz/HowManyCalories.git"
+  },
+  "author": "Andrew Dashkov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrewandzz/HowManyCalories/issues"
+  },
+  "homepage": "https://github.com/andrewandzz/HowManyCalories#readme",
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.38.0",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
+}

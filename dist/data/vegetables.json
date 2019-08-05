@@ -1,0 +1,50 @@
+[
+	{
+		"title": "avocado",
+		"calories": 160
+	},
+	{
+		"title": "bell-pepper",
+		"calories": 31
+	},
+	{
+		"title": "broccoli",
+		"calories": 34
+	},
+	{
+		"title": "cabbage",
+		"calories": 25
+	},
+	{
+		"title": "carrot",
+		"calories": 41
+	},
+	{
+		"title": "chinese-cabbage",
+		"calories": 13
+	},
+	{
+		"title": "cucumber",
+		"calories": 45
+	},
+	{
+		"title": "eggplant",
+		"calories": 25
+	},
+	{
+		"title": "onion",
+		"calories": 40
+	},
+	{
+		"title": "potato",
+		"calories": 77
+	},
+	{
+		"title": "pumpkin",
+		"calories": 26
+	},
+	{
+		"title": "tomato",
+		"calories": 24
+	}
+]
