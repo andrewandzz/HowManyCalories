@@ -1,0 +1,491 @@
+/*
+	FRUITS
+*/
+
+.foods[theme="fruits"] .foods__page__list__item--image img {
+	background: url('../images/foods/fruits-big.png') no-repeat;
+}
+
+#apple {
+    width: 90px;
+    height: 90px;
+    background-position: -5px -5px;
+    margin-left: 7px;
+}
+
+#apricot {
+    width: 114px;
+    height: 97px;
+    background-position: -105px -5px;
+}
+
+#banana {
+    width: 91px;
+    height: 97px;
+    background-position: -229px -5px;
+}
+
+#cherry {
+    width: 101px;
+    height: 99px;
+    background-position: -330px -5px;
+    margin-left: 16px;
+}
+
+#coconut {
+    width: 100px;
+    height: 84px;
+    background-position: -441px -5px;
+}
+
+#grapes {
+    width: 81px;
+    height: 115px;
+    background-position: -551px -5px;
+}
+
+#kiwi {
+    width: 111px;
+    height: 85px;
+    background-position: -642px -5px;
+}
+
+#mango {
+    width: 135px;
+    height: 73px;
+    background-position: -763px -5px;
+}
+
+#orange {
+    width: 115px;
+    height: 94px;
+    background-position: -908px -5px;
+}
+
+#pineapple {
+    width: 69px;
+    height: 140px;
+    background-position: -1033px -5px;
+}
+
+#strawberry {
+    width: 99px;
+    height: 76px;
+    background-position: -1112px -5px;
+}
+
+#watermelon {
+    width: 124px;
+    height: 88px;
+    background-position: -1221px -5px;
+}
+
+
+@media screen and (min-width: 400px) and (max-width: 599px) {
+    .foods[theme="fruits"] .foods__page__list__item--image img {
+        background: url('../images/foods/fruits-mid.png') no-repeat;
+    }
+
+    #apple {
+        width: 69px;
+        height: 69px;
+        background-position: -5px -5px;
+        margin-left: 6px;
+    }
+
+    #apricot {
+        width: 88px;
+        height: 75px;
+        background-position: -84px -5px;
+    }
+
+    #banana {
+        width: 70px;
+        height: 75px;
+        background-position: -182px -5px;
+    }
+
+    #cherry {
+        width: 78px;
+        height: 77px;
+        background-position: -262px -5px;
+        margin-left: 12px;
+    }
+
+    #coconut {
+        width: 77px;
+        height: 65px;
+        background-position: -350px -5px;
+    }
+
+    #grapes {
+        width: 63px;
+        height: 89px;
+        background-position: -437px -5px;
+    }
+
+    #kiwi {
+        width: 86px;
+        height: 66px;
+        background-position: -510px -5px;
+    }
+
+    #mango {
+        width: 104px;
+        height: 56px;
+        background-position: -606px -5px;
+    }
+
+    #orange {
+        width: 89px;
+        height: 72px;
+        background-position: -720px -5px;
+    }
+
+    #pineapple {
+        width: 53px;
+        height: 108px;
+        background-position: -819px -5px;
+    }
+
+    #strawberry {
+        width: 77px;
+        height: 59px;
+        background-position: -882px -5px;
+    }
+
+    #watermelon {
+        width: 96px;
+        height: 68px;
+        background-position: -969px -5px;
+    }
+}
+
+@media screen and (max-width: 399px) {
+    .foods[theme="fruits"] .foods__page__list__item--image img {
+        background: url('../images/foods/fruits-sml.png') no-repeat;
+    }
+
+    #apple {
+        width: 49px;
+        height: 49px;
+        background-position: -5px -5px;
+        margin-left: 5px;
+    }
+
+    #apricot {
+        width: 62px;
+        height: 52px;
+        background-position: -64px -5px;
+    }
+
+    #banana {
+        width: 49px;
+        height: 52px;
+        background-position: -136px -5px;
+    }
+
+    #cherry {
+        width: 55px;
+        height: 54px;
+        background-position: -195px -5px;
+        margin-left: 8px;
+    }
+
+    #coconut {
+        width: 54px;
+        height: 46px;
+        background-position: -260px -5px;
+    }
+
+    #grapes {
+        width: 44px;
+        height: 62px;
+        background-position: -324px -5px;
+    }
+
+    #kiwi {
+        width: 60px;
+        height: 46px;
+        background-position: -378px -5px;
+    }
+
+    #mango {
+        width: 73px;
+        height: 40px;
+        background-position: -448px -5px;
+    }
+
+    #orange {
+        width: 63px;
+        height: 51px;
+        background-position: -531px -5px;
+    }
+
+    #pineapple {
+        width: 37px;
+        height: 76px;
+        background-position: -604px -5px;
+    }
+
+    #strawberry {
+        width: 54px;
+        height: 41px;
+        background-position: -651px -5px;
+    }
+
+    #watermelon {
+        width: 67px;
+        height: 48px;
+        background-position: -715px -5px;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* VEGETABLES */
+
+.foods[theme="vegetables"] .foods__page__list__item--image img {
+	background: url('../images/foods/vegetables-big.png') no-repeat;
+}
+
+#avocado {
+    width: 103px;
+    height: 116px;
+    background-position: -5px -5px;
+}
+
+#bell-pepper {
+    width: 85px;
+    height: 111px;
+    background-position: -118px -5px;
+}
+
+#broccoli {
+    width: 101px;
+    height: 93px;
+    background-position: -213px -5px;
+}
+
+#cabbage {
+    width: 111px;
+    height: 91px;
+    background-position: -324px -5px;
+}
+
+#carrot {
+    width: 122px;
+    height: 55px;
+    background-position: -445px -5px;
+}
+
+#chinese-cabbage {
+    width: 81px;
+    height: 116px;
+    background-position: -577px -5px;
+}
+
+#cucumber {
+    width: 146px;
+    height: 50px;
+    background-position: -668px -5px;
+}
+
+#eggplant {
+    width: 152px;
+    height: 55px;
+    background-position: -824px -5px;
+}
+
+#onion {
+    width: 106px;
+    height: 84px;
+    background-position: -986px -5px;
+}
+
+#potato {
+    width: 99px;
+    height: 55px;
+    background-position: -1102px -5px;
+}
+
+#pumpkin {
+    width: 90px;
+    height: 124px;
+    background-position: -1211px -5px;
+}
+
+#tomato {
+    width: 89px;
+    height: 87px;
+    background-position: -1311px -5px;
+}
+
+@media screen and (min-width: 400px) and (max-width: 599px) {
+    .foods[theme="vegetables"] .foods__page__list__item--image img {
+        background: url('../images/foods/vegetables-mid.png') no-repeat;
+    }
+
+    #avocado {
+        width: 81px;
+        height: 92px;
+        background-position: -5px -5px;
+    }
+
+    #bell-pepper {
+        width: 67px;
+        height: 88px;
+        background-position: -96px -5px;
+    }
+
+    #broccoli {
+        width: 80px;
+        height: 74px;
+        background-position: -173px -5px;
+    }
+
+    #cabbage {
+        width: 88px;
+        height: 72px;
+        background-position: -263px -5px;
+    }
+
+    #carrot {
+        width: 97px;
+        height: 44px;
+        background-position: -361px -5px;
+    }
+
+    #chinese-cabbage {
+        width: 64px;
+        height: 91px;
+        background-position: -468px -5px;
+    }
+
+    #cucumber {
+        width: 115px;
+        height: 40px;
+        background-position: -542px -5px;
+    }
+
+    #eggplant {
+        width: 120px;
+        height: 44px;
+        background-position: -667px -5px;
+    }
+
+    #onion {
+        width: 84px;
+        height: 66px;
+        background-position: -797px -5px;
+    }
+
+    #potato {
+        width: 78px;
+        height: 44px;
+        background-position: -891px -5px;
+    }
+
+    #pumpkin {
+        width: 71px;
+        height: 98px;
+        background-position: -979px -5px;
+    }
+
+    #tomato {
+        width: 70px;
+        height: 68px;
+        background-position: -1060px -5px;
+    }
+}
+
+@media screen and (max-width: 399px) {
+    .foods[theme="vegetables"] .foods__page__list__item--image img {
+        background: url('../images/foods/vegetables-sml.png') no-repeat;
+    }
+
+    #avocado {
+        width: 59px;
+        height: 67px;
+        background-position: -5px -5px;
+    }
+
+    #bell-pepper {
+        width: 49px;
+        height: 64px;
+        background-position: -74px -5px;
+    }
+
+    #broccoli {
+        width: 59px;
+        height: 54px;
+        background-position: -133px -5px;
+    }
+
+    #cabbage {
+        width: 64px;
+        height: 53px;
+        background-position: -202px -5px;
+    }
+
+    #carrot {
+        width: 71px;
+        height: 32px;
+        background-position: -276px -5px;
+    }
+
+    #chinese-cabbage {
+        width: 47px;
+        height: 67px;
+        background-position: -357px -5px;
+    }
+
+    #cucumber {
+        width: 84px;
+        height: 29px;
+        background-position: -414px -5px;
+    }
+
+    #eggplant {
+        width: 88px;
+        height: 32px;
+        background-position: -508px -5px;
+    }
+
+    #onion {
+        width: 62px;
+        height: 48px;
+        background-position: -606px -5px;
+    }
+
+    #potato {
+        width: 57px;
+        height: 32px;
+        background-position: -678px -5px;
+    }
+
+    #pumpkin {
+        width: 52px;
+        height: 72px;
+        background-position: -745px -5px;
+    }
+
+    #tomato {
+        width: 51px;
+        height: 50px;
+        background-position: -807px -5px;
+    }
+}
+
+
+
+
+
+
+
