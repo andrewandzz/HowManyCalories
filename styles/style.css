@@ -1,5 +1,5 @@
-@import 'media.css';
 @import './foods-images.css';
+@import './animations.css';
 
 * {
 	margin: 0;
@@ -13,6 +13,7 @@ html, body {
 	font-size: 108%;
 
 	overflow: hidden;
+	user-select: none;
 }
 	@media screen and (max-width: 480px) {
 		html, body {
@@ -21,13 +22,11 @@ html, body {
 	}
 
 body {
-	font-family: 'Lato', sans-serif;
-	color: #444;
-}
-
-body {
 	background-image: linear-gradient(to bottom right, rgba(204, 255, 51, 1) 0%, rgba(0, 153, 51, 1) 100%), url('../images/background.png');
 	background-blend-mode: hard-light;
+
+	font-family: 'Lato', sans-serif;
+	color: #444;
 
 	/*
 	We use flexbox only for aligning '.container',
@@ -36,28 +35,6 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
-}
-
-
-.container {
-	position: relative;
-	
-	width: 80%;
-	height: 93%;
-	min-width: 256px; max-width: 700px; 
-	/*max-height: 780px;*/
-
-	background-color: #fff;
-	border-top-right-radius: 3rem;
-
-	display: grid;
-	grid-template-rows: 6rem 1fr 3rem;
-	grid-template-columns: 1fr 256px 256px 1fr;	/* 512 x 512 */
-	grid-template-areas:
-	"nav nav calories calories"
-	"btn-prev main main btn-next"
-	"footer footer footer footer";
-	align-items: center;
 
 	/* color variables */
 	--fruits: #ffcf13;
@@ -80,6 +57,28 @@ body {
 	--desserts-light: #d6f5e9;
 	--bread-light: #f5c0bc;
 }
+
+
+.container {
+	position: relative;
+	
+	width: 80%;
+	height: 93%;
+	min-width: 256px; max-width: 700px; 
+	/*max-height: 780px;*/
+
+	background-color: #fff;
+	border-top-right-radius: 3rem;
+
+	display: grid;
+	grid-template-rows: 6rem 1fr 3rem;
+	grid-template-columns: 1fr 256px 256px 1fr;	/* 512 x 512 */
+	grid-template-areas:
+	"nav nav calories calories"
+	"btn-prev main main btn-next"
+	"footer footer footer footer";
+	align-items: center;
+}
 @media screen and (min-width: 768px) {
 	.container {
 		min-width: 660px;
@@ -93,20 +92,20 @@ body {
 @media screen and (min-width: 600px) and (max-width: 767px) {
 	.container {
 		/* 2 BIG in a row */
-		grid-template-columns: 1fr 170px 170px 1fr;
+		grid-template-columns: 1fr 171px 170px 1fr;
 	}
 }
 
 @media screen and (min-width: 400px) and (max-width: 599px) {
 	.container {
 		/* 2 MIDDLE in a row */
-		grid-template-columns: 1fr 130px 130px 1fr;
+		grid-template-columns: 1fr 131px 130px 1fr;
 	}
 }
 @media screen and (max-width: 399px) {
 	.container {
 		/* 2 SMALL in a row */
-		grid-template-columns: 1fr 90px 90px 1fr;
+		grid-template-columns: 1fr 91px 90px 1fr;
 	}
 }
 
@@ -245,22 +244,33 @@ nav {
 	justify-self: end;
 	align-self: end;
 
+	display: flex;
+	align-items: baseline;
+
 	font-family: 'Lato', sans-serif;
 	font-size: 4rem;
 	font-weight: 100;
 
-	margin-top: .2rem;
-	margin-right: 1.4ch;
+	margin-right: 1ch;
 }
 @media screen and (max-width: 480px) {
 	.calories {
 		justify-self: center;
 		align-self: center;
 		font-size: 2.5rem;
-		margin-top: 0;
+		margin-right: 0;
+		margin-left: 1.8rem; /* this is because of calculator icon */
 	}
 }
 
+	.calories--icon {
+		height: 1.8rem;
+	}
+	@media screen and (max-width: 480px) {
+		.calories--icon {
+			height: 1.1rem;
+		}
+	}
 
 
 
@@ -274,8 +284,6 @@ nav {
 	MIDDLE CONTAINER
 
 */
-
-
 
 
 .btn__prev,
@@ -298,6 +306,7 @@ nav {
 	}
 }
 
+
 /*
 *
 *	MAIN CONTAINER
@@ -309,7 +318,15 @@ main {
 	
 	grid-area: main;
 	display: flex;
-	overflow: auto;
+
+	overflow: hidden;
+	overflow-x: hidden;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+main::-webkit-scrollbar {
+	display: none;
 }
 
 .foods__page__list {	
@@ -379,18 +396,6 @@ main {
 	.block::after { content: "8"; }
 }
 
-@media screen and (min-width: 768px) {
-	.foods[theme="fruits"] .foods__page__list__item:hover 		{ background-color: var(--fruits-light); }
-	.foods[theme="vegetables"] .foods__page__list__item:hover	{ background-color: var(--vegetables-light); }
-	.foods[theme="milk"] .foods__page__list__item:hover			{ background-color: var(--milk-light); }
-	.foods[theme="fast-food"] .foods__page__list__item:hover	{ background-color: var(--fast-food-light); }
-	.foods[theme="drinks"] .foods__page__list__item:hover		{ background-color: var(--drinks-light); }
-	.foods[theme="meat"] .foods__page__list__item:hover			{ background-color: var(--meat-light); }
-	.foods[theme="sea-food"] .foods__page__list__item:hover		{ background-color: var(--sea-food-light); }
-	.foods[theme="desserts"] .foods__page__list__item:hover		{ background-color: var(--desserts-light); }
-	.foods[theme="bread"] .foods__page__list__item:hover		{ background-color: var(--bread-light); }
-}
-
 
 	.foods__page__list__item {
 		display: flex;
@@ -399,24 +404,49 @@ main {
 		justify-content: space-between;
 
 		cursor: pointer;
+		transition: background-color 150ms;
 	}
-		.foods__page__list__item--image {
+
+		.foods__page__list__item__image {
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			width: 100%;
 			height: 100%;
+			transition: transform 100ms ease-out;
 		}
-			.foods__page__list__item--image img { display: block; }
 
+			.foods__page__list__item__image img {
+				display: block;
+				transition: transform 100ms ease-out;
+			}
+
+			.foods__page__list__item:active .foods__page__list__item__image img {
+				transform: scale(.98);
+			}
+			
+			.foods__page__list__item.selected .foods__page__list__item__image img {
+				animation: item-select 200ms ease-out;
+				/*filter: drop-shadow(0 1px .3rem rgba(255, 255, 255, .2))
+						drop-shadow(1px 0 .3rem rgba(255, 255, 255, .2))
+						drop-shadow(0 -1px .3rem rgba(255, 255, 255, .2))
+						drop-shadow(-1px 0 .3rem rgba(255, 255, 255, .2));*/
+				filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .8))
+						drop-shadow(1px 0 0 rgba(255, 255, 255, .8))
+						drop-shadow(0 -1px 0 rgba(255, 255, 255, .8))
+						drop-shadow(-1px 0 0 rgba(255, 255, 255, .8));
+			}
 
 		.foods__page__list__item__text {
 			width: 100%;
 			display: flex;
 			justify-content: center;
-			align-items: center;
+			align-items: baseline;
 			padding: 0 .5rem .2rem .5rem;
+
+			transition: transform 100ms ease-out;
 		}
+		
 
 			.foods__page__list__item__text--title {
 				font-size: inherit;
@@ -439,7 +469,7 @@ main {
 			@media screen and (max-width: 599px) {
 				.foods__page__list__item__text {
 					flex-direction: column;
-					height: 3rem;
+					height: 3.4rem;
 				}
 				.foods__page__list__item__text--calories { font-size: .8rem; }
 				.foods__page__list__item__text--calories::before { content: ""; }
@@ -456,19 +486,66 @@ main {
 
 			
 	
-	.foods[theme="fruits"] .foods__page__list__item.selected 		{ background-color: var(--fruits); }
-	.foods[theme="vegetables"] .foods__page__list__item.selected 	{ background-color: var(--vegetables); color: #fff;}
-	.foods[theme="milk"] .foods__page__list__item.selected 			{ background-color: var(--milk); color: #fff;}
-	.foods[theme="fast-food"] .foods__page__list__item.selected		{ background-color: var(--fast-food); color: #fff; }
-	.foods[theme="drinks"] .foods__page__list__item.selected 		{ background-color: var(--drinks); color: #fff; }
-	.foods[theme="meat"] .foods__page__list__item.selected 			{ background-color: var(--meat); color: #fff;}
-	.foods[theme="sea-food"] .foods__page__list__item.selected 		{ background-color: var(--sea-food); }
-	.foods[theme="desserts"] .foods__page__list__item.selected 		{ background-color: var(--desserts); }
-	.foods[theme="bread"] .foods__page__list__item.selected 		{ background-color: var(--bread); color: #fff;}
+	.foods[theme="fruits"] .foods__page__list__item.selected,
+	.foods[theme="fruits"] .foods__page__list__item.selected:hover
+		{ background-color: var(--fruits); }
+	.foods[theme="vegetables"] .foods__page__list__item.selected,
+	.foods[theme="vegetables"] .foods__page__list__item.selected:hover
+		{ background-color: var(--vegetables); color: #fff;}
+	.foods[theme="milk"] .foods__page__list__item.selected,
+	.foods[theme="milk"] .foods__page__list__item.selected:hover
+		{ background-color: var(--milk); color: #fff;}
+	.foods[theme="fast-food"] .foods__page__list__item.selected,
+	.foods[theme="fast-food"] .foods__page__list__item.selected:hover
+		{ background-color: var(--fast-food); color: #fff; }
+	.foods[theme="drinks"] .foods__page__list__item.selected,
+	.foods[theme="drinks"] .foods__page__list__item.selected:hover
+		{ background-color: var(--drinks); color: #fff; }
+	.foods[theme="meat"] .foods__page__list__item.selected,
+	.foods[theme="meat"] .foods__page__list__item.selected:hover
+		{ background-color: var(--meat); color: #fff;}
+	.foods[theme="sea-food"] .foods__page__list__item.selected,
+	.foods[theme="sea-food"] .foods__page__list__item.selected:hover
+		{ background-color: var(--sea-food); }
+	.foods[theme="desserts"] .foods__page__list__item.selected,
+	.foods[theme="desserts"] .foods__page__list__item.selected:hover
+		{ background-color: var(--desserts); }
+	.foods[theme="bread"] .foods__page__list__item.selected,
+	.foods[theme="bread"] .foods__page__list__item.selected:hover
+		{ background-color: var(--bread); color: #fff;}
 
 
 
+/*
 
+	TOOLTIP	
+
+*/
+
+.tooltip {
+	position: absolute;
+	z-index: 9999;
+
+	visibility: hidden;
+}
+
+/*.tooltip[theme="fruits"]		{ border: 1px solid var(--fruits); }
+.tooltip[theme="vegetables"]	{ border: 1px solid var(--vegetables); }
+.tooltip[theme="milk"]			{ border: 1px solid var(--milk); }
+.tooltip[theme="fast-food"]		{ border: 1px solid var(--fast-food); }
+.tooltip[theme="drinks"]		{ border: 1px solid var(--drinks); }
+.tooltip[theme="meat"]			{ border: 1px solid var(--meat); }
+.tooltip[theme="sea-food"]		{ border: 1px solid var(--sea-food); }
+.tooltip[theme="desserts"]		{ border: 1px solid var(--desserts); }
+.tooltip[theme="bread"]			{ border: 1px solid var(--bread); }
+*/
+.tooltip--add-calories__pop-up {
+	visibility: visible;
+	color: #fff;
+	font-size: 1.4rem;
+	text-shadow: 0 .1rem .15rem rgba(0, 0, 0, .3);
+	animation: add-calories__pop-up 900ms ease;
+}
 
 
 
@@ -485,6 +562,8 @@ footer {
 	grid-area: footer;
 	justify-self: end;
 	align-self: end;
+
+	margin-right: -.3ch;
 }
 	.block {
 		height: 1.4rem;
@@ -526,9 +605,6 @@ footer {
 			.block li {
 				margin: 0 .8ch;
 				text-decoration: underline;
-			}
-			.block li:hover {
-				text-decoration: none;
 			}
 			.block a {
 				color: #fff;
