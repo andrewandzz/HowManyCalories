@@ -26,7 +26,15 @@ export default class Calculator {
 		}, 0);
 	}
 
-	getCalories() {
+	getCalories(title) {
+		const item = this.items.find(item => item.title === title);
+		return item.calories;
+	}
+
+	getTotalCalories() {
 		return this.calories;
 	}
 }
+
+
+

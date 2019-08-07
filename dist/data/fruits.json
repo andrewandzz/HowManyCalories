@@ -46,5 +46,25 @@
 	{
 		"title": "apricot",
 		"calories": 48
+	},
+	{
+		"title": "watermelon",
+		"calories": 30
+	},
+	{
+		"title": "orange",
+		"calories": 47
+	},
+	{
+		"title": "cherry",
+		"calories": 50
+	},
+	{
+		"title": "coconut",
+		"calories": 354
+	},
+	{
+		"title": "apricot",
+		"calories": 48
 	}
 ]

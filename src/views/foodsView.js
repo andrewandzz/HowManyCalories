@@ -18,7 +18,8 @@ export function renderPage(itemsArr, page, perPage) {
 export function scrollToPage(toPage) {
 	const nextPageElem = document.querySelector(`.foods__page__list[data-page="${toPage}"]`);
 	nextPageElem.scrollIntoView({
-		behavior: 'smooth'
+		behavior: 'smooth',
+		inline: 'start'
 	});
 }
 
@@ -30,18 +31,21 @@ function createItem(item) {
 	const capitTitle = (item.title[0].toUpperCase() + item.title.slice(1)).replace(/-/g, ' ');
 	return `
 	<li class="foods__page__list__item ${item.selected === true ? 'selected' : ''}">
-		<div class="foods__page__list__item--image">
+		<div class="foods__page__list__item__image">
 			<img id="${item.title}" src="./images/foods/transparent.gif">
 		</div>
 		<div class="foods__page__list__item__text">
-			<h3 class="foods__page__list__item__text--title">${capitTitle}</h3>
-			<h4 class="foods__page__list__item__text--calories">${item.grams}<span> g</span></h4>
+			<div class="foods__page__list__item__text--title">${capitTitle}</div>
+			<div class="foods__page__list__item__text--calories">${item.grams}<span> g</span></div>
 		</div>
 	</li>`;
 }
 
-export function renderPagesButtons(curPage, numOfPages) {
-	if (curPage > 1) {
+export function renderPagesButtons(curPage) {
+	const prevPage = document.querySelector(`.foods__page__list[data-page="${curPage - 1}"]`);
+	const nextPage = document.querySelector(`.foods__page__list[data-page="${curPage + 1}"]`);
+
+	if (prevPage) {
 		DOMElems.btnPrev.style.display = 'block';
 		DOMElems.btnPrev.dataset.goto = +curPage - 1;
 	} else {
@@ -49,7 +53,7 @@ export function renderPagesButtons(curPage, numOfPages) {
 		DOMElems.btnPrev.dataset.goto = '';
 	}
 
-	if (curPage < numOfPages) {
+	if (nextPage) {
 		DOMElems.btnNext.style.display = 'block';
 		DOMElems.btnNext.dataset.goto = +curPage + 1;
 	} else {

@@ -3,8 +3,10 @@ import FoodsSet from './models/FoodsSet';
 import * as foodsView from './views/foodsView';
 import Calculator from './models/Calculator';
 import * as calculatorView from './views/calculatorView';
+import * as containerView from './views/containerView';
 import DOMElems from './views/dom';
 import axios from 'axios';
+import isMobilePad from './detectMobilePad';
 
 
 /*
@@ -80,7 +82,7 @@ async function controlFoods(type, page = 1) {
 		foodsView.renderPage(curFoodsSet.items, page + 1, STATE.itemsPerPage);
 	}
 
-	foodsView.renderPagesButtons(page, numOfPages);
+	foodsView.renderPagesButtons(page);
 
 	// that's all here. we then load next page every gotoNextPage() call
 }
@@ -91,16 +93,17 @@ function scrollToPrevPage(newPage) {
 	const numOfPages = Math.ceil(STATE.foodsSets[type].items.length / STATE.itemsPerPage);
 
 	foodsView.scrollToPage(newPage);
-	foodsView.renderPagesButtons(newPage, numOfPages);	
+	foodsView.renderPagesButtons(newPage);
 }
 
 
 function scrollToNextPage(newPage) {
+	// console.log('from scrollToNextPage ' + newPage);
 	const type = DOMElems.mainContainer.getAttribute('theme');
 	const numOfPages = Math.ceil(STATE.foodsSets[type].items.length / STATE.itemsPerPage);
 
 	foodsView.scrollToPage(newPage);
-	foodsView.renderPagesButtons(newPage, numOfPages);
+
 	// load next items page, if we don't have it yet
 	const nextPageElem = document.querySelector(`.foods__page__list[data-page="${newPage + 1}"]`);
 	if (!nextPageElem) {
@@ -108,21 +111,23 @@ function scrollToNextPage(newPage) {
 			foodsView.renderPage(STATE.foodsSets[type].items, newPage + 1, STATE.itemsPerPage);
 		}
 	}
+
+	foodsView.renderPagesButtons(newPage);
 }
 
 
 
 
 
-function controlCalculator(item) {
-	const type = item.closest('main.foods').getAttribute('theme');
-	const title = item.querySelector('img').id;
+function controlCalculator(itemElem) {
+	const type = itemElem.closest('main.foods').getAttribute('theme');
+	const title = itemElem.querySelector('img').id;
 
 	if (!STATE.calculator) STATE.calculator = new Calculator();
 
 	const calculator = STATE.calculator;
 
-	if (!item.classList.contains('selected')) {
+	if (!itemElem.classList.contains('selected')) {
 		// add item to the calculator
 		calculator.addItem(STATE.foodsSets[type].getItem(title));
 
@@ -133,10 +138,14 @@ function controlCalculator(item) {
 		calculator.calcCalories();
 
 		// render calories
-		calculatorView.renderCalories(calculator.getCalories());
+		calculatorView.renderCalories(calculator.getTotalCalories());
 
 		// select item
-		item.classList.add('selected');
+		itemElem.classList.add('selected');
+
+		// run add-calories animation
+		containerView.renderTooltip('add-calories', calculator.getCalories(title), itemElem);
+
 	} else {
 		// remove item from the calculator
 		calculator.deleteItem(title);
@@ -148,10 +157,10 @@ function controlCalculator(item) {
 		calculator.calcCalories();
 
 		// render calories
-		calculatorView.renderCalories(calculator.getCalories());
+		calculatorView.renderCalories(calculator.getTotalCalories());
 
 		// unselect item
-		item.classList.remove('selected');
+		itemElem.classList.remove('selected');
 	}
 }
 	
@@ -202,6 +211,9 @@ function changeTheme(type) {
 
 	// footer block theme
 	DOMElems.footerBlock.setAttribute('theme', type);
+
+	// tooltip theme
+	DOMElems.tooltip.setAttribute('theme', type);
 }
 
 
@@ -252,6 +264,7 @@ window.addEventListener('dblclick', event => {
 
 
 window.addEventListener('DOMContentLoaded', getItemsPerPage);
+window.addEventListener('DOMContentLoaded', setStyles);
 window.addEventListener('resize', getItemsPerPage);
 
 
@@ -269,6 +282,196 @@ DOMElems.btnNext.addEventListener('click', () => {
 
 	scrollToNextPage(toPage);
 });
+
+
+
+(function slide() {
+	const minDist = Math.floor(DOMElems.mainContainer.offsetWidth / 5),
+		  minDropDist = Math.floor(minDist / 2), /* for dropping (when we can assume, that it was not a drop, nut just stop) */
+		  mainWidth = DOMElems.mainContainer.offsetWidth,
+		  
+		  halfWidth = Math.floor(mainWidth / 2),
+		  updateLeftInterval = 30; /* in ms */
+
+	let startLeft, endLeft, dist, curPage, prevPage, nextPage,
+		isMoving = false, /* for detecting - just click or not */
+		isDropped; // true if finishid moving, false if finished stopped
+
+	
+	function handleTouchStart(event) {
+		// if position is not at the beginning of page, then return <== TO DO
+
+		DOMElems.mainContainer.style.overflowX = 'scroll';
+
+		DOMElems.mainContainer.addEventListener('touchmove', handleTouchMove, false);
+
+		startLeft = DOMElems.mainContainer.scrollLeft;
+
+		curPage = +event.target.closest('.foods__page__list').dataset.page;
+		nextPage = curPage + 1;
+		prevPage = curPage - 1;
+	}
+
+
+	function handleTouchEnd() {
+		if (!isMoving) {
+			// if there was not any move event, then it was just a click
+			DOMElems.mainContainer.removeEventListener('touchmove', handleTouchMove);
+			return;
+		}
+
+		// if there was a move event, then turn it back to false
+		isMoving = false;
+		endLeft = DOMElems.mainContainer.scrollLeft;
+		dist = endLeft - startLeft;
+
+		try {
+
+			if (!isDropped) {
+				// if the sliding WAS NOT dropped
+
+				// disable scrolling
+				DOMElems.mainContainer.style.overflowX = 'hidden';
+
+				if (Math.abs(dist) < minDist) {
+					// return to this page
+					foodsView.scrollToPage(curPage);
+
+					// console.log('stopped short');
+
+				} else if (Math.abs(dist) >= halfWidth) {
+					// scroll to prev/next page
+					if (dist > 0) scrollToNextPage(nextPage);
+					else if (dist < 0) scrollToPrevPage(prevPage);
+
+					// console.log('stopped long');
+
+				} else {
+					// stopped between middle and minimal zone
+					foodsView.scrollToPage(curPage);
+
+					// console.log('stopped exeption')
+				}
+
+			} else {
+				// if the sliding WAS dropped
+
+				if (Math.abs(dist) < minDist) {
+					// return to current page too
+					DOMElems.mainContainer.style.overflowX = 'hidden';
+					foodsView.scrollToPage(curPage);
+
+					// console.log('dropped short');
+				} else {
+					if (dist > 0) waitForScrollEnd(nextPage, 'next');
+					else if (dist < 0) waitForScrollEnd(prevPage, 'prev');
+
+					// console.log('dropped exeption');
+				}
+
+			}
+
+		} catch (error) {
+			foodsView.scrollToPage(curPage);
+			console.log(error);
+
+		}
+	}
+
+
+	function handleTouchMove() {
+		let then, now, interval, prevLeft, newLeft, intervalDist;
+
+		isMoving = true;
+		DOMElems.mainContainer.removeEventListener('touchmove', handleTouchMove);
+
+		
+		// get new scroll left every 'updateLeftInterval' ms
+
+		then = Date.now();
+		prevLeft = DOMElems.mainContainer.scrollLeft;
+
+		requestAnimationFrame(function updateLeftPos() {
+			// while moving, request frames
+			if (isMoving) {
+				// check time interval
+				now = Date.now();
+				interval = now - then;
+
+				if (interval >= updateLeftInterval) {
+					// console.log('int ' + interval);
+
+					newLeft = DOMElems.mainContainer.scrollLeft;
+					intervalDist = newLeft - prevLeft;
+
+					isDropped = Math.abs(intervalDist) > minDropDist;
+
+					prevLeft = newLeft;
+					// console.log('intDist ' + intervalDist);
+
+					then = now;
+				}
+
+				requestAnimationFrame(updateLeftPos);
+			}
+			
+		});
+	}
+
+
+	function waitForScrollEnd(page, type) {
+		const pageLeft = document.querySelector(`.foods__page__list[data-page="${page}"]`).offsetLeft;
+
+
+		DOMElems.mainContainer.addEventListener('scroll', handleScroll);
+
+		function handleScroll() {
+			if (DOMElems.mainContainer.scrollLeft >= pageLeft) {
+
+				DOMElems.mainContainer.scrollLeft = pageLeft;
+				DOMElems.mainContainer.style.overflowX = 'hidden';
+
+				if (type === 'prev') {
+					scrollToPrevPage(page);
+				} else if (type === 'next') {
+					scrollToNextPage(page);
+				}
+
+				
+				DOMElems.mainContainer.removeEventListener('scroll', handleScroll);
+			}
+		}
+	}
+
+
+
+	DOMElems.mainContainer.addEventListener('touchstart', handleTouchStart, false);
+	DOMElems.mainContainer.addEventListener('touchend', handleTouchEnd, false);
+	DOMElems.mainContainer.addEventListener('touchcancel', handleTouchEnd, false);
+
+
+})();
+
+
+
+function setStyles() {
+	if (isMobilePad()) {
+		// do stuff for the mobile or iPad
+	} else {
+		// do stuff for the desktop
+		const link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = './styles/desktop.css';
+		document.head.appendChild(link);
+	}
+}
+
+
+// document.addEventListener('mousemove', event => {
+// 	mouse.textContent = 'x: ' + event.clientX + ', y: ' + event.clientY;
+// });
+
 
 // testing
 window.s = STATE;
