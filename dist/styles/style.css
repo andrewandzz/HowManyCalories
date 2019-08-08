@@ -47,6 +47,16 @@ body {
 	--desserts: #80e0ba;
 	--bread: #c2281c;
 
+	--fruits-hover: #ffdb4d;
+	--vegetables-hover: #804d74;
+	--milk-hover: #8dc0fe;
+	--fast-food-hover: #a8d02f;
+	--drinks-hover: #618b5b;
+	--meat-hover: #d57683;
+	--sea-food-hover: #f4a24b;
+	--desserts-hover: #8ee4c2;
+	--bread-hover: #d32a1e;
+
 	--fruits-light: #fff0b3;
 	--vegetables-light: #d9bfd3;
 	--milk-light: #cce3ff;
@@ -78,7 +88,14 @@ body {
 	"btn-prev main main btn-next"
 	"footer footer footer footer";
 	align-items: center;
+
+	transition: filter 1000ms;
 }
+
+.container.blurred {
+	filter: blur(.4rem);
+}
+
 @media screen and (min-width: 768px) {
 	.container {
 		min-width: 660px;
@@ -176,7 +193,7 @@ nav {
 			border-top-right-radius: 1.4rem;
 			cursor: pointer;
 
-			transition: border-radius 300ms ease-out, transform 300ms ease-out;
+			transition: border-radius 300ms ease-out, transform 300ms ease-out, background-color 100ms;
 		}
 		@media screen and (max-width: 480px) {
 			.menu__item {
@@ -427,10 +444,6 @@ main::-webkit-scrollbar {
 			
 			.foods__page__list__item.selected .foods__page__list__item__image img {
 				animation: item-select 200ms ease-out;
-				/*filter: drop-shadow(0 1px .3rem rgba(255, 255, 255, .2))
-						drop-shadow(1px 0 .3rem rgba(255, 255, 255, .2))
-						drop-shadow(0 -1px .3rem rgba(255, 255, 255, .2))
-						drop-shadow(-1px 0 .3rem rgba(255, 255, 255, .2));*/
 				filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .8))
 						drop-shadow(1px 0 0 rgba(255, 255, 255, .8))
 						drop-shadow(0 -1px 0 rgba(255, 255, 255, .8))
@@ -469,6 +482,8 @@ main::-webkit-scrollbar {
 			@media screen and (max-width: 599px) {
 				.foods__page__list__item__text {
 					flex-direction: column;
+					justify-content: center;
+					align-items: center;
 					height: 3.4rem;
 				}
 				.foods__page__list__item__text--calories { font-size: .8rem; }
@@ -513,39 +528,6 @@ main::-webkit-scrollbar {
 	.foods[theme="bread"] .foods__page__list__item.selected,
 	.foods[theme="bread"] .foods__page__list__item.selected:hover
 		{ background-color: var(--bread); color: #fff;}
-
-
-
-/*
-
-	TOOLTIP	
-
-*/
-
-.tooltip {
-	position: absolute;
-	z-index: 9999;
-
-	visibility: hidden;
-}
-
-/*.tooltip[theme="fruits"]		{ border: 1px solid var(--fruits); }
-.tooltip[theme="vegetables"]	{ border: 1px solid var(--vegetables); }
-.tooltip[theme="milk"]			{ border: 1px solid var(--milk); }
-.tooltip[theme="fast-food"]		{ border: 1px solid var(--fast-food); }
-.tooltip[theme="drinks"]		{ border: 1px solid var(--drinks); }
-.tooltip[theme="meat"]			{ border: 1px solid var(--meat); }
-.tooltip[theme="sea-food"]		{ border: 1px solid var(--sea-food); }
-.tooltip[theme="desserts"]		{ border: 1px solid var(--desserts); }
-.tooltip[theme="bread"]			{ border: 1px solid var(--bread); }
-*/
-.tooltip--add-calories__pop-up {
-	visibility: visible;
-	color: #fff;
-	font-size: 1.4rem;
-	text-shadow: 0 .1rem .15rem rgba(0, 0, 0, .3);
-	animation: add-calories__pop-up 900ms ease;
-}
 
 
 
@@ -619,5 +601,248 @@ footer {
 		position: absolute;
 		visibility: hidden;
 	}
+
+
+
+
+
+
+/*
+
+	TOOLTIP	
+
+*/
+
+.tooltip {
+	position: absolute;
+	z-index: 9999;
+	/*margin-left: -1rem;*/
+
+	visibility: hidden;
+}
+
+/*.tooltip[theme="fruits"]		{ border: 1px solid var(--fruits); }
+.tooltip[theme="vegetables"]	{ border: 1px solid var(--vegetables); }
+.tooltip[theme="milk"]			{ border: 1px solid var(--milk); }
+.tooltip[theme="fast-food"]		{ border: 1px solid var(--fast-food); }
+.tooltip[theme="drinks"]		{ border: 1px solid var(--drinks); }
+.tooltip[theme="meat"]			{ border: 1px solid var(--meat); }
+.tooltip[theme="sea-food"]		{ border: 1px solid var(--sea-food); }
+.tooltip[theme="desserts"]		{ border: 1px solid var(--desserts); }
+.tooltip[theme="bread"]			{ border: 1px solid var(--bread); }
+*/
+.tooltip--add-calories__pop-up {
+	visibility: visible;
+	color: #fff;
+	font-size: 1.4rem;
+	font-weight: 400;
+	word-spacing: -.1rem;
+	text-shadow: 0 .05rem .15rem rgba(0, 0, 0, .4);
+	animation: add-calories__pop-up 800ms ease;
+}
+@media screen and (max-width: 480px) {
+	.tooltip--add-calories__pop-up { font-size: 1.2rem; }
+}
+
+
+
+/*
+
+	OVERLAY
+
+*/
+
+.overlay {
+	position: fixed;
+	z-index: 999;
+	width: 0;
+	height: 0;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0);
+	transition: background-color 1000ms;
+}
+	.overlay.visible {
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, .2);
+	}
+
+.overlay__set-grams {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	padding: 1.5rem 1.5rem;
+	border-radius: 2rem;
+	background-color: rgba(255, 255, 255, .7);
+	box-shadow: 0 0 2rem rgba(0, 0, 0, .1);
+	opacity: 0;
+	transition: opacity 1000ms;
+}
+.overlay__set-grams.visible {
+	opacity: 1;
+}
+
+
+.overlay__set-grams--image {
+	position: absolute;
+	filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .8))
+			drop-shadow(1px 0 0 rgba(255, 255, 255, .8))
+			drop-shadow(0 -1px 0 rgba(255, 255, 255, .8))
+			drop-shadow(-1px 0 0 rgba(255, 255, 255, .8));
+}
+.overlay__set-grams--image--pseudo {
+	/*visibility: hidden;*/
+}
+
+
+.overlay__set-grams__input {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	width: 12rem;
+	border-radius: 2rem;
+	background-color: rgba(255, 255, 255, .85);
+	margin-top: 2rem;
+}
+
+.overlay__set-grams[theme="fruits"] .overlay__set-grams__input { border: 1px solid var(--fruits); }
+.overlay__set-grams[theme="vegetables"] .overlay__set-grams__input { border: 1px solid var(--vegetables); }
+.overlay__set-grams[theme="milk"] .overlay__set-grams__input { border: 1px solid var(--milk); }
+.overlay__set-grams[theme="fast-food"] .overlay__set-grams__input { border: 1px solid var(--fast-food); }
+.overlay__set-grams[theme="drinks"] .overlay__set-grams__input { border: 1px solid var(--drinks); }
+.overlay__set-grams[theme="meat"] .overlay__set-grams__input { border: 1px solid var(--meat); }
+.overlay__set-grams[theme="sea-food"] .overlay__set-grams__input { border: 1px solid var(--sea-food); }
+.overlay__set-grams[theme="desserts"] .overlay__set-grams__input { border: 1px solid var(--desserts); }
+.overlay__set-grams[theme="bread"] .overlay__set-grams__input { border: 1px solid var(--bread); }
+
+
+	.overlay__set-grams__input--number {
+		width: 8ch;
+		border: none;
+		background-color: transparent;
+		font-family: 'Lato', sans-serif;
+		font-size: 1.6rem;
+		font-weight: 300;
+		text-align: center;
+		color: inherit;
+		outline: none;
+		margin: .2rem 0 .2rem -1rem;
+	}
+	.overlay__set-grams__input--btns {
+		position: absolute;
+		right: 0;
+		background-color: var(--fruits);
+		height: 100%;
+		font-size: .5rem;
+		color: #fff;
+		border-left: 1px solid var(--fruits);
+		border-top-right-radius: 2rem;
+		border-bottom-right-radius: 2rem;
+	}
+
+
+	.overlay__set-grams[theme="fruits"] .overlay__set-grams__input--btns {
+		background-color: var(--fruits);
+		border-left: 1px solid var(--fruits);
+	}
+	.overlay__set-grams[theme="vegetables"] .overlay__set-grams__input--btns {
+		background-color: var(--vegetables);
+		border-left: 1px solid var(--vegetables);
+	}
+	.overlay__set-grams[theme="milk"] .overlay__set-grams__input--btns {
+		background-color: var(--milk);
+		border-left: 1px solid var(--milk);
+	}
+	.overlay__set-grams[theme="fast-food"] .overlay__set-grams__input--btns {
+		background-color: var(--fast-food);
+		border-left: 1px solid var(--fast-food);
+	}
+	.overlay__set-grams[theme="drinks"] .overlay__set-grams__input--btns {
+		background-color: var(--drinks);
+		border-left: 1px solid var(--drinks);
+	}
+	.overlay__set-grams[theme="meat"] .overlay__set-grams__input--btns {
+		background-color: var(--meat);
+		border-left: 1px solid var(--meat);
+	}
+	.overlay__set-grams[theme="sea-food"] .overlay__set-grams__input--btns {
+		background-color: var(--sea-food);
+		border-left: 1px solid var(--sea-food);
+	}
+	.overlay__set-grams[theme="desserts"] .overlay__set-grams__input--btns {
+		background-color: var(--desserts);
+		border-left: 1px solid var(--desserts);
+	}
+	.overlay__set-grams[theme="bread"] .overlay__set-grams__input--btns {
+		background-color: var(--bread);
+		border-left: 1px solid var(--bread);
+	}
+
+
+	.overlay__set-grams__input--btns > * {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		width: 2.5rem;
+		height: 50%;
+		padding-left:.8rem;
+		transition: background-color 100ms;
+	}
+		.overlay__set-grams__input--btns__btn--up { border-top-right-radius: 2rem; }
+		.overlay__set-grams__input--btns__btn--down { border-bottom-right-radius: 2rem; }
+
+.overlay__set-grams__btn {
+	margin-top: 1.2rem;
+	padding: .3rem 1rem;
+	border: 1px solid var(--fruits);
+	border-radius: 1.1rem;
+	background-color: var(--fruits);
+	color: #fff;
+	font-size: 1.1rem;
+	outline: none;
+	transition: background-color 100ms;
+}
+
+
+.overlay__set-grams[theme="fruits"] .overlay__set-grams__btn {
+	background-color: var(--fruits);
+	border: 1px solid var(--fruits);
+}
+.overlay__set-grams[theme="vegetables"] .overlay__set-grams__btn {
+	background-color: var(--vegetables);
+	border: 1px solid var(--vegetables);
+}
+.overlay__set-grams[theme="milk"] .overlay__set-grams__btn {
+	background-color: var(--milk);
+	border: 1px solid var(--milk);
+}
+.overlay__set-grams[theme="fast-food"] .overlay__set-grams__btn {
+	background-color: var(--fast-food);
+	border: 1px solid var(--fast-food);
+}
+.overlay__set-grams[theme="drinks"] .overlay__set-grams__btn {
+	background-color: var(--drinks);
+	border: 1px solid var(--drinks);
+}
+.overlay__set-grams[theme="meat"] .overlay__set-grams__btn {
+	background-color: var(--meat);
+	border: 1px solid var(--meat);
+}
+.overlay__set-grams[theme="sea-food"] .overlay__set-grams__btn {
+	background-color: var(--sea-food);
+	border: 1px solid var(--sea-food);
+}
+.overlay__set-grams[theme="desserts"] .overlay__set-grams__btn {
+	background-color: var(--desserts);
+	border: 1px solid var(--desserts);
+}
+.overlay__set-grams[theme="bread"] .overlay__set-grams__btn {
+	background-color: var(--bread);
+	border: 1px solid var(--bread);
+}
+
 
 

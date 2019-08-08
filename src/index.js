@@ -250,12 +250,14 @@ DOMElems.menuList.addEventListener('mousedown',  event => {
 	menuClick(event);
 });
 
-DOMElems.mainContainer.addEventListener('click', event => {
-	const item = event.target.closest('.foods__page__list__item');
-	if (item) {
-		controlCalculator(item);
-	}
-});
+// DOMElems.mainContainer.addEventListener('click', event => {
+// 	const item = event.target.closest('.foods__page__list__item');
+// 	if (item) {
+// 		controlCalculator(item);
+// 	}
+// });
+
+DOMElems.mainContainer.addEventListener('mousedown', handleFoodsMouseDown);
 
 window.addEventListener('dblclick', event => {
 	event.preventDefault();
@@ -264,7 +266,7 @@ window.addEventListener('dblclick', event => {
 
 
 window.addEventListener('DOMContentLoaded', getItemsPerPage);
-window.addEventListener('DOMContentLoaded', setStyles);
+window.addEventListener('DOMContentLoaded', getDevice);
 window.addEventListener('resize', getItemsPerPage);
 
 
@@ -454,17 +456,85 @@ DOMElems.btnNext.addEventListener('click', () => {
 
 
 
-function setStyles() {
+function getDevice() {
 	if (isMobilePad()) {
 		// do stuff for the mobile or iPad
+
+		DOMElems.mainContainer.addEventListener('contextmenu', handleLongPress);
+
 	} else {
 		// do stuff for the desktop
+
+		// styles
 		const link = document.createElement('link');
 		link.rel = 'stylesheet';
 		link.type = 'text/css';
 		link.href = './styles/desktop.css';
 		document.head.appendChild(link);
 	}
+}
+
+
+
+function handleFoodsMouseDown(event) {
+	if (event.which !== 1) return;
+
+	const item = event.target.closest('.foods__page__list__item');
+	if (!item) return;
+
+	DOMElems.mainContainer.addEventListener('mouseup', handleFoodsMouseUp);
+
+	const timer = setTimeout(() => {
+		handleLongPress(event);
+	}, 500);
+
+
+	function handleFoodsMouseUp() {
+		DOMElems.mainContainer.removeEventListener('mouseup', handleFoodsMouseUp);
+		clearTimeout(timer);
+
+		// it's just a click
+		controlCalculator(item);
+	}
+}
+
+
+
+function handleLongPress(event) {
+	const item = event.target.closest('.foods__page__list__item');
+	if (!item) return;
+
+	event.preventDefault();
+
+	setGrams(item);
+}
+
+
+
+function setGrams(itemElem) {
+	containerView.openOverlay();
+	// highlight item, if it's not yet
+	if (!itemElem.classList.contains('selected')) {
+		itemElem.classList.add('hover');
+	}
+
+	containerView.openSetGramsContainer(itemElem);
+}
+
+
+
+
+
+function handleHold(event) {
+	if (event.target.closest('.foods__page__list__item')) {
+		event.preventDefault();
+		containerView.openOverlay();
+	}
+}
+
+
+function handleOverlayBtnClick() {
+	containerView.closeOverlay();
 }
 
 
