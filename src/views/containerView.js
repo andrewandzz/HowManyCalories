@@ -99,6 +99,7 @@ export function openSetGramsContainer(itemElem) {
 		  newImgPseudo	= DOMElems.overlayGramsImgPseudo,
 		  inputText		= DOMElems.overlayGramsInputText;
 
+
 	// get original image position
 	const origImgCoords = origImg.getBoundingClientRect();
 	newImg.style.top = origImgCoords.top + 'px';
@@ -116,10 +117,50 @@ export function openSetGramsContainer(itemElem) {
 	// hide original image
 	origImg.style.visibility = 'hidden';
 
+	const newImgPseudoCoords = newImgPseudo.getBoundingClientRect();
+	// shift img to the center
+	animateShiftImg(
+		newImg,
+		{
+			top: newImgPseudoCoords.top,
+			left: newImgPseudoCoords.left
+		},
+		150);
+
 
 
 	DOMElems.overlayGramsContainer.classList.add('visible');
 	inputText.focus();
+}
+
+
+function animateShiftImg(imgElem, newCoords, duration = 1000) {
+	const imgStartCoords = imgElem.getBoundingClientRect();
+	const xDist = newCoords.left - imgStartCoords.left;
+	const yDist = newCoords.top - imgStartCoords.top;
+	const yFraction = (xDist !== 0) ? yDist / xDist : 0;
+
+	const startTime = performance.now();
+	let timeFraction, progress;
+
+	requestAnimationFrame(function animate(curTime) {
+		timeFraction = (curTime - startTime) / duration;
+		if (timeFraction > 1) timeFraction = 1;
+
+		progress = linear(timeFraction);
+
+		imgElem.style.left = imgStartCoords.left + (xDist * progress) + 'px';
+		imgElem.style.top = imgStartCoords.top + (xDist * yFraction * progress) + 'px';
+
+		if (timeFraction < 1) {
+			requestAnimationFrame(animate);
+		}
+	});
+
+	function linear(timeFraction) {
+		return (Math.sin((timeFraction - .5) * Math.PI) + 1) / 2;
+	}
+	
 }
 
 

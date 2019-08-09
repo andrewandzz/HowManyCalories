@@ -518,6 +518,14 @@ function setGrams(itemElem) {
 		itemElem.classList.add('hover');
 	}
 
+	// create 'style' element for adjusting position of the image (for transition)
+	if (!DOMElems.dynamicStyle) {
+		DOMElems.dynamicStyle = document.createElement('style');
+		DOMElems.dynamicStyle.type = 'text/css';
+		DOMElems.dynamicStyle.id = 'dynamic-style';
+		document.head.appendChild(DOMElems.dynamicStyle);
+	}
+
 	containerView.openSetGramsContainer(itemElem);
 }
 
