@@ -52,46 +52,22 @@
 	text-decoration: none;
 }
 
-.overlay__set-grams__input--btns > *:hover { cursor: pointer; }
-
-.overlay__set-grams[theme="fruits"] .overlay__set-grams__input--btns > *:hover { background-color: var(--fruits-hover); }
-.overlay__set-grams[theme="vegetables"] .overlay__set-grams__input--btns > *:hover { background-color: var(--vegetables-hover); }
-.overlay__set-grams[theme="milk"] .overlay__set-grams__input--btns > *:hover { background-color: var(--milk-hover); }
-.overlay__set-grams[theme="fast-food"] .overlay__set-grams__input--btns > *:hover { background-color: var(--fast-food-hover); }
-.overlay__set-grams[theme="drinks"] .overlay__set-grams__input--btns > *:hover { background-color: var(--drinks-hover); }
-.overlay__set-grams[theme="meat"] .overlay__set-grams__input--btns > *:hover { background-color: var(--meat-hover); }
-.overlay__set-grams[theme="sea-food"] .overlay__set-grams__input--btns > *:hover { background-color: var(--sea-food-hover); }
-.overlay__set-grams[theme="desserts"] .overlay__set-grams__input--btns > *:hover { background-color: var(--desserts-hover); }
-.overlay__set-grams[theme="bread"] .overlay__set-grams__input--btns > *:hover { background-color: var(--bread-hover); }
+.overlay__set-grams__input--btns > *:hover { cursor: pointer;
+	text-shadow: 0 0 1rem #fff;
+}
+.overlay__set-grams__input--btns > *:active {
+	transform: translateY(.05rem);
+	text-shadow: 0 0 1rem #fff;
+}
 
 
 
-.overlay__set-grams__btn:hover { cursor: pointer; }
+.overlay__set-grams__btn:hover {
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, .8);
+}
 
-.overlay__set-grams[theme="fruits"] .overlay__set-grams__btn:hover {
-	background-color: var(--fruits-hover);
+.overlay__set-grams__btn:active {
+	transform: translateY(.05rem);
 }
-.overlay__set-grams[theme="vegetables"] .overlay__set-grams__btn:hover {
-	background-color: var(--vegetables-hover);
-}
-.overlay__set-grams[theme="milk"] .overlay__set-grams__btn:hover {
-	background-color: var(--milk-hover);
-}
-.overlay__set-grams[theme="fast-food"] .overlay__set-grams__btn:hover {
-	background-color: var(--fast-food-hover);
-}
-.overlay__set-grams[theme="drinks"] .overlay__set-grams__btn:hover {
-	background-color: var(--drinks-hover);
-}
-.overlay__set-grams[theme="meat"] .overlay__set-grams__btn:hover {
-	background-color: var(--meat-hover);
-}
-.overlay__set-grams[theme="sea-food"] .overlay__set-grams__btn:hover {
-	background-color: var(--sea-food-hover);
-}
-.overlay__set-grams[theme="desserts"] .overlay__set-grams__btn:hover {
-	background-color: var(--desserts-hover);
-}
-.overlay__set-grams[theme="bread"] .overlay__set-grams__btn:hover {
-	background-color: var(--bread-hover);
-}
+
