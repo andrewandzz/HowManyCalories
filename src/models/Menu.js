@@ -1,6 +1,7 @@
 export default class Menu {
 	constructor(elem, items) {
 		this.elem = elem;
+		this.active = 'fruits';
 		this._zIndex = elem.querySelectorAll('.menu__item').length;
 	}
 
@@ -28,9 +29,10 @@ export default class Menu {
 		};
 
 		if (newItem) {
+			this.active = newItem.dataset.type;
 			this.elem.addEventListener('transitionend', rearrange);
 
-			this.elem.classList.remove('opened');
+			this.elem.classList.remove('opened');			
 		}
 
 		this.elem.addEventListener('transitionend', hideItems);

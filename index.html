@@ -11,24 +11,6 @@
 </head>
 <body>
 
-	<div class="overlay">
-
-		<!-- SET GRAMS -->
-		<div class="overlay__set-grams" theme="fruits">
-			<img class="overlay__set-grams--image" src="./images/foods/transparent.gif">
-			<img class="overlay__set-grams--image--pseudo" src="./images/foods/transparent.gif">
-			<div class="overlay__set-grams__input">
-				<input class="overlay__set-grams__input--number" type="text" min="1" max="999999" step="1" maxlength="6">
-				<div class="overlay__set-grams__input--btns">
-					<div class="overlay__set-grams__input--btns__btn--up">&#9650;</div>
-					<div class="overlay__set-grams__input--btns__btn--down">&#9660;</div>
-				</div>
-			</div>
-			<button class="overlay__set-grams__btn">OK</button>
-		</div>
-		
-	</div>
-
 	<div class="container">
 		<!-- <div id="mouse"></div> -->
 
@@ -59,84 +41,12 @@
 			<!-- <div class="foods__page">	<==  THERE'S NO MORE THIS DIV -->
 				<!-- <ul class="foods__page__list" data-page="1">
 					<li class="foods__page__list__item">
-						<div class="foods__page__list__item--image">
+						<div class="foods__page__list__item__image">
 							<img id="apple" src="./images/foods/transparent.gif">
 						</div>
 						<div class="foods__page__list__item__text">
 							<h3 class="foods__page__list__item__text--title">Apple</h3>
-							<h4 class="foods__page__list__item__text--calories">100<span> g</span></h4>
-						</div>
-					</li>
-					<li class="foods__page__list__item selected" value="Kiwi">
-						<div class="foods__page__list__item--image">
-							<img id="kiwi" src="./images/foods/transparent.gif">
-						</div>
-						<div class="foods__page__list__item__text">
-							<h3 class="foods__page__list__item__text--title">Kiwi</h3>
-							<h4 class="foods__page__list__item__text--calories">147<span> g</span></h4>
-						</div>
-					</li>
-					<li class="foods__page__list__item selected" value="banana">
-						<div class="foods__page__list__item--image">
-							<img id="banana" src="./images/foods/transparent.gif">
-						</div>
-						<div class="foods__page__list__item__text">
-							<h3 class="foods__page__list__item__text--title">Banana</h3>
-							<h4 class="foods__page__list__item__text--calories">90<span> g</span></h4>
-						</div>
-					</li>
-					<li class="foods__page__list__item selected" value="strawberry">
-						<div class="foods__page__list__item--image">
-							<img id="strawberry" src="./images/foods/transparent.gif">
-						</div>
-						<div class="foods__page__list__item__text">
-							<h3 class="foods__page__list__item__text--title">Strawberry</h3>
-							<h4 class="foods__page__list__item__text--calories">2,500,025<span> g</span></h4>
-						</div>
-					</li>
-					<li class="foods__page__list__item selected" value="mango">
-						<div class="foods__page__list__item--image">
-							<img id="mango" src="./images/foods/transparent.gif">
-						</div>
-						<div class="foods__page__list__item__text">
-							<h3 class="foods__page__list__item__text--title">Mango</h3>
-							<h4 class="foods__page__list__item__text--calories">100<span> g</span></h4>
-						</div>
-					</li>
-					<li class="foods__page__list__item selected" value="grapes">
-						<div class="foods__page__list__item--image">
-							<img id="grapes" src="./images/foods/transparent.gif">
-						</div>
-						<div class="foods__page__list__item__text">
-							<h3 class="foods__page__list__item__text--title">Grapes</h3>
-							<h4 class="foods__page__list__item__text--calories">40<span> g</span></h4>
-						</div>
-					</li>
-					<li class="foods__page__list__item selected" value="pineapple">
-						<div class="foods__page__list__item--image">
-							<img id="pineapple" src="./images/foods/transparent.gif">
-						</div>
-						<div class="foods__page__list__item__text">
-							<h3 class="foods__page__list__item__text--title">Pineapple</h3>
-							<h4 class="foods__page__list__item__text--calories">100<span> g</span></h4>
-						</div>
-					</li>
-					<li class="foods__page__list__item selected" value="watermelon">
-						<div class="foods__page__list__item--image">
-							<img id="watermelon" src="./images/foods/transparent.gif">
-						</div>
-						<div class="foods__page__list__item__text">
-							<h3 class="foods__page__list__item__text--title">Watermelon</h3>
-							<h4 class="foods__page__list__item__text--calories">120<span> g</span></h4>
-						</div>
-					</li>
-					<li class="foods__page__list__item selected" value="orange">
-						<div class="foods__page__list__item--image">
-							<img id="orange" src="./images/foods/transparent.gif">
-						</div>
-						<div class="foods__page__list__item__text">
-							<h3 class="foods__page__list__item__text--title">Orange</h3>
-							<h4 class="foods__page__list__item__text--calories">500<span> g</span></h4>
+							<h4 class="foods__page__list__item__text--grams">100<span> g</span></h4>
 						</div>
 					</li>
 				</ul> -->
@@ -159,7 +69,28 @@
 
 	</div>
 
-	<div class="tooltip" theme="fruits"></div>
+	<div class="overlay">
+
+		<!-- SET GRAMS -->
+		<div class="overlay__set-grams__wrapper" theme="fruits">
+			<div class="overlay__set-grams__container">
+				<img class="overlay__set-grams--image--pseudo" src="./images/foods/transparent.gif">
+				<div class="overlay__set-grams__input">
+					<input class="overlay__set-grams__input--number" type="number" min="1" max="999999" step="1">
+					<div class="symbol"><span>g</span></div>
+					<div class="overlay__set-grams__input--btns">
+						<div class="overlay__set-grams__input--btns__btn--inc">&#9650;</div>
+						<div class="overlay__set-grams__input--btns__btn--dec">&#9660;</div>
+					</div>
+				</div>
+				<button class="overlay__set-grams__btn">OK</button>
+			</div>
+			<img class="overlay__set-grams--image" src="./images/foods/transparent.gif">
+		</div>
+		
+	</div>
+
+	<div class="calories-popup"></div>
 
 </body>
 </html>

@@ -6,9 +6,11 @@ export function renderTooltip(type, text, itemElem /* we need this only for 'add
 	const tooltip = DOMElems.tooltip;
 
 	tooltip.addEventListener('animationend', handleAnimationEnd);
-	tooltip.innerHTML = `+ ${text}`;
+	// tooltip.innerHTML = `+ ${text}`;
 
 	if (type === 'add-calories') {
+		tooltip.innerHTML = `+ ${parseInt(text)}`;
+
 		if (isTooltipAnimating) {
 			tooltip.classList.remove('tooltip--add-calories__pop-up');
 		}
@@ -71,97 +73,9 @@ export function renderTooltip(type, text, itemElem /* we need this only for 'add
 }
 
 
-export function openOverlay() {
-	DOMElems.overlay.style.display = 'flex';
-	DOMElems.overlay.classList.add('visible');
-	DOMElems.container.classList.add('blurred');
-}
-
-export function closeOverlay() {
-	DOMElems.container.addEventListener('transitionend', handleTransitionEnd);
-	DOMElems.container.classList.remove('blurred');
-
-	function handleTransitionEnd() {
-		DOMElems.container.removeEventListener('transitionend', handleTransitionEnd);
-		DOMElems.overlay.classList.remove('visible');
-		DOMElems.overlay.style.display = 'none';
-	}
-}
 
 
 
-export function openSetGramsContainer(itemElem) {
-	const origImg 		= itemElem.querySelector('img'),
-		  title 		= origImg.id,
-		  grams 		= parseInt(itemElem.querySelector('.foods__page__list__item__text--calories').textContent),
-		  type 			= DOMElems.mainContainer.getAttribute('theme'),
-		  newImg 		= DOMElems.overlayGramsImg,
-		  newImgPseudo	= DOMElems.overlayGramsImgPseudo,
-		  inputText		= DOMElems.overlayGramsInputText;
-
-
-	// get original image position
-	const origImgCoords = origImg.getBoundingClientRect();
-	newImg.style.top = origImgCoords.top + 'px';
-	newImg.style.left = origImgCoords.left + 'px';
-
-	DOMElems.overlayGramsContainer.setAttribute('theme', type);
-
-	// prepare new images
-	newImg.id = title;
-	newImgPseudo.id = title;
-
-	//prepare input
-	inputText.value = grams;
-	
-	// hide original image
-	origImg.style.visibility = 'hidden';
-
-	const newImgPseudoCoords = newImgPseudo.getBoundingClientRect();
-	// shift img to the center
-	animateShiftImg(
-		newImg,
-		{
-			top: newImgPseudoCoords.top,
-			left: newImgPseudoCoords.left
-		},
-		150);
-
-
-
-	DOMElems.overlayGramsContainer.classList.add('visible');
-	inputText.focus();
-}
-
-
-function animateShiftImg(imgElem, newCoords, duration = 1000) {
-	const imgStartCoords = imgElem.getBoundingClientRect();
-	const xDist = newCoords.left - imgStartCoords.left;
-	const yDist = newCoords.top - imgStartCoords.top;
-	const yFraction = (xDist !== 0) ? yDist / xDist : 0;
-
-	const startTime = performance.now();
-	let timeFraction, progress;
-
-	requestAnimationFrame(function animate(curTime) {
-		timeFraction = (curTime - startTime) / duration;
-		if (timeFraction > 1) timeFraction = 1;
-
-		progress = linear(timeFraction);
-
-		imgElem.style.left = imgStartCoords.left + (xDist * progress) + 'px';
-		imgElem.style.top = imgStartCoords.top + (xDist * yFraction * progress) + 'px';
-
-		if (timeFraction < 1) {
-			requestAnimationFrame(animate);
-		}
-	});
-
-	function linear(timeFraction) {
-		return (Math.sin((timeFraction - .5) * Math.PI) + 1) / 2;
-	}
-	
-}
 
 
 
