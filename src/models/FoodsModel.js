@@ -20,4 +20,22 @@ export default class FoodsModel {
 	contains(type) {
 		return !!(this.sets[type]);
 	}
+
+	formatGrams(grams) {
+		if (grams < 1000) return `${grams}<span> g</span>`;
+
+		const reverse = grams.toString().split('').reverse().join('');
+		let [g, kg] = reverse.match(/\d{1,3}/g);
+		g = g.split('').reverse().join('');
+		kg = kg.split('').reverse().join('');
+
+		// if it's equal thousands
+		if (grams % 1000 === 0) return `${kg}<span> kg</span>`;
+
+		return `${kg},${g}<span> g</span>`
+	}
 }
+
+
+
+

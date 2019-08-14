@@ -12,6 +12,9 @@ export default class FoodsController {
 		this.model.curPage = 1;
 		this.model.curType = type;
 		this.view.renderFoodsPages();
+		this.view.setGradient();
+		/* draw gradient every time the new set loads,
+		because we need to set gradient colors depending on the set type */
 	}
 
 	scrollToPrevPage() {

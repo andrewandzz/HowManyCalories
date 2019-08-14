@@ -3,6 +3,8 @@ import DOMElems from './dom';
 export default class OverlayView {
 	constructor(model) {
 		this.model = model;
+		this.cursorPosition = -1;
+		this.isImgAnimating = false;
 	}
 
 
@@ -75,6 +77,7 @@ export default class OverlayView {
 				overlayObserver.disconnect();
 				DOMElems.overlayGramsContainer.classList.add('visible');
 				this.renderGramsNumber(itemData.grams);
+				this.focusInput();
 			}
 		});
 		overlayObserver.observe(DOMElems.overlayGramsContainer, { attributes: true });
@@ -84,28 +87,33 @@ export default class OverlayView {
 
 		// handling key press
 		const preventNotNumber = event => {
-			if (event.keyCode === 69 || event.keyCode === 188 || event.keyCode === 190) {
+			if (event.keyCode === 13) return;
+
+			if (!(event.keyCode === 37 || event.keyCode === 39) && !(event.ctrlKey || event.metaKey)) {
 				event.preventDefault();
-				return;
 			}
 
 			let inputValue = itemData.grams + '';
 
 			if (event.keyCode === 8) {
-				// Backspace
+				// backspace
 				inputValue = inputValue.slice(0, -1);
+
+			} else if (event.keyCode === 38) {
+				// arrow up
+				inputValue++;
+
+			} else if (event.keyCode === 40) {
+				// arrow down
+				inputValue--;
 
 			} else if (/\d/.test(event.key) && (inputValue.length + 1) < 7) {
 				inputValue = inputValue + event.key;
-
-			} else if (event.keyCode !== 13) {
-				event.preventDefault();
-				return;
 			}
 
 			itemData.grams = inputValue;
 
-			DOMElems.overlayGramsInputSymbol.innerHTML = `${inputValue}<span>g</span>`;
+			this.renderGramsNumber(inputValue);
 		}
 		
 		DOMElems.overlayGramsInputNumber.addEventListener('keydown', preventNotNumber, false);
@@ -141,6 +149,7 @@ export default class OverlayView {
 		*/
 		DOMElems.container.addEventListener('transitionend', handleContainerClose, false);
 		DOMElems.overlayGramsContainer.classList.remove('visible');
+		DOMElems.overlayGramsImg.style.transform = 'scale(1)';
 
 
 		/*
@@ -175,13 +184,106 @@ export default class OverlayView {
 		});
 
 		DOMElems.overlayGramsInputContainer.classList.add('invalid');
+		this.focusInput();
 	}
 
 
 	renderGramsNumber(grams) {
-		DOMElems.overlayGramsInputNumber.value = grams;
-		DOMElems.overlayGramsInputSymbol.innerHTML = `${grams}<span>g</span>`;
+		const formattedGrams = this.model.formatInputGrams(grams);
+		DOMElems.overlayGramsInputNumber.value = formattedGrams;
+		DOMElems.overlayGramsInputSymbol.innerHTML = formattedGrams + '<span>g</span>';
+		// DOMElems.overlayGramsInputNumber.focus();
+	}
+
+
+	focusInput() {
 		DOMElems.overlayGramsInputNumber.focus();
+	}
+
+
+	animateImgChangeSize(type) {
+		/*
+		type === 1 => increase,
+		type === 0 => decrease
+		*/
+		if (type === 1 && this.model.imgSize + 1 >= 10) return;
+		if (type === 0 && this.model.imgSize - 1 <= -10) return;
+
+		let styleElem = document.getElementById('overlay-img-style');
+
+		if (!styleElem) {
+			styleElem = document.createElement('style');
+			styleElem.type = 'text/css';
+			styleElem.id = 'overlay-img-style';
+			document.head.appendChild(styleElem);
+		}
+
+		let animationType = '';
+
+		if (type === 1) animationType = 'animate-increase';
+		else if (type === 0) animationType = 'animate-decrease';
+		
+
+		if (this.isImgAnimating) {
+			DOMElems.overlayGramsImg.classList.remove(animationType);
+			this.isImgAnimating = false;
+		}
+
+
+		let incScale0, incScale50, incScale100,
+			decScale0, decScale50, decScale100;
+
+		
+		incScale0 = (1 + this.model.imgSize / 50).toFixed(2);
+		incScale50 = (1 +.05 + this.model.imgSize / 50).toFixed(2);
+		incScale100 = (1 + .02 + this.model.imgSize / 50).toFixed(2);
+	
+		decScale0 = (1 + this.model.imgSize / 50).toFixed(2);
+		decScale50 = (1 - .05 + this.model.imgSize / 50).toFixed(2);
+		decScale100 = (1 - .02 + this.model.imgSize / 50).toFixed(2);
+		
+
+		styleElem.innerHTML = `
+@keyframes animate-increase {
+	0% {
+		transform: scale(${incScale0});
+	}
+	50% {
+		transform: scale(${incScale50});
+	}
+	100% {
+		transform: scale(${incScale100});
+	}
+}
+
+@keyframes animate-decrease {
+	0% {
+		transform: scale(${decScale0});
+	}
+	50% {
+		transform: scale(${decScale50});
+	}
+	100% {
+		transform: scale(${decScale100});
+	}
+}`;
+		
+		DOMElems.overlayGramsImg.addEventListener('animationend', removeImgAnimate, false);
+
+		if (type === 1) this.model.imgSize++;
+		else if (type === 0) this.model.imgSize--; 
+
+		DOMElems.overlayGramsImg.classList.add(animationType);
+		this.isImgAnimating = true;
+
+		function removeImgAnimate() {
+			DOMElems.overlayGramsImg.removeEventListener('animationend', removeImgAnimate);
+
+			DOMElems.overlayGramsImg.classList.remove(animationType);
+			DOMElems.overlayGramsImg.style.transform = `scale(${
+				(type === 1) ? incScale100 : decScale100})`;
+			this.isImgAnimating = false;
+		}
 	}
 }
 

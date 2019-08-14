@@ -28,11 +28,10 @@ const foodsView2 = new FoodsView(foodsModel);
 const Foods = new FoodsController(foodsModel, foodsView2);
 STATE.foods = foodsModel;
 
-const overlayModel = new OverlayModel();
+const overlayModel = new OverlayModel(STATE.calculator);
 const overlayView = new OverlayView(overlayModel);
 const Overlay = new OverlayController(overlayModel, overlayView);
-
-init();
+STATE.overlay = overlayModel;
 
 
 function init() {
@@ -118,6 +117,7 @@ window.addEventListener('dblclick', event => {
 });
 
 
+window.addEventListener('DOMContentLoaded', init);
 window.addEventListener('DOMContentLoaded', getItemsPerPage);
 window.addEventListener('DOMContentLoaded', getDevice);
 window.addEventListener('resize', getItemsPerPage);
@@ -145,10 +145,18 @@ document.addEventListener('keypress', event => {
 
 DOMElems.overlayGramsBtnInc.addEventListener('click', () => {
 	Overlay.increaseGrams();
+	// -1 because when we click buttons,
+	// we don't need to compare focus and blur values
+	// (because animation has already played)
+	Overlay.model.onFocusValue = -1;
 }, false);
 
 DOMElems.overlayGramsBtnDec.addEventListener('click', () => {
 	Overlay.decreaseGrams();
+	// -1 because when we click buttons,
+	// we don't need to compare focus and blur values
+	// (because animation has already played)
+	Overlay.model.onFocusValue = -1;
 }, false);
 
 
@@ -156,9 +164,43 @@ DOMElems.overlayGramsBtn.addEventListener('click', () => {
 	handleOverlayGramsClose(true);
 }, false);
 
+DOMElems.overlayGramsInputNumber.addEventListener('focus', function() {
+	if (Overlay.model.onFocusValue === -1) {
+		Overlay.model.onFocusValue = this.value.replace('.', '');
+	}
+});
+
+DOMElems.overlayGramsContainer.addEventListener('click', event => {
+	if (!event.target.matches('.overlay__set-grams__container')) return;
+	// it's blur, not cancel
+	handleOverlayGramsInputBlur();
+}, false);
+
+DOMElems.overlayGramsImg.addEventListener('click', () => {
+	// it's blur, not cancel
+	handleOverlayGramsInputBlur();
+}, false);
+
+function handleOverlayGramsInputBlur() {
+	const focusValue = Overlay.model.onFocusValue;
+
+	// -1 can be, when we click on inc/dec buttons
+	if (focusValue === -1) return;
+
+	const blurValue = DOMElems.overlayGramsInputNumber.value.replace('.', '');
+
+	if (focusValue < blurValue) {
+		Overlay.view.animateImgChangeSize(1);
+	} else if (focusValue > blurValue) {
+		Overlay.view.animateImgChangeSize(0);
+	}
+
+	Overlay.model.onFocusValue = -1;
+}
+
 DOMElems.overlay.addEventListener('click', event => {
 	// only click outside the container
-	if (event.target.closest('.overlay__set-grams__container')) return;
+	if (event.target.closest('.overlay__set-grams__container') || event.target.matches('.overlay__set-grams--image')) return;
 
 	handleOverlayGramsClose(false);
 }, false);
@@ -216,18 +258,18 @@ DOMElems.overlay.addEventListener('click', event => {
 				if (Math.abs(dist) < minDist) {
 					// return to this page
 					Foods.view._scroll();
-					console.log('stopped short');
+					// console.log('stopped short');
 
 				} else if (Math.abs(dist) >= halfWidth) {
 					// scroll to prev/next page
 					if (dist > 0) Foods.scrollToNextPage();
 					else if (dist < 0) Foods.scrollToPrevPage();
-					console.log('stopped long');
+					// console.log('stopped long');
 
 				} else {
 					// stopped between middle and minimal zone
 					Foods.view._scroll();
-					console.log('stopped exeption')
+					// console.log('stopped exeption')
 				}
 
 			} else {
@@ -237,13 +279,13 @@ DOMElems.overlay.addEventListener('click', event => {
 					// disable scrolling in this case
 					DOMElems.mainContainer.style.overflowX = 'hidden';
 					Foods.view._scroll();
-					console.log('dropped short');
+					// console.log('dropped short');
 
 				} else {
 					/* 1 is next page, 0 is prev page */
 					if (dist > 0) Foods.view.animateScroll(1);
 					else if (dist < 0) Foods.view.animateScroll(0);
-					console.log('dropped exeption');
+					// console.log('dropped exeption');
 				}
 
 			}
@@ -383,29 +425,31 @@ async function handleOverlayGramsClose(save) {
 
 	if (Overlay.validateGramsInput()) {
 
+		const grams = Overlay.model.itemData.grams;
+
 		await Overlay.close();
 
 		if (itemElem.classList.contains('hover')) {
 			// item was NOT selected
 			if (save) {
-				Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), Overlay.model.itemData.grams);
+				Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), grams);
 				Foods.view.selectItem(itemElem);
+				Foods.view.setItemGrams(itemElem, grams);
 			}
 
 			itemElem.classList.remove('hover');
 		} else {
 			// item WAS selected
-
 			// if user wants to save changes
 			// and current value is different to the starting value
 			if (save && Overlay.isGramsInputChanged()) {
-				Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), Overlay.model.itemData.grams);
+				Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), grams);
+				Foods.view.setItemGrams(itemElem, grams);
 			}
-		}
-
-		Foods.view.setItemGrams(itemElem, Overlay.model.itemData.grams);
+		}		
 	}
 }
+
 
 // testing
 // document.addEventListener('mousemove', event => {

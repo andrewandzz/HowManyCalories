@@ -52,6 +52,8 @@ export default class OverlayController {
 
 		this.model.itemData.grams = grams;
 		this.view.renderGramsNumber(grams);
+		this.view.focusInput();
+		this.view.animateImgChangeSize(1);
 	}
 
 	decreaseGrams() {
@@ -73,6 +75,8 @@ export default class OverlayController {
 
 		this.model.itemData.grams = grams;
 		this.view.renderGramsNumber(grams);
+		this.view.focusInput();
+		this.view.animateImgChangeSize(0);
 	}
 
 	isGramsInputChanged() {

@@ -63,8 +63,8 @@ export default class FoodsView {
 
 	renderPagesButtons() {
 		const curPage = this.model.curPage;
-		const prevPage = document.querySelector(`.foods__page__list[data-page="${curPage - 1}"]`);
-		const nextPage = document.querySelector(`.foods__page__list[data-page="${curPage + 1}"]`);
+		const prevPage = DOMElems.mainContainer.querySelector(`.foods__page__list[data-page="${curPage - 1}"]`);
+		const nextPage = DOMElems.mainContainer.querySelector(`.foods__page__list[data-page="${curPage + 1}"]`);
 
 		if (prevPage) {
 			DOMElems.btnPrev.style.display = 'block';
@@ -92,7 +92,9 @@ export default class FoodsView {
 	}
 
 	setItemGrams(itemElem, newGrams) {
-		itemElem.querySelector('.foods__page__list__item__text--grams').innerHTML = `${newGrams}<span> g</span>`;
+		const formattedGrams = this.model.formatGrams(newGrams);
+
+		itemElem.querySelector('.foods__page__list__item__text--grams').innerHTML = formattedGrams;
 	}
 
 
@@ -111,7 +113,7 @@ export default class FoodsView {
 		// load next page, if we don't have it yet
 		const type = this.model.curType;
 		const numOfPages = Math.ceil(this.model.sets[type].items.length / this.model.itemsPerPage);
-		const nextPageElem = document.querySelector(`.foods__page__list[data-page="${this.model.curPage + 1}"]`);
+		const nextPageElem = DOMElems.mainContainer.querySelector(`.foods__page__list[data-page="${this.model.curPage + 1}"]`);
 		if (!nextPageElem) {
 			if (this.model.curPage < numOfPages) {
 				this.renderPage(this.model.curPage + 1);
@@ -142,10 +144,8 @@ export default class FoodsView {
 
 				if (to === 0) {
 					this.scrollToPrevPage();
-					console.log(this.model.curPage)
 				} else if (to === 1) {
 					this.scrollToNextPage();
-					console.log(this.model.curPage)
 				}
 				
 				DOMElems.mainContainer.removeEventListener('scroll', handleScroll);
@@ -156,11 +156,77 @@ export default class FoodsView {
 	}
 
 	_scroll() {
-		const newPageElem = document.querySelector(`.foods__page__list[data-page="${this.model.curPage}"]`);
+		const newPageElem = DOMElems.mainContainer.querySelector(`.foods__page__list[data-page="${this.model.curPage}"]`);
 		newPageElem.scrollIntoView({
 			behavior: 'smooth',
 			inline: 'start'
 		});
+	}
+
+
+	setGradient() {
+		const containerWidth = DOMElems.container.offsetWidth;
+		const containerHeight = DOMElems.container.offsetHeight;
+		const containerHypotenuse = Math.round(Math.sqrt(Math.pow(containerWidth, 2) + Math.pow(containerHeight, 2)));
+		const gradientCos = containerWidth / containerHypotenuse;
+
+		const gradientAngle = 90 + Math.round(gradientCos * 180 / Math.PI);
+		const gradientLength = window.innerHeight / gradientCos;
+
+		const firstItem = DOMElems.mainContainer.querySelector('.foods__page__list__item:first-child');
+		const lastItem = DOMElems.mainContainer.querySelector('.foods__page__list__item:last-child');
+		const lengthToFirstItem = firstItem.getBoundingClientRect().top / gradientCos;
+		const lengthToLastItem = gradientLength - lastItem.getBoundingClientRect().bottom / gradientCos;
+		
+		const gradientStartPercent = Math.round(lengthToFirstItem / gradientLength * 100);
+		const gradientEndPercent = 100 - Math.ceil(lengthToLastItem / gradientLength * 100);
+
+		const colors = {
+			'fruits': ['#ffdb13', '#fe9416'],
+			'vegetables': ['#a46897', '#542a4b'],
+			'milk': ['#8cc8ff', '#2d83d3'],
+			'fast-food': ['#a5c843', '#51680e'],
+			'drinks': ['#6a9563', '#2a4925'],
+			'meat': ['#e38995', '#8a4951'],
+			'sea-food': ['#feaa68', '#c07420'],
+			'desserts': ['#90e8c5', '#3C9773'],
+			'bread': ['#d85a50', '#87302a']
+		};
+
+		const colorsHover = {
+			'fruits': ['#ffdb1330', '#fe941640'],
+			'vegetables': ['#965a9930', '#5d325f40'],
+			'milk': ['#8cc8ff30', '#2d83d340'],
+			'fast-food': ['#a5c84330', '#51680e40'],
+			'drinks': ['#6a956330', '#2a492540'],
+			'meat': ['#e3899530', '#8a495140'],
+			'sea-food': ['#feaa6830', '#c0742040'],
+			'desserts': ['#90e8c530', '#3C977340'],
+			'bread': ['#d85a5030', '#87302a40']
+		};
+
+
+
+		let styleElem = document.getElementById('gradient-style');
+		
+		if (!styleElem) {
+			styleElem = document.createElement('style');
+			styleElem.type = 'text/css';
+			styleElem.id = 'gradient-style';
+			document.head.appendChild(styleElem);
+		}
+		
+		styleElem.innerHTML = `
+.foods[theme="${this.model.curType}"] .foods__page__list__item.selected,
+.foods[theme="${this.model.curType}"] .foods__page__list__item.selected:hover {
+	background-image: linear-gradient(${gradientAngle}deg, ${colors[this.model.curType][0]} ${gradientStartPercent + 5}%, ${colors[this.model.curType][1]} ${gradientEndPercent - 5}%);
+}
+
+.foods[theme="${this.model.curType}"] .foods__page__list__item:hover,
+.foods[theme="${this.model.curType}"] .foods__page__list__item.hover {
+	background-image: linear-gradient(${gradientAngle}deg, ${colorsHover[this.model.curType][0]} ${gradientStartPercent + 5}%, ${colorsHover[this.model.curType][1]} ${gradientEndPercent - 5}%);
+}`;
+
 	}
 
 }

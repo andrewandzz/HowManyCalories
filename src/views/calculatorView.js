@@ -8,7 +8,7 @@ export default class CalculatorView {
 
 	renderTotalCalories() {
 		const curCalories	= +DOMElems.caloriesText.textContent,
-			  newCalories	= this.model.totalCalories,
+			  newCalories	= Math.ceil(this.model.totalCalories),
 			  dist 			= Math.abs(newCalories - curCalories),
 			  duration		= 100; /* in ms */
 
@@ -44,6 +44,7 @@ export default class CalculatorView {
 
 		if (this.isPopupAnimating) {
 			popup.classList.remove('animate');
+			this.isPopupAnimating = false;
 		}
 
 		popup.textContent = `+ ${Math.ceil(calories)}`;
