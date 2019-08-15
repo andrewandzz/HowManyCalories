@@ -34,7 +34,7 @@ export default class FoodsView {
 			return `
 			<li class="foods__page__list__item ${(grams !== false) ? 'selected' : ''}">
 				<div class="foods__page__list__item__image">
-					<img id="${itemObj.title}" src="./images/foods/transparent.gif">
+					<img id="${itemObj.title}" src="./images/transparent.gif">
 				</div>
 				<div class="foods__page__list__item__text">
 					<div class="foods__page__list__item__text--title">${capitTitle}</div>
@@ -89,6 +89,14 @@ export default class FoodsView {
 
 	deselectItem(itemElem) {
 		itemElem.classList.remove('selected');
+	}
+
+	deselectAll() {
+		const selectedItems = DOMElems.mainContainer.querySelectorAll('.foods__page__list__item.selected');
+		Array.from(selectedItems).forEach(item => {
+			item.classList.remove('selected');
+			item.querySelector('.foods__page__list__item__text--grams').innerHTML = '100<span> g</span>';
+		});
 	}
 
 	setItemGrams(itemElem, newGrams) {
@@ -220,11 +228,6 @@ export default class FoodsView {
 .foods[theme="${this.model.curType}"] .foods__page__list__item.selected,
 .foods[theme="${this.model.curType}"] .foods__page__list__item.selected:hover {
 	background-image: linear-gradient(${gradientAngle}deg, ${colors[this.model.curType][0]} ${gradientStartPercent + 5}%, ${colors[this.model.curType][1]} ${gradientEndPercent - 5}%);
-}
-
-.foods[theme="${this.model.curType}"] .foods__page__list__item:hover,
-.foods[theme="${this.model.curType}"] .foods__page__list__item.hover {
-	background-image: linear-gradient(${gradientAngle}deg, ${colorsHover[this.model.curType][0]} ${gradientStartPercent + 5}%, ${colorsHover[this.model.curType][1]} ${gradientEndPercent - 5}%);
 }`;
 
 	}

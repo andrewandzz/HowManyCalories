@@ -2,6 +2,7 @@ export default {
 	container: document.querySelector('.container'),
 	menuList: document.querySelector('.menu'),
 	caloriesText: document.querySelector('.calories--text'),
+	caloriesIcon: document.querySelector('.calories--icon'),
 	mainContainer: document.querySelector('main.foods'),
 	//foodsPageList: document.querySelector('.foods__page__list'),
 	btnPrev: document.querySelector('.btn__prev'),

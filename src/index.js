@@ -18,7 +18,7 @@ import OverlayController from './controllers/OverlayController';
 const STATE = {};
 
 
-const calculatorModel = new CalculatorModel();
+const calculatorModel = new CalculatorModel(STATE);
 const calculatorView = new CalculatorView(calculatorModel);
 const Calculator = new CalculatorController(calculatorModel, calculatorView);
 STATE.calculator = calculatorModel;
@@ -35,6 +35,7 @@ STATE.overlay = overlayModel;
 
 
 function init() {
+	fetchSessionStorage();
 	STATE.menu = new Menu(DOMElems.menuList);
 	Foods.openFoodsSet(STATE.menu.active);
 }
@@ -351,11 +352,11 @@ DOMElems.overlay.addEventListener('click', event => {
 function getDevice() {
 	if (isMobilePad()) {
 		// do stuff for the mobile or iPad
-
 		DOMElems.mainContainer.addEventListener('contextmenu', handleLongPress);
 
 	} else {
 		// do stuff for the desktop
+		menuHoverAnimation();
 
 		// styles
 		const link = document.createElement('link');
@@ -365,6 +366,30 @@ function getDevice() {
 		document.head.appendChild(link);
 	}
 }
+
+
+function menuHoverAnimation() {
+	const menuCoords = DOMElems.menuList.getBoundingClientRect();
+	const menuCenter = menuCoords.left + menuCoords.width / 2;
+
+	DOMElems.menuList.addEventListener('mousemove', event => {
+		const bgPosX = event.clientX - menuCenter;
+		const menuItem = event.target.closest('.menu__item');
+		menuItem.style.backgroundPositionX = bgPosX + 'px';
+	}, false);
+}
+
+
+
+DOMElems.caloriesIcon.addEventListener('click', event => {
+	const icon = event.target.closest('.calories--icon');
+	if (!icon) return;
+
+	if (icon.classList.contains('active') && icon.classList.contains('clickable')) {
+		Calculator.clearTotalCalories();
+		Foods.view.deselectAll();
+	}	
+});
 
 
 
@@ -393,6 +418,7 @@ function handleFoodsMouseDown(event) {
 		if (!Calculator.includes(title)) {
 			Calculator.addItem(STATE.foods.sets[type].getItemObj(title));
 			Foods.view.selectItem(itemElem);
+			
 		} else {
 			Calculator.deleteItem(title);
 			Foods.view.deselectItem(itemElem);
@@ -448,6 +474,18 @@ async function handleOverlayGramsClose(save) {
 			}
 		}		
 	}
+}
+
+
+
+function fetchSessionStorage() {
+	const trashIsDemonstrated = window.sessionStorage.getItem('trashIsDemonstrated');
+	if (!trashIsDemonstrated) {
+		STATE.trashIsDemonstrated = false;
+	} else {
+		STATE.trashIsDemonstrated = true;
+	}
+	
 }
 
 

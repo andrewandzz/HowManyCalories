@@ -1,7 +1,8 @@
 import DOMElems from '../views/dom';
 
 export default class CalculatorModel {
-	constructor() {
+	constructor(STATE) {
+		this.STATE = STATE;
 		this.totalCalories = 0;
 		this.items = [];
 	}
@@ -54,4 +55,13 @@ export default class CalculatorModel {
 		const item = this.items.find(item => item.title === title);
 		return (!item) ? false : item.grams;
 	}
+
+	clearTotalCalories() {
+		this.items = [];
+		this.totalCalories = 0;
+	}
 }
+
+
+
+

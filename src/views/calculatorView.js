@@ -109,6 +109,73 @@ export default class CalculatorView {
 			}
 		}
 	}
+
+
+	demonstrateTrashAnimation() {
+		const removeDemonstrate = () => {
+			DOMElems.caloriesIcon.removeEventListener('animationend', removeDemonstrate);
+			DOMElems.caloriesIcon.classList.remove('demonstrate');
+
+			this.model.STATE.trashIsDemonstrated = true;
+			window.sessionStorage.setItem('trashIsDemonstrated', true);
+
+			this.trashActive(true);
+
+			this.setTrashEventListeners();
+		}
+
+		DOMElems.caloriesIcon.addEventListener('animationend', removeDemonstrate, false);
+		DOMElems.caloriesIcon.classList.add('demonstrate');
+	}
+
+
+	setTrashEventListeners() {
+		DOMElems.caloriesIcon.addEventListener('mouseenter', () => {
+			this.openTrash();
+		}, false);
+		DOMElems.caloriesIcon.addEventListener('mouseleave', () => {
+			this.closeTrash();
+		}, false);
+	}
+
+
+	clearTotalCalories() {
+		this.renderTotalCalories();
+		this.closeTrash();
+		this.trashActive(false);
+	}
+
+
+	openTrash() {
+		if (!DOMElems.caloriesIcon.classList.contains('active')) return;
+
+		DOMElems.caloriesIcon.addEventListener('animationend', setClickable, false);
+
+		DOMElems.caloriesIcon.classList.remove('trash-close');
+		DOMElems.caloriesIcon.classList.add('trash-open');
+
+		function setClickable() {
+			DOMElems.caloriesIcon.removeEventListener('animationend', setClickable);
+			// we need class 'clickable' for taking mobile touch just AFTER animation
+			DOMElems.caloriesIcon.classList.add('clickable');
+		}
+	}
+
+	closeTrash() {
+		if (!DOMElems.caloriesIcon.classList.contains('active')) return;
+
+		DOMElems.caloriesIcon.classList.remove('clickable');
+		DOMElems.caloriesIcon.classList.remove('trash-open');
+		DOMElems.caloriesIcon.classList.add('trash-close');
+	}
+
+	trashActive(active) {
+		if (active) {
+			DOMElems.caloriesIcon.classList.add('active');
+		} else {
+			DOMElems.caloriesIcon.classList.remove('active');
+		}
+	}
 }
 
 
