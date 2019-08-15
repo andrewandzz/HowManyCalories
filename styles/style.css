@@ -49,15 +49,15 @@ body {
 	--desserts: #90e8c5;
 	--bread: #d85a50;
 
-	--fruits-hover: #ffdb13;
-	--vegetables-hover: #804d74;
-	--milk-hover: #8dc0fe;
-	--fast-food-hover: #a8d02f;
-	--drinks-hover: #618b5b;
-	--meat-hover: #d57683;
-	--sea-food-hover: #f4a24b;
-	--desserts-hover: #8ee4c2;
-	--bread-hover: #d32a1e;
+	--fruits-hover: #ffdb1330;
+	--vegetables-hover: #a4689730;
+	--milk-hover: #8cc8ff30;
+	--fast-food-hover: #a5c84330;
+	--drinks-hover: #6a956330;
+	--meat-hover: #e3899530;
+	--sea-food-hover: #feaa6830;
+	--desserts-hover: #90e8c530;
+	--bread-hover: #d85a5030;
 
 	--fruits-light: #fff0b3;
 	--vegetables-light: #d9bfd3;
@@ -171,7 +171,7 @@ body {
 
 nav {
 	grid-area: nav;
-	align-self: stretch;
+	align-self: start;
 	display: flex;
 	align-items: center;
 }
@@ -184,18 +184,33 @@ nav {
 		font-weight: 300;
 		height: 2.8rem;
 		width: 13.5rem;
+		margin-top: 1.6rem;
 
-		/*border-bottom-right-radius: 1.4rem;
+		border-bottom-right-radius: 1.4rem;
 		border-top-right-radius: 1.4rem;
-		box-shadow: 0 .2rem .5rem rgba(0, 0, 0, .5);*/
+		box-shadow: 0 .1rem .16rem rgba(0, 0, 0, .1);
+		/* animate height so that shadow under the menu could adjust to its size */
+		transition: height 300ms ease-out;
 	}
+		.menu.opened {
+			height: calc(2.8rem * 9);
+		}
+
 		@media screen and (max-width: 480px) {
 			.menu {
 				font-size: 1.3rem;
 				height: 2.1rem;
 				width: 10.3rem;
+				margin-top: 1.2rem;
+				box-shadow: 0 .1rem .12rem rgba(0, 0, 0, .1);
+			}
+			.menu.opened {
+				height: calc(2.1rem * 9);
 			}
 		}
+
+	
+
 		.menu__item {
 			display: flex;
 			justify-content: flex-start;
@@ -204,16 +219,17 @@ nav {
 			position: absolute;
 
 			width: inherit;
-			height: inherit;
+			height: 2.8rem;
 			
 			border-bottom-right-radius: 1.4rem;
 			border-top-right-radius: 1.4rem;
 			cursor: pointer;
 
-			transition: border-radius 300ms ease-out, transform 300ms ease-out, background-color 100ms;
+			transition: border-radius 300ms ease-out, transform 300ms ease-out, background-color 800ms;
 		}
 		@media screen and (max-width: 480px) {
 			.menu__item {
+				height: 2.1rem;
 				border-bottom-right-radius: 1.1rem;
 				border-top-right-radius: 1.1rem;
 			}
@@ -267,9 +283,7 @@ nav {
 			border-top-right-radius: 0;
 		}
 
-		.menu.hidden .menu__item:not(:first-child) {
-			opacity: 0;
-		}
+		.menu.hidden .menu__item:not(:first-child) { opacity: 0; }
 
 
 
@@ -297,16 +311,37 @@ nav {
 	}
 }
 
-	.calories--icon {
+	.calories--icon img {
+		background: url('../images/calculator.svg');
+		width: 1.8rem;
 		height: 1.8rem;
+		background-size: 1.8rem 1.8rem;
+		background-repeat: no-repeat;
 	}
 	@media screen and (max-width: 480px) {
-		.calories--icon {
-			height: 1.1rem;
+		.calories--icon img {
+			width: 1.2rem;
+			height: 1.2rem;
+			background-size: 1.2rem 1.2rem;
 		}
 	}
 
+	.calories--icon.active { cursor: pointer; }
 
+	.calories--icon.demonstrate img {
+		animation: demonstrate-trash 1200ms 1000ms ease-in-out;
+	}
+
+	.calories--icon.trash-open img {
+		animation: trash-open 200ms ease-in-out forwards;
+	}
+
+	.calories--icon.trash-close img {
+		animation: trash-close 200ms ease-in-out;
+	}
+
+		.calories--icon { transition: transform 100ms ease-out; }
+		.calories--icon.active.trash-open:active { transform: translateY(.1rem); }
 
 
 
@@ -476,8 +511,6 @@ main::-webkit-scrollbar {
 			justify-content: center;
 			align-items: baseline;
 			padding: 0 .5rem .2rem .5rem;
-
-			transition: transform 100ms ease-out;
 		}
 		
 
@@ -566,6 +599,7 @@ footer {
 
 		padding: 0 1.2ch 0 2ch;
 		border-top-left-radius: 30px;
+		/*box-shadow: 0 .1rem .16rem rgba(0, 0, 0, .1);*/
 
 		transition: background-color 400ms;
 	}
@@ -573,6 +607,7 @@ footer {
 			.block {
 				height: 1.1rem;
 				padding: 0 1ch 0 1.6ch;
+				/*box-shadow: 0 .1rem .12rem rgba(0, 0, 0, .1);*/
 			}
 		}
 	.block[theme="fruits"]		{ background-color: var(--fruits-dark); }

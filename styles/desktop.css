@@ -1,17 +1,81 @@
-.menu__item[data-type="fruits"]:hover		{ background-color: var(--fruits-hover); }
-.menu__item[data-type="vegetables"]:hover	{ background-color: var(--vegetables-hover); }
-.menu__item[data-type="milk"]:hover			{ background-color: var(--milk-hover); }
-.menu__item[data-type="fast-food"]:hover	{ background-color: var(--fast-food-hover); }
-.menu__item[data-type="drinks"]:hover		{ background-color: var(--drinks-hover); }
-.menu__item[data-type="meat"]:hover			{ background-color: var(--meat-hover); }
-.menu__item[data-type="sea-food"]:hover		{ background-color: var(--sea-food-hover); }
-.menu__item[data-type="desserts"]:hover		{ background-color: var(--desserts-hover); }
-.menu__item[data-type="bread"]:hover		{ background-color: var(--bread-hover); }
+.menu__item:hover {
+	background-repeat: no-repeat;
+	background-size: contain;
+	transition: background-color 200ms;
+}
+
+.menu__item[data-type="fruits"]:hover {
+	background-image: radial-gradient(rgba(255, 255, 255, .3) 0%, rgba(255, 255, 255, 0) 80%);
+	background-color: #fedf39;
+}
+.menu__item[data-type="vegetables"]:hover {
+	background-image: radial-gradient(rgba(255, 255, 255, .08) 0%, rgba(255, 255, 255, 0) 80%);
+	background-color: #ab749f;
+}
+.menu__item[data-type="milk"]:hover {
+	background-image: radial-gradient(rgba(255, 255, 255, .1) 0%, rgba(255, 255, 255, 0) 80%);
+	background-color: #99ceff;
+}
+.menu__item[data-type="fast-food"]:hover {
+	background-image: radial-gradient(rgba(255, 255, 255, .2) 0%, rgba(255, 255, 255, 0) 80%);
+	background-color: #A8CB47;
+}
+.menu__item[data-type="drinks"]:hover {
+	background-image: radial-gradient(rgba(255, 255, 255, .1) 0%, rgba(255, 255, 255, 0) 80%);
+	background-color: #6f9a67;
+}
+.menu__item[data-type="meat"]:hover {
+	background-image: radial-gradient(rgba(255, 255, 255, .1) 0%, rgba(255, 255, 255, 0) 80%);
+	background-color: #e38e99;
+}
+.menu__item[data-type="sea-food"]:hover	{
+	background-image: radial-gradient(rgba(255, 255, 255, .2) 0%, rgba(255, 255, 255, 0) 80%);
+	background-color: #feaf71;
+}
+.menu__item[data-type="desserts"]:hover	{
+	background-image: radial-gradient(rgba(255, 255, 255, .2) 0%, rgba(255, 255, 255, 0) 80%);
+	background-color: #98eac9;
+}
+.menu__item[data-type="bread"]:hover {
+	background-image: radial-gradient(rgba(255, 255, 255, .1) 0%, rgba(255, 255, 255, 0) 80%);
+	background-color: #DF6258;
+}
+
+
+
 
 
 .foods__page__list__item:hover .foods__page__list__item__image {
 	transform: translateY(-.1rem);
 }
+
+.foods[theme="fruits"] .foods__page__list__item:hover,
+.foods[theme="fruits"] .foods__page__list__item.hover
+	{ background-color: var(--fruits-hover); }
+.foods[theme="vegetables"] .foods__page__list__item:hover,
+.foods[theme="vegetables"] .foods__page__list__item.hover
+	{ background-color: var(--vegetables-hover); }
+.foods[theme="milk"] .foods__page__list__item:hover,
+.foods[theme="milk"] .foods__page__list__item.hover
+	{ background-color: var(--milk-hover); }
+.foods[theme="fast-food"] .foods__page__list__item:hover,
+.foods[theme="fast-food"] .foods__page__list__item.hover
+	{ background-color: var(--fast-food-hover); }
+.foods[theme="drinks"] .foods__page__list__item:hover,
+.foods[theme="drinks"] .foods__page__list__item.hover
+	{ background-color: var(--drinks-hover); }
+.foods[theme="meat"] .foods__page__list__item:hover,
+.foods[theme="meat"] .foods__page__list__item.hover
+	{ background-color: var(--meat-hover); }
+.foods[theme="sea-food"] .foods__page__list__item:hover,
+.foods[theme="sea-food"] .foods__page__list__item.hover
+	{ background-color: var(--sea-food-hover); }
+.foods[theme="desserts"] .foods__page__list__item:hover,
+.foods[theme="desserts"] .foods__page__list__item.hover
+	{ background-color: var(--desserts-hover); }
+.foods[theme="bread"] .foods__page__list__item:hover,
+.foods[theme="bread"] .foods__page__list__item.hover
+	{ background-color: var(--bread-hover); }
 
 /*.foods__page__list__item:hover .foods__page__list__item__text {
 	transform: translateY(-.1rem);
