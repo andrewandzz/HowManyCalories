@@ -1,0 +1,55 @@
+{
+	"menu": {
+		"bread": "bread",
+		"desserts": "desserts",
+		"drinks": "drinks",
+		"fast-food": "fast food",
+		"fruits": "fruits",
+		"meat": "meat",
+		"milk": "milk",
+		"sea-food": "sea food",
+		"vegetables": "vegetables"
+	},
+	"foods": {
+		"g": "g",
+		"kg": "kg",
+		"fruits": {
+			"apple": "Apple",
+			"apricot": "Apricot",
+			"banana": "Banana",
+			"cherry": "Cherry",
+			"coconut": "Coconut",
+			"grapes": "Grapes",
+			"kiwi": "Kiwi",
+			"mango": "Mango",
+			"orange": "Orange",
+			"pineapple": "Pineapple",
+			"strawberry": "Strawberry",
+			"watermelon": "Watermelon"
+		},
+		"vegetables": {
+			"avocado": "Avocado",
+			"bell-pepper": "Bell pepper",
+			"broccoli": "Broccoli",
+			"cabbage": "Cabbage",
+			"carrot": "Carrot",
+			"chinese-cabbage": "Chinese cabbage",
+			"cucumber": "Cucumber",
+			"eggplant": "Eggplant",
+			"onion": "Onion",
+			"potato": "Potato",
+			"pumpkin": "Pumpkin",
+			"tomato": "Tomato"
+		}
+	},
+	"footer": {
+		"en": "English",
+		"contact": "Contact"
+	},
+	"contact": {
+		"name": "Name",
+		"email": "Email",
+		"message": "Message",
+		"send": "Send"
+	}
+}
