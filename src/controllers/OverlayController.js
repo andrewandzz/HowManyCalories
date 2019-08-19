@@ -4,19 +4,29 @@ export default class OverlayController {
 		this.view = view;
 	}
 
-	open(itemElem) {
-		/* if itemElem, then open 'set-grams' */
-		if (itemElem) {
-			this.model.setItem(itemElem);
-			this.view.openOverlay();
-			this.view.openSetGrams();
-		}
+	openSetGrams(itemElem) {
+		this.model.setItem(itemElem);
+		this.view.openOverlay();
+		this.view.openSetGrams();
+		this.model.isSetGramsOpened = true;
 	}
 
-	async close() {
-		// if SetGrams opened, then close SetGrams too <=== TO DO
+	async closeSetGrams() {
 		this.view.closeSetGrams();
 		await this.view.closeOverlay();
+		this.model.isSetGramsOpened = false;
+	}
+
+	openContact() {
+		this.view.openOverlay();
+		this.view.openContact();
+		this.model.isContactOpened = true;
+	}
+
+	closeContact(clear) {
+		this.view.closeContact(clear);
+		this.view.closeOverlay();
+		this.model.isContactOpened = false;
 	}
 
 	validateGramsInput() {
@@ -81,6 +91,11 @@ export default class OverlayController {
 
 	isGramsInputChanged() {
 		return this.model.firstValue !== this.model.itemData.grams;
+	}
+
+	sendMessage() {
+		// here SEND
+		this.closeContact(true);
 	}
 }
 

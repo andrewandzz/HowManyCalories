@@ -22,7 +22,11 @@ export default class FoodsModel {
 	}
 
 	formatGrams(grams) {
-		if (grams < 1000) return `${grams}<span> g</span>`;
+		const gTitle = this.STATE.language.dictionary.foods.g;
+
+		if (grams < 1000) return `${grams}<span> ${gTitle}</span>`;
+
+		const kgTitle = this.STATE.language.dictionary.foods.kg;
 
 		const reverse = grams.toString().split('').reverse().join('');
 		let [g, kg] = reverse.match(/\d{1,3}/g);
@@ -30,9 +34,9 @@ export default class FoodsModel {
 		kg = kg.split('').reverse().join('');
 
 		// if it's equal thousands
-		if (grams % 1000 === 0) return `${kg}<span> kg</span>`;
+		if (grams % 1000 === 0) return `${kg}<span> ${kgTitle}</span>`;
 
-		return `${kg},${g}<span> g</span>`
+		return `${kg},${g}<span> ${gTitle}</span>`
 	}
 }
 

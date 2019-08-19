@@ -7,8 +7,12 @@ export default {
 	//foodsPageList: document.querySelector('.foods__page__list'),
 	btnPrev: document.querySelector('.btn__prev'),
 	btnNext: document.querySelector('.btn__next'),
-	footerBlock: document.querySelector('footer .block'),
-	caloriesPopup: document.querySelector('.calories-popup'),
+	footerBlock: document.querySelector('footer .bottom'),
+	footerMenu: document.querySelector('.bottom__menu'),
+	footerLangList: document.querySelector('.bottom__flags'),
+	footerMenuLang: document.querySelector('.bottom__menu--language'),
+	popupCalories: document.querySelector('.popup-calories'),
+	popupCaloriesText: document.querySelector('.popup-calories--text'),
 	overlay: document.querySelector('.overlay'),
 	overlayGramsWrapper: document.querySelector('.overlay__set-grams__wrapper'),
 	overlayGramsContainer: document.querySelector('.overlay__set-grams__container'),
@@ -19,5 +23,11 @@ export default {
 	overlayGramsInputSymbol: document.querySelector('.overlay__set-grams__input .symbol'),
 	overlayGramsBtnInc: document.querySelector('.overlay__set-grams__input--btns__btn--inc'),
 	overlayGramsBtnDec: document.querySelector('.overlay__set-grams__input--btns__btn--dec'),
-	overlayGramsBtn: document.querySelector('.overlay__set-grams__btn')
+	overlayGramsBtn: document.querySelector('.overlay__set-grams__btn'),
+	overlayContactContainer: document.querySelector('.overlay__contact__container'),
+	overlayContactForm: document.querySelector('.overlay__contact__container form'),
+	overlayContactName: document.querySelector('.overlay__contact--input[name="name"]'),
+	overlayContactEmail: document.querySelector('.overlay__contact--input[name="email"]'),
+	overlayContactMessage: document.querySelector('textarea.overlay__contact--input'),
+	overlayContactBtn: document.querySelector('.overlay__contact--btn')
 };

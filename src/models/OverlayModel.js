@@ -2,9 +2,12 @@ import DOMElems from '../views/dom';
 
 
 export default class OverlayModel {
-	constructor(calculator) {
-		this.calculator = calculator;
+	constructor(STATE) {
+		this.STATE = STATE;
 		this.imgSize = 0; /* for img inc/dec animation */
+		this.onFocusValue = -1;
+		this.isSetGramsOpened = false;
+		this.isContactOpened = false;
 	}
 
 	setItem(itemElem) {
@@ -12,8 +15,8 @@ export default class OverlayModel {
 		const origImg	= itemElem.querySelector('.foods__page__list__item__image img'),
 			  origImgCoords = origImg.getBoundingClientRect(),
 			  title	= origImg.id,
-			  type	= DOMElems.mainContainer.getAttribute('theme'),
-			  grams	= this.calculator.getGrams(title) || 100;
+			  type	= this.STATE.menu.current,
+			  grams	= this.STATE.calculator.getGrams(title) || 100;
 
 		this.firstValue = grams;
 		this.onFocusValue = -1;
@@ -26,6 +29,7 @@ export default class OverlayModel {
 			return 23.554, 5.340, 1.300
 		*/
 		if (!grams) return '';
+
 		let result = grams.toString().split('').reverse().join('');
 		result = result.match(/\d{1,3}/g).join('.');
 		return result.split('').reverse().join('');

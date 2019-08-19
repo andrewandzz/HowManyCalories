@@ -26,7 +26,7 @@ export default class CalculatorController {
 			return;
 		}
 		// do we need the trash to be active
-		this.checkTrashActive();
+		this.view.checkTrashActive();
 		this.view.setTrashEventListeners();
 	}
 
@@ -44,14 +44,6 @@ export default class CalculatorController {
 	clearTotalCalories() {
 		this.model.clearTotalCalories();
 		this.view.clearTotalCalories();
-	}
-
-	checkTrashActive() {
-		if (this.model.totalCalories === 0) {
-			this.view.trashActive(false);
-		} else if (this.model.totalCalories > 0) {
-			this.view.trashActive(true);
-		}
 	}
 }
 

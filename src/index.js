@@ -1,22 +1,38 @@
-import Menu from './models/Menu';
-import * as containerView from './views/containerView';
-import DOMElems from './views/dom';
-import axios from 'axios';
 import isMobilePad from './detectMobilePad';
+import LanguageModel from './models/LanguageModel';
+import LanguageView from './views/LanguageView';
+import LanguageController from './controllers/LanguageController';
+import MenuModel from './models/MenuModel';
+import MenuView from './views/MenuView';
+import MenuController from './controllers/MenuController';
 import FoodsModel from './models/FoodsModel';
 import FoodsView from './views/FoodsView';
 import FoodsController from './controllers/FoodsController';
 import CalculatorModel from './models/CalculatorModel';
 import CalculatorView from './views/CalculatorView';
 import CalculatorController from './controllers/CalculatorController';
+import FooterModel from './models/FooterModel';
+import FooterView from './views/FooterView';
+import FooterController from './controllers/FooterController';
 import OverlayModel from './models/OverlayModel';
 import OverlayView from './views/OverlayView';
 import OverlayController from './controllers/OverlayController';
+import DOMElems from './views/dom';
 
 
 /* GLOBAL APPLICATION STATE */
 const STATE = {};
 
+
+const languageModel = new LanguageModel(STATE);
+const languageView = new LanguageView(languageModel);
+const Language = new LanguageController(languageModel, languageView);
+STATE.language = languageModel;
+
+const menuModel = new MenuModel(STATE.language);
+const menuView = new MenuView(menuModel);
+const Menu = new MenuController(menuModel, menuView);
+STATE.menu = menuModel;
 
 const calculatorModel = new CalculatorModel(STATE);
 const calculatorView = new CalculatorView(calculatorModel);
@@ -24,65 +40,66 @@ const Calculator = new CalculatorController(calculatorModel, calculatorView);
 STATE.calculator = calculatorModel;
 
 const foodsModel = new FoodsModel(STATE);
-const foodsView2 = new FoodsView(foodsModel);
-const Foods = new FoodsController(foodsModel, foodsView2);
+const foodsView = new FoodsView(foodsModel);
+const Foods = new FoodsController(foodsModel, foodsView);
 STATE.foods = foodsModel;
 
-const overlayModel = new OverlayModel(STATE.calculator);
+const footerModel = new FooterModel(STATE);
+const footerView = new FooterView(footerModel);
+const Footer = new FooterController(footerModel, footerView);
+STATE.footer = footerModel;
+
+const overlayModel = new OverlayModel(STATE);
 const overlayView = new OverlayView(overlayModel);
 const Overlay = new OverlayController(overlayModel, overlayView);
 STATE.overlay = overlayModel;
 
 
-function init() {
+async function init() {
+	getItemsPerPage();
+	getDevice();
+	setBtnsBgPos();
+	await Language.setCurrent();
+	Menu.render();
+	Footer.render();
 	fetchSessionStorage();
-	STATE.menu = new Menu(DOMElems.menuList);
-	Foods.openFoodsSet(STATE.menu.active);
-}
-
-
-function menuClick(event) {
-	// if (!STATE.menu) STATE.menu = new Menu(DOMElems.menuList);
-
-	const menu = STATE.menu;
-	const item = event.target.closest('.menu__item');
-	const type = item.dataset.type;
-
-	if (menu.isOpened()) {
-		// if clicked item is not the first item (i. e. not currently active)
-		if (item !== menu.elem.querySelector('.menu__item')) {
-
-			Foods.openFoodsSet(type);
-			// controlFoods(type, 1);
-
-			item.style.zIndex = menu.getNewZIndex();
-
-			menu.close(item);
-
-			changeTheme(type);
-
-		} else {
-			menu.close();
-		}
-	} else {
-		menu.open();
-	}
-}
-
-
-function changeTheme(type) {
-	// items :hover and .active theme
-	DOMElems.mainContainer.setAttribute('theme', type);
-
-	// footer block theme
-	DOMElems.footerBlock.setAttribute('theme', type);
+	Foods.openFoodsSet(Menu.model.current);
 }
 
 
 function getItemsPerPage() {
 	const content = getComputedStyle(DOMElems.footerBlock, '::after').content;
-	STATE.itemsPerPage = parseInt(content.replace('"', ''));
-	STATE.foods.itemsPerPage = parseInt(content.replace('"', ''));
+	Foods.model.itemsPerPage = parseInt(content.replace('"', ''));
+}
+
+
+function getDevice() {
+	if (isMobilePad()) {
+		// do stuff for the mobile or iPad
+		DOMElems.mainContainer.addEventListener('contextmenu', handleLongPress);
+
+	} else {
+		// do stuff for the desktop
+		// menuHoverAnimation();
+
+		// styles
+		const link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = './styles/desktop.css';
+		document.head.appendChild(link);
+	}
+}
+
+
+function setBtnsBgPos() {
+	const btnPrevSvgElem = DOMElems.btnPrev.querySelector('.arrow--icon');
+	btnPrevSvgElem.style.backgroundPositionX = -btnPrevSvgElem.getBoundingClientRect().left + 'px';
+	btnPrevSvgElem.style.backgroundPositionY = -btnPrevSvgElem.getBoundingClientRect().top + 'px';
+
+	const btnNextSvgElem = DOMElems.btnNext.querySelector('.arrow--icon');
+	btnNextSvgElem.style.backgroundPositionX = -btnNextSvgElem.getBoundingClientRect().left + 'px';
+	btnNextSvgElem.style.backgroundPositionY = -btnNextSvgElem.getBoundingClientRect().top + 'px';
 }
 
 
@@ -94,35 +111,43 @@ function getItemsPerPage() {
 */
 
 document.addEventListener('click', event => {
-	if (STATE.menu) {
-		// if menu opened and click is outside of the menu
-		if (STATE.menu.isOpened() && !event.target.closest('.menu')) {
-			STATE.menu.close();
-		}
+	// if menu is opened and click is outside of the menu
+	if (Menu.model.isOpened && !event.target.closest('.menu')) {
+		Menu.close();
+	}
+
+	// if footer is opened and click is outside of the footer
+	if (Footer.model.isOpened && !event.target.closest('.bottom')) {
+		Footer.close();
 	}
 });
 
-// DOMElems.foodsList.addEventListener('mousedown', foodsListMouseDown);
-
-DOMElems.menuList.addEventListener('mousedown',  event => {
-	event.preventDefault(); // temporary (maybe)
-	menuClick(event);
+DOMElems.menuList.addEventListener('click',  event => {
+	if (!Menu.model.isOpened) {
+		Menu.open();
+	} else {
+		const newItemElem = event.target.closest('.menu__item');
+		// if click is on current item
+		if (newItemElem.dataset.type === Menu.model.current) {
+			Menu.close();
+		} else {
+			Menu.close(newItemElem);
+			Foods.changeFoodsSet(Menu.model.current);
+			// change foods set
+			// Foods.openFoodsSet(Menu.model.current);
+			Footer.view.changeTheme();
+		}
+	}
 });
 
 
 DOMElems.mainContainer.addEventListener('mousedown', handleFoodsMouseDown, false);
 
-window.addEventListener('dblclick', event => {
-	event.preventDefault();
-	// cancel highlighting TO DO
-});
-
 
 window.addEventListener('DOMContentLoaded', init);
-window.addEventListener('DOMContentLoaded', getItemsPerPage);
-window.addEventListener('DOMContentLoaded', getDevice);
 window.addEventListener('resize', getItemsPerPage);
-
+window.addEventListener('resize', setBtnsBgPos);
+window.addEventListener('dblclick', event => event.preventDefault());
 
 
 DOMElems.btnPrev.addEventListener('click', () => {
@@ -135,7 +160,7 @@ DOMElems.btnNext.addEventListener('click', () => {
 
 
 document.addEventListener('keypress', event => {
-	if (event.keyCode === 13 && DOMElems.overlayGramsContainer.classList.contains('visible')) {
+	if (event.keyCode === 13 && Overlay.model.isSetGramsOpened) {
 		const id = DOMElems.overlay.querySelector('.overlay__set-grams--image--pseudo').id;
 		const origItemElem = DOMElems.mainContainer.querySelector(`.foods__page__list__item__image #${id}`).closest('.foods__page__list__item');
 
@@ -182,6 +207,7 @@ DOMElems.overlayGramsImg.addEventListener('click', () => {
 	handleOverlayGramsInputBlur();
 }, false);
 
+
 function handleOverlayGramsInputBlur() {
 	const focusValue = Overlay.model.onFocusValue;
 
@@ -201,10 +227,67 @@ function handleOverlayGramsInputBlur() {
 
 DOMElems.overlay.addEventListener('click', event => {
 	// only click outside the container
-	if (event.target.closest('.overlay__set-grams__container') || event.target.matches('.overlay__set-grams--image')) return;
+	if (event.target.closest('.overlay__set-grams__container') || event.target.matches('.overlay__set-grams--image') || event.target.matches('.overlay__contact__container, .overlay__contact__container *')) return;
 
-	handleOverlayGramsClose(false);
+	if (Overlay.model.isSetGramsOpened) {
+		handleOverlayGramsClose(false);
+	} else if (Overlay.model.isContactOpened) {
+		Overlay.closeContact();
+	}
+
+	
 }, false);
+
+
+
+DOMElems.footerMenu.addEventListener('click', event => {
+	if (event.target.closest('.bottom__menu--language')) {
+		Footer.open();
+	} else if (event.target.closest('.bottom__menu--contact')) {
+		Overlay.openContact();
+	}
+	
+}, false);
+
+
+
+DOMElems.footerLangList.addEventListener('click', async event => {
+	const langItem = event.target.closest('.bottom__flags__item');
+	if (!langItem) return;
+
+	if (langItem.classList.contains('clickable')) {
+		const lang = langItem.dataset.lang;
+		await Language.change(lang);
+		// rerender menu
+		Menu.render();
+		// reload foods pages on new language
+		Foods.openFoodsSet(Menu.model.current, true, Foods.model.curPage);
+		Foods.view.goToPage(Foods.model.curPage);
+		// // rerender footer text
+		Footer.render();
+		Footer.close(true);
+
+	} else {
+		Footer.close();
+	}
+
+}, false);
+
+
+DOMElems.overlayContactForm.addEventListener('submit', event => {
+	event.preventDefault();
+	Overlay.sendMessage();
+}, false);
+
+DOMElems.overlayContactEmail.addEventListener('invalid', event => {
+	event.preventDefault();
+	Overlay.sendMessage();
+});
+
+DOMElems.overlayContactMessage.addEventListener('invalid', event => {
+	event.preventDefault();
+	Overlay.view.showContactInvalidMessage();
+});
 
 
 
@@ -349,35 +432,19 @@ DOMElems.overlay.addEventListener('click', event => {
 
 
 
-function getDevice() {
-	if (isMobilePad()) {
-		// do stuff for the mobile or iPad
-		DOMElems.mainContainer.addEventListener('contextmenu', handleLongPress);
-
-	} else {
-		// do stuff for the desktop
-		menuHoverAnimation();
-
-		// styles
-		const link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.type = 'text/css';
-		link.href = './styles/desktop.css';
-		document.head.appendChild(link);
-	}
-}
 
 
-function menuHoverAnimation() {
-	const menuCoords = DOMElems.menuList.getBoundingClientRect();
-	const menuCenter = menuCoords.left + menuCoords.width / 2;
 
-	DOMElems.menuList.addEventListener('mousemove', event => {
-		const bgPosX = event.clientX - menuCenter;
-		const menuItem = event.target.closest('.menu__item');
-		menuItem.style.backgroundPositionX = bgPosX + 'px';
-	}, false);
-}
+// function menuHoverAnimation() {
+// 	const menuCoords = DOMElems.menuList.getBoundingClientRect();
+// 	const menuCenter = menuCoords.left + menuCoords.width / 2;
+
+// 	DOMElems.menuList.addEventListener('mousemove', event => {
+// 		const bgPosX = event.clientX - menuCenter;
+// 		const menuItem = event.target.closest('.menu__item');
+// 		menuItem.style.backgroundPositionX = bgPosX + 'px';
+// 	}, false);
+// }
 
 
 
@@ -412,7 +479,7 @@ function handleFoodsMouseDown(event) {
 		clearTimeout(timer);
 		// it's just a click
 		// controlCalculator(item);
-		const type = STATE.menu.active;
+		const type = Menu.model.current;
 		const title = itemElem.querySelector('.foods__page__list__item__image img').id;
 
 		if (!Calculator.includes(title)) {
@@ -440,41 +507,61 @@ function handleLongPress(event) {
 		itemElem.classList.add('hover');
 	}
 	
-	Overlay.open(itemElem);
+	Overlay.openSetGrams(itemElem);
 }
 
 
 async function handleOverlayGramsClose(save) {
 	const itemElem = Overlay.model.itemElem;
-	const type = STATE.menu.active;
+	const type = Menu.model.current;
 	const title = Overlay.model.itemData.title;
 
-	if (Overlay.validateGramsInput()) {
-
-		const grams = Overlay.model.itemData.grams;
-
-		await Overlay.close();
+	if (save) {
 
 		if (itemElem.classList.contains('hover')) {
-			// item was NOT selected
-			if (save) {
+			// if it was NOT selected
+
+			if (Overlay.validateGramsInput()) {
+				const grams = Overlay.model.itemData.grams;
+				
+				await Overlay.closeSetGrams();
+
 				Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), grams);
 				Foods.view.selectItem(itemElem);
 				Foods.view.setItemGrams(itemElem, grams);
-			}
 
-			itemElem.classList.remove('hover');
-		} else {
-			// item WAS selected
-			// if user wants to save changes
-			// and current value is different to the starting value
-			if (save && Overlay.isGramsInputChanged()) {
-				Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), grams);
-				Foods.view.setItemGrams(itemElem, grams);
+				itemElem.classList.remove('hover');
 			}
-		}		
+		} else {
+			// if it WAS selected
+
+			if (Overlay.isGramsInputChanged()) {
+				// something changed, check
+				if (Overlay.validateGramsInput()) {
+					const grams = Overlay.model.itemData.grams;
+
+					await Overlay.closeSetGrams();
+
+					Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), grams);
+					Foods.view.setItemGrams(itemElem, grams);
+				}
+
+			} else {
+				// nothing changed, just close
+				Overlay.closeSetGrams();
+			}
+		}
+
+	} else {
+		// if we don't want to save, then we don't care
+		await Overlay.closeSetGrams();
+		itemElem.classList.remove('hover');
 	}
 }
+
+
+
+
 
 
 

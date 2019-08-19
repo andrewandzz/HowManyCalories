@@ -43,7 +43,7 @@ export default class OverlayView {
 
 	openSetGrams() {
 		const itemData = this.model.itemData;
-		DOMElems.overlayGramsWrapper.setAttribute('theme', itemData.type);
+		DOMElems.overlayGramsWrapper.dataset.type = itemData.type;
 		DOMElems.overlayGramsImg.id = itemData.title;
 		DOMElems.overlayGramsImgPseudo.id = itemData.title;
 
@@ -65,8 +65,10 @@ export default class OverlayView {
 		});
 		imgObserver.observe(DOMElems.overlayGramsImg, { attributes: true });
 
+		DOMElems.overlayGramsImg.classList.add('display');
 		DOMElems.overlayGramsImg.style.top = itemData.origImgCoords.top + 'px';
 		DOMElems.overlayGramsImg.style.left = itemData.origImgCoords.left + 'px';
+
 
 		itemData.origImg.style.visibility = 'hidden';
 
@@ -85,38 +87,43 @@ export default class OverlayView {
 
 		window.addEventListener('resize', adjustOverlayGramsImgPos, false);
 
-		// handling key press
+		// this function captures on keydown
 		const preventNotNumber = event => {
-			if (event.keyCode === 13) return;
+			if (event.ctrlKey || event.metaKey) return;
 
-			if (!(event.keyCode === 37 || event.keyCode === 39) && !(event.ctrlKey || event.metaKey)) {
+			if (itemData.grams.toString().length === 6) {
+				if (event.keyCode !== 8 && event.keyCode !== 37 && event.keyCode !== 39 && event.keyCode !== 40) {
+					event.preventDefault();
+				}
+			}
+
+			if (event.keyCode === 69) {
 				event.preventDefault();
 			}
 
-			let inputValue = itemData.grams + '';
+			if (event.keyCode === 38) {
+				event.preventDefault();
+				if (itemData.grams < 999999) {
+					this.renderGramsNumber(++itemData.grams);
+				}
+			} 
 
-			if (event.keyCode === 8) {
-				// backspace
-				inputValue = inputValue.slice(0, -1);
-
-			} else if (event.keyCode === 38) {
-				// arrow up
-				inputValue++;
-
-			} else if (event.keyCode === 40) {
-				// arrow down
-				inputValue--;
-
-			} else if (/\d/.test(event.key) && (inputValue.length + 1) < 7) {
-				inputValue = inputValue + event.key;
+			if (event.keyCode === 40) {
+				event.preventDefault();
+				if (itemData.grams > 1) {
+					this.renderGramsNumber(--itemData.grams);
+				}
 			}
+		}
 
-			itemData.grams = inputValue;
-
-			this.renderGramsNumber(inputValue);
+		// whilest this function formats GOOD (after previous function) number
+		const updateGrams = () => {
+			itemData.grams = DOMElems.overlayGramsInputNumber.value.replace('.', '');
+			this.renderGramsNumber(itemData.grams);
 		}
 		
-		DOMElems.overlayGramsInputNumber.addEventListener('keydown', preventNotNumber, false);
+		DOMElems.overlayGramsInputNumber.addEventListener('keydown', preventNotNumber);
+		DOMElems.overlayGramsInputNumber.addEventListener('input', updateGrams);
 
 
 		function handleImgOnOverlay() {
@@ -172,6 +179,7 @@ export default class OverlayView {
 		function handleImgIsBack() {
 			DOMElems.overlayGramsImg.removeEventListener('transitionend', handleImgIsBack);
 			DOMElems.overlayGramsImg.classList.remove('animate');
+			DOMElems.overlayGramsImg.classList.remove('display');
 			DOMElems.overlayGramsImg.style.top = '';
 			DOMElems.overlayGramsImg.style.left = '';
 		}
@@ -179,20 +187,23 @@ export default class OverlayView {
 
 
 	showGramsInvalidInput() {
-		DOMElems.overlayGramsInputContainer.addEventListener('animationend', () => {
-			DOMElems.overlayGramsInputContainer.classList.remove('invalid');
-		});
-
+		DOMElems.overlayGramsInputContainer.addEventListener('animationend', removeInvalid);
 		DOMElems.overlayGramsInputContainer.classList.add('invalid');
 		this.focusInput();
+
+		function removeInvalid() {
+			DOMElems.overlayGramsInputContainer.removeEventListener('animationend', removeInvalid);
+			DOMElems.overlayGramsInputContainer.classList.remove('invalid');
+		}
 	}
 
 
 	renderGramsNumber(grams) {
 		const formattedGrams = this.model.formatInputGrams(grams);
+		const g = this.model.STATE.language.dictionary.foods.g;
+
 		DOMElems.overlayGramsInputNumber.value = formattedGrams;
-		DOMElems.overlayGramsInputSymbol.innerHTML = formattedGrams + '<span>g</span>';
-		// DOMElems.overlayGramsInputNumber.focus();
+		DOMElems.overlayGramsInputSymbol.innerHTML = formattedGrams + `<span>${g}</span>`;
 	}
 
 
@@ -284,6 +295,64 @@ export default class OverlayView {
 				(type === 1) ? incScale100 : decScale100})`;
 			this.isImgAnimating = false;
 		}
+	}
+
+
+	openContact() {
+		this.renderContactPlaceholders();
+
+		DOMElems.overlayContactContainer.classList.add('display');
+		DOMElems.overlayContactName.focus();
+
+		setTimeout(() => {
+			DOMElems.overlayContactContainer.classList.add('visible');
+		}, 10);
+
+	}
+	
+
+	closeContact(clear = false) {
+		const removeDisplay = () => {
+			DOMElems.overlayContactContainer.removeEventListener('transitionend', removeDisplay);
+			DOMElems.overlayContactContainer.classList.remove('display');
+
+			if (clear) this.clearContactFields();
+		}
+
+		DOMElems.overlayContactContainer.addEventListener('transitionend', removeDisplay, false);
+		DOMElems.overlayContactContainer.classList.remove('visible');
+	}
+
+
+	renderContactPlaceholders() {
+		const namePlaceholder = this.model.STATE.language.dictionary.contact.name;
+		const emailPlaceholder = this.model.STATE.language.dictionary.contact.email;
+		const messagePlaceholder = this.model.STATE.language.dictionary.contact.message;
+		const btnTitle = this.model.STATE.language.dictionary.contact.send;
+
+		DOMElems.overlayContactName.placeholder = namePlaceholder;
+		DOMElems.overlayContactEmail.placeholder = emailPlaceholder;
+		DOMElems.overlayContactMessage.placeholder = messagePlaceholder;
+		DOMElems.overlayContactBtn.textContent = btnTitle;
+	}
+
+
+	showContactInvalidMessage() {
+		DOMElems.overlayContactMessage.addEventListener('animationend', removeInvalid);
+		DOMElems.overlayContactMessage.classList.add('invalid');
+		DOMElems.overlayContactMessage.focus();
+
+		function removeInvalid() {
+			DOMElems.overlayContactMessage.removeEventListener('animationend', removeInvalid);
+			DOMElems.overlayContactMessage.classList.remove('invalid');
+		}
+	}
+
+
+	clearContactFields() {
+		DOMElems.overlayContactName.value = '';
+		DOMElems.overlayContactEmail.value = '';
+		DOMElems.overlayContactMessage.value = '';
 	}
 }
 

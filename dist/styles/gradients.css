@@ -1,0 +1,154 @@
+.foods__page__list[data-type="fruits"] .foods__page__list__item.selected,
+.foods__page__list[data-type="fruits"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--fruits) 0%, var(--fruits) calc(50% - 256px), var(--fruits-dark) calc(50% + 256px), var(--fruits-dark) 100%); }
+
+.foods__page__list[data-type="vegetables"] .foods__page__list__item.selected,
+.foods__page__list[data-type="vegetables"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--vegetables) 0%, var(--vegetables) calc(50% - 256px), var(--vegetables-dark) calc(50% + 256px), var(--vegetables-dark) 100%); }
+
+.foods__page__list[data-type="milk"] .foods__page__list__item.selected,
+.foods__page__list[data-type="milk"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--milk) 0%, var(--milk) calc(50% - 256px), var(--milk-dark) calc(50% + 256px), var(--milk-dark) 100%); }
+
+.foods__page__list[data-type="fast-food"] .foods__page__list__item.selected,
+.foods__page__list[data-type="fast-food"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--fast-food) 0%, var(--fast-food) calc(50% - 256px), var(--fast-food-dark) calc(50% + 256px), var(--fast-food-dark) 100%); }
+
+.foods__page__list[data-type="drinks"] .foods__page__list__item.selected,
+.foods__page__list[data-type="drinks"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--drinks) 0%, var(--drinks) calc(50% - 256px), var(--drinks-dark) calc(50% + 256px), var(--drinks-dark) 100%); }
+
+.foods__page__list[data-type="meat"] .foods__page__list__item.selected,
+.foods__page__list[data-type="meat"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--meat) 0%, var(--meat) calc(50% - 256px), var(--meat-dark) calc(50% + 256px), var(--meat-dark) 100%); }
+
+.foods__page__list[data-type="sea-food"] .foods__page__list__item.selected,
+.foods__page__list[data-type="sea-food"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--sea-food) 0%, var(--sea-food) calc(50% - 256px), var(--sea-food-dark) calc(50% + 256px), var(--sea-food-dark) 100%); }
+
+.foods__page__list[data-type="desserts"] .foods__page__list__item.selected,
+.foods__page__list[data-type="desserts"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--desserts) 0%, var(--desserts) calc(50% - 256px), var(--desserts-dark) calc(50% + 256px), var(--desserts-dark) 100%); }
+
+.foods__page__list[data-type="bread"] .foods__page__list__item.selected,
+.foods__page__list[data-type="bread"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--bread) 0%, var(--bread) calc(50% - 256px), var(--bread-dark) calc(50% + 256px), var(--bread-dark) 100%); }
+
+
+@media screen and (min-width: 600px) and (max-width: 767px) {
+	.foods__page__list[data-type="fruits"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="fruits"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--fruits) 0%, var(--fruits) calc(50% - 170px), var(--fruits-dark) calc(50% + 170px), var(--fruits-dark) 100%); }
+
+	.foods__page__list[data-type="vegetables"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="vegetables"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--vegetables) 0%, var(--vegetables) calc(50% - 170px), var(--vegetables-dark) calc(50% + 170px), var(--vegetables-dark) 100%); }
+
+	.foods__page__list[data-type="milk"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="milk"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--milk) 0%, var(--milk) calc(50% - 170px), var(--milk-dark) calc(50% + 170px), var(--milk-dark) 100%); }
+
+	.foods__page__list[data-type="fast-food"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="fast-food"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--fast-food) 0%, var(--fast-food) calc(50% - 170px), var(--fast-food-dark) calc(50% + 170px), var(--fast-food-dark) 100%); }
+
+	.foods__page__list[data-type="drinks"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="drinks"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--drinks) 0%, var(--drinks) calc(50% - 170px), var(--drinks-dark) calc(50% + 170px), var(--drinks-dark) 100%); }
+
+	.foods__page__list[data-type="meat"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="meat"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--meat) 0%, var(--meat) calc(50% - 170px), var(--meat-dark) calc(50% + 170px), var(--meat-dark) 100%); }
+
+	.foods__page__list[data-type="sea-food"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="sea-food"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--sea-food) 0%, var(--sea-food) calc(50% - 170px), var(--sea-food-dark) calc(50% + 170px), var(--sea-food-dark) 100%); }
+
+	.foods__page__list[data-type="desserts"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="desserts"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--desserts) 0%, var(--desserts) calc(50% - 170px), var(--desserts-dark) calc(50% + 170px), var(--desserts-dark) 100%); }
+
+	.foods__page__list[data-type="bread"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="bread"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--bread) 0%, var(--bread) calc(50% - 170px), var(--bread-dark) calc(50% + 170px), var(--bread-dark) 100%); }
+}
+
+
+@media screen and (min-width: 400px) and (max-width: 599px) {
+	.foods__page__list[data-type="fruits"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="fruits"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--fruits) 0%, var(--fruits) calc(50% - 130px), var(--fruits-dark) calc(50% + 130px), var(--fruits-dark) 100%); }
+
+	.foods__page__list[data-type="vegetables"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="vegetables"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--vegetables) 0%, var(--vegetables) calc(50% - 130px), var(--vegetables-dark) calc(50% + 130px), var(--vegetables-dark) 100%); }
+
+	.foods__page__list[data-type="milk"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="milk"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--milk) 0%, var(--milk) calc(50% - 130px), var(--milk-dark) calc(50% + 130px), var(--milk-dark) 100%); }
+
+	.foods__page__list[data-type="fast-food"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="fast-food"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--fast-food) 0%, var(--fast-food) calc(50% - 130px), var(--fast-food-dark) calc(50% + 130px), var(--fast-food-dark) 100%); }
+
+	.foods__page__list[data-type="drinks"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="drinks"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--drinks) 0%, var(--drinks) calc(50% - 130px), var(--drinks-dark) calc(50% + 130px), var(--drinks-dark) 100%); }
+
+	.foods__page__list[data-type="meat"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="meat"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--meat) 0%, var(--meat) calc(50% - 130px), var(--meat-dark) calc(50% + 130px), var(--meat-dark) 100%); }
+
+	.foods__page__list[data-type="sea-food"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="sea-food"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--sea-food) 0%, var(--sea-food) calc(50% - 130px), var(--sea-food-dark) calc(50% + 130px), var(--sea-food-dark) 100%); }
+
+	.foods__page__list[data-type="desserts"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="desserts"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--desserts) 0%, var(--desserts) calc(50% - 130px), var(--desserts-dark) calc(50% + 130px), var(--desserts-dark) 100%); }
+
+	.foods__page__list[data-type="bread"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="bread"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--bread) 0%, var(--bread) calc(50% - 130px), var(--bread-dark) calc(50% + 130px), var(--bread-dark) 100%); }
+}
+
+
+@media screen and (max-width: 399px) {
+	.foods__page__list[data-type="fruits"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="fruits"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--fruits) 0%, var(--fruits) calc(50% - 90px), var(--fruits-dark) calc(50% + 90px), var(--fruits-dark) 100%); }
+
+	.foods__page__list[data-type="vegetables"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="vegetables"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--vegetables) 0%, var(--vegetables) calc(50% - 90px), var(--vegetables-dark) calc(50% + 90px), var(--vegetables-dark) 100%); }
+
+	.foods__page__list[data-type="milk"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="milk"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--milk) 0%, var(--milk) calc(50% - 90px), var(--milk-dark) calc(50% + 90px), var(--milk-dark) 100%); }
+
+	.foods__page__list[data-type="fast-food"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="fast-food"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--fast-food) 0%, var(--fast-food) calc(50% - 90px), var(--fast-food-dark) calc(50% + 90px), var(--fast-food-dark) 100%); }
+
+	.foods__page__list[data-type="drinks"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="drinks"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--drinks) 0%, var(--drinks) calc(50% - 90px), var(--drinks-dark) calc(50% + 90px), var(--drinks-dark) 100%); }
+
+	.foods__page__list[data-type="meat"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="meat"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--meat) 0%, var(--meat) calc(50% - 90px), var(--meat-dark) calc(50% + 90px), var(--meat-dark) 100%); }
+
+	.foods__page__list[data-type="sea-food"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="sea-food"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--sea-food) 0%, var(--sea-food) calc(50% - 90px), var(--sea-food-dark) calc(50% + 90px), var(--sea-food-dark) 100%); }
+
+	.foods__page__list[data-type="desserts"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="desserts"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--desserts) 0%, var(--desserts) calc(50% - 90px), var(--desserts-dark) calc(50% + 90px), var(--desserts-dark) 100%); }
+
+	.foods__page__list[data-type="bread"] .foods__page__list__item.selected,
+	.foods__page__list[data-type="bread"] .foods__page__list__item.selected:hover
+	{ background-image: linear-gradient(to bottom right, var(--bread) 0%, var(--bread) calc(50% - 90px), var(--bread-dark) calc(50% + 90px), var(--bread-dark) 100%); }
+}
+
+

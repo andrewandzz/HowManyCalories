@@ -4,17 +4,24 @@ export default class FoodsController {
 		this.view = view;
 	}
 
-	async openFoodsSet(type) {
+	async openFoodsSet(type, clear = true, page = 1) {
 		if (!this.model.contains(type)) {
 			await this.model.fetchFoodsSet(type);
 		}
-		this.view.clearFoodsPages();
-		this.model.curPage = 1;
+
+		if (clear) this.view.clearFoodsPages();
+
+		this.model.curPage = page;
 		this.model.curType = type;
-		this.view.renderFoodsPages();
-		this.view.setGradient();
-		/* draw gradient every time the new set loads,
-		because we need to set gradient colors depending on the set type */
+		this.view.renderFoodsPages(page);
+	}
+
+	async changeFoodsSet(type) {
+		this.view.clearAroundPages();
+		await this.openFoodsSet(type, false);
+		this.view.renderPagesButtons();
+		await this.view._scroll();
+		this.view.clearZeroPage();
 	}
 
 	scrollToPrevPage() {

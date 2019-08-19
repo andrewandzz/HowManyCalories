@@ -19,15 +19,15 @@
 		<!-- TOP -->
 		<nav>
 			<ul class="menu hidden">
-				<li class="menu__item" data-type="fruits"><a href="#">Fruits</a></li>
-				<li class="menu__item" data-type="vegetables"><a href="#">Vegetables</a></li>
-				<li class="menu__item" data-type="milk"><a href="#">Milk</a></li>
-				<li class="menu__item" data-type="fast-food"><a href="#">Fast food</a></li>
-				<li class="menu__item" data-type="drinks"><a href="#">Drinks</a></li>
-				<li class="menu__item" data-type="meat"><a href="#">Meat</a></li>
-				<li class="menu__item" data-type="sea-food"><a href="#">Sea food</a></li>
-				<li class="menu__item" data-type="desserts"><a href="#">Desserts</a></li>
-				<li class="menu__item" data-type="bread"><a href="#">Bread</a></li>
+				<!-- <li class="menu__item" data-type="fruits">Fruits</li>
+				<li class="menu__item" data-type="vegetables">Vegetables</li>
+				<li class="menu__item" data-type="milk">Milk</li>
+				<li class="menu__item" data-type="fast-food">Fast food</li>
+				<li class="menu__item" data-type="drinks">Drinks</li>
+				<li class="menu__item" data-type="meat">Meat</li>
+				<li class="menu__item" data-type="sea-food">Sea food</li>
+				<li class="menu__item" data-type="desserts">Desserts</li>
+				<li class="menu__item" data-type="bread">Bread</li> -->
 			</ul>
 		</nav>
 
@@ -40,46 +40,73 @@
 
 
 		<!-- MIDDLE -->
-		<button class="btn__prev"><</button>
+		<button class="btn__prev">
+			<div class="arrow">
+				<svg class="arrow--icon">
+					<use xlink:href="./images/icons/arrows.svg#left"></use>
+				</svg>
+			</div>
+		</button>
 
-		<main class="foods" theme="fruits">
-			<!-- <div class="foods__page">	<==  THERE'S NO MORE THIS DIV -->
-				<!-- <ul class="foods__page__list" data-page="1">
-					<li class="foods__page__list__item">
-						<div class="foods__page__list__item__image">
-							<img id="apple" src="./images/transparent.gif">
-						</div>
-						<div class="foods__page__list__item__text">
-							<h3 class="foods__page__list__item__text--title">Apple</h3>
-							<h4 class="foods__page__list__item__text--grams">100<span> g</span></h4>
-						</div>
-					</li>
-				</ul> -->
-			<!-- </div> -->
+		<main class="foods">
+			<!-- <ul class="foods__page__list" data-page="1">
+				<li class="foods__page__list__item">
+					<div class="foods__page__list__item__image">
+						<img id="apple" src="./images/transparent.gif">
+					</div>
+					<div class="foods__page__list__item__text">
+						<h3 class="foods__page__list__item__text--title">Apple</h3>
+						<h4 class="foods__page__list__item__text--grams">100<span> g</span></h4>
+					</div>
+				</li>
+			</ul> -->
 		</main>
 
-		<button class="btn__next">></button>
+		<button class="btn__next">
+			<div class="arrow">
+				<svg class="arrow--icon">
+					<use xlink:href="./images/icons/arrows.svg#right"></use>
+				</svg>
+			</div>
+		</button>
 		
 		
 		<!-- BOTTOM -->
 		<footer>
-			<div class="block" theme="fruits">
-				<ul>
-					<li><a href="#">English</a></li>
+			<div class="bottom" theme="fruits">
+				<ul class="bottom__menu visible">
+					<!-- <li class="bottom__menu--language">English</li>
 					<li class="separator">|</li>
-					<li><a href="#">Contact</a></li>
+					<li class="bottom__menu--contact">Contact</li> -->
+				</ul>
+
+				<ul class="bottom__flags">
+					<!-- <li class="bottom__flags__item">
+						<svg class="bottom__flags--icon">
+							<use xlink:href="./images/flags-icons.svg#en"></use>
+						</svg>
+					</li>
+					<li class="bottom__flags__item">
+						<svg class="bottom__flags--icon">
+							<use xlink:href="./images/flags-icons.svg#ru"></use>
+						</svg>
+					</li> -->
 				</ul>
 			</div>
 		</footer>
 
 	</div>
 
+
+
+
+
 	<div class="overlay">
 
 		<!-- SET GRAMS -->
-		<div class="overlay__set-grams__wrapper" theme="fruits">
+		<div class="overlay__set-grams__wrapper" data-type="fruits">
 			<div class="overlay__set-grams__container">
-				<img class="overlay__set-grams--image--pseudo" src="./images/foods/transparent.gif">
+				<img class="overlay__set-grams--image--pseudo" src="./images/transparent.gif">
 				<div class="overlay__set-grams__input">
 					<input class="overlay__set-grams__input--number" type="number" min="1" max="999999" step="1">
 					<div class="symbol"><span>g</span></div>
@@ -90,12 +117,29 @@
 				</div>
 				<button class="overlay__set-grams__btn">OK</button>
 			</div>
-			<img class="overlay__set-grams--image" src="./images/foods/transparent.gif">
+			<img class="overlay__set-grams--image" src="./images/transparent.gif">
+		</div>
+
+
+		<!-- CONTACT -->
+		<div class="overlay__contact__container">
+			<!-- <div class="overlay__contact--text">
+				If you have any questions or suggestions, or if you would like to report an error, please send us a message, we will really appreciate it.
+			</div> -->
+
+			<form>
+				<input class="overlay__contact--input" type="text" name="name" placeholder="" tabindex="1">
+				<input class="overlay__contact--input" type="email" name="email" placeholder="" tabindex="2">
+				<textarea class="overlay__contact--input" rows="6" placeholder="" required="required" tabindex="3"></textarea>
+				<button class="overlay__contact--btn" type="submit" tabindex="4">Send</button>
+			</form>
 		</div>
 		
 	</div>
 
-	<div class="calories-popup"></div>
+	<div class="popup-calories">
+		<div class="popup-calories--text"></div>
+	</div>
 
 </body>
 </html>
