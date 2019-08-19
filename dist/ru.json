@@ -1,0 +1,55 @@
+{
+	"menu": {
+		"bread": "хлеб",
+		"desserts": "десерты",
+		"drinks": "напитки",
+		"fast-food": "фаст фуд",
+		"fruits": "фрукты",
+		"meat": "мясо",
+		"milk": "молоко",
+		"sea-food": "морепродукты",
+		"vegetables": "овощи"
+	},
+	"foods": {
+		"g": "г",
+		"kg": "кг",
+		"fruits": {
+			"apple": "Яблоко",
+			"apricot": "Абрикос",
+			"banana": "Банан",
+			"cherry": "Вишня",
+			"coconut": "Кокос",
+			"grapes": "Виноград",
+			"kiwi": "Киви",
+			"mango": "Манго",
+			"orange": "Апельсин",
+			"pineapple": "Ананас",
+			"strawberry": "Клубника",
+			"watermelon": "Арбуз"
+		},
+		"vegetables": {
+			"avocado": "Авокадо",
+			"bell-pepper": "Сладкий перец",
+			"broccoli": "Брокколи",
+			"cabbage": "Капуста",
+			"carrot": "Морковка",
+			"chinese-cabbage": "Пекинская капуста",
+			"cucumber": "Огурец",
+			"eggplant": "Баклажан",
+			"onion": "Лук",
+			"potato": "Картошка",
+			"pumpkin": "Тыква",
+			"tomato": "Помидор"
+		}
+	},
+	"footer": {
+		"ru": "Русский",
+		"contact": "Связаться"
+	},
+	"contact": {
+		"name": "Имя",
+		"email": "Email",
+		"message": "Сообщение",
+		"send": "Отправить"
+	}
+}
