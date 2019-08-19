@@ -1,4 +1,4 @@
-.menu__item:hover {
+/*.menu__item:hover {
 	background-repeat: no-repeat;
 	background-size: contain;
 	transition: background-color 200ms;
@@ -39,7 +39,7 @@
 .menu__item[data-type="bread"]:hover {
 	background-image: radial-gradient(rgba(255, 255, 255, .1) 0%, rgba(255, 255, 255, 0) 80%);
 	background-color: #DF6258;
-}
+}*/
 
 
 
@@ -49,32 +49,32 @@
 	transform: translateY(-.1rem);
 }
 
-.foods[theme="fruits"] .foods__page__list__item:hover,
-.foods[theme="fruits"] .foods__page__list__item.hover
+.foods__page__list[data-type="fruits"] .foods__page__list__item:hover,
+.foods__page__list[data-type="fruits"] .foods__page__list__item.hover
 	{ background-color: var(--fruits-hover); }
-.foods[theme="vegetables"] .foods__page__list__item:hover,
-.foods[theme="vegetables"] .foods__page__list__item.hover
+.foods__page__list[data-type="vegetables"] .foods__page__list__item:hover,
+.foods__page__list[data-type="vegetables"] .foods__page__list__item.hover
 	{ background-color: var(--vegetables-hover); }
-.foods[theme="milk"] .foods__page__list__item:hover,
-.foods[theme="milk"] .foods__page__list__item.hover
+.foods__page__list[data-type="milk"] .foods__page__list__item:hover,
+.foods__page__list[data-type="milk"] .foods__page__list__item.hover
 	{ background-color: var(--milk-hover); }
-.foods[theme="fast-food"] .foods__page__list__item:hover,
-.foods[theme="fast-food"] .foods__page__list__item.hover
+.foods__page__list[data-type="fast-food"] .foods__page__list__item:hover,
+.foods__page__list[data-type="fast-food"] .foods__page__list__item.hover
 	{ background-color: var(--fast-food-hover); }
-.foods[theme="drinks"] .foods__page__list__item:hover,
-.foods[theme="drinks"] .foods__page__list__item.hover
+.foods__page__list[data-type="drinks"] .foods__page__list__item:hover,
+.foods__page__list[data-type="drinks"] .foods__page__list__item.hover
 	{ background-color: var(--drinks-hover); }
-.foods[theme="meat"] .foods__page__list__item:hover,
-.foods[theme="meat"] .foods__page__list__item.hover
+.foods__page__list[data-type="meat"] .foods__page__list__item:hover,
+.foods__page__list[data-type="meat"] .foods__page__list__item.hover
 	{ background-color: var(--meat-hover); }
-.foods[theme="sea-food"] .foods__page__list__item:hover,
-.foods[theme="sea-food"] .foods__page__list__item.hover
+.foods__page__list[data-type="sea-food"] .foods__page__list__item:hover,
+.foods__page__list[data-type="sea-food"] .foods__page__list__item.hover
 	{ background-color: var(--sea-food-hover); }
-.foods[theme="desserts"] .foods__page__list__item:hover,
-.foods[theme="desserts"] .foods__page__list__item.hover
+.foods__page__list[data-type="desserts"] .foods__page__list__item:hover,
+.foods__page__list[data-type="desserts"] .foods__page__list__item.hover
 	{ background-color: var(--desserts-hover); }
-.foods[theme="bread"] .foods__page__list__item:hover,
-.foods[theme="bread"] .foods__page__list__item.hover
+.foods__page__list[data-type="bread"] .foods__page__list__item:hover,
+.foods__page__list[data-type="bread"] .foods__page__list__item.hover
 	{ background-color: var(--bread-hover); }
 
 /*.foods__page__list__item:hover .foods__page__list__item__text {
@@ -102,6 +102,15 @@
 }
 
 .overlay__set-grams__btn:active {
+	transform: translateY(.05rem);
+}
+
+.overlay__contact--btn:hover {
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, .8);
+}
+
+.overlay__contact--btn:active {
 	transform: translateY(.05rem);
 }
 

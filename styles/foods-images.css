@@ -2,8 +2,8 @@
 	FRUITS
 */
 
-.foods[theme="fruits"] .foods__page__list__item__image img,
-.overlay__set-grams__wrapper[theme="fruits"] img {
+.foods__page__list[data-type="fruits"] .foods__page__list__item__image img,
+.overlay__set-grams__wrapper[data-type="fruits"] img {
 	background: url('../images/foods/fruits-big.png') no-repeat;
 }
 
@@ -83,8 +83,8 @@
 
 
 @media screen and (min-width: 400px) and (max-width: 599px) {
-    .foods[theme="fruits"] .foods__page__list__item__image img,
-    .overlay__set-grams__wrapper[theme="fruits"] img {
+    .foods__page__list[data-type="fruits"] .foods__page__list__item__image img,
+    .overlay__set-grams__wrapper[data-type="fruits"] img {
         background: url('../images/foods/fruits-mid.png') no-repeat;
     }
 
@@ -164,8 +164,8 @@
 }
 
 @media screen and (max-width: 399px) {
-    .foods[theme="fruits"] .foods__page__list__item__image img,
-    .overlay__set-grams__wrapper[theme="fruits"] img {
+    .foods__page__list[data-type="fruits"] .foods__page__list__item__image img,
+    .overlay__set-grams__wrapper[data-type="fruits"] img {
         background: url('../images/foods/fruits-sml.png') no-repeat;
     }
 
@@ -254,8 +254,8 @@
 
 /* VEGETABLES */
 
-.foods[theme="vegetables"] .foods__page__list__item__image img,
-.overlay__set-grams__wrapper[theme="vegetables"] img {
+.foods__page__list[data-type="vegetables"] .foods__page__list__item__image img,
+.overlay__set-grams__wrapper[data-type="vegetables"] img {
 	background: url('../images/foods/vegetables-big.png') no-repeat;
 }
 
@@ -332,8 +332,8 @@
 }
 
 @media screen and (min-width: 400px) and (max-width: 599px) {
-    .foods[theme="vegetables"] .foods__page__list__item__image img,
-    .overlay__set-grams__wrapper[theme="vegetables"] img {
+    .foods__page__list[data-type="vegetables"] .foods__page__list__item__image img,
+    .overlay__set-grams__wrapper[data-type="vegetables"] img {
         background: url('../images/foods/vegetables-mid.png') no-repeat;
     }
 
@@ -411,8 +411,8 @@
 }
 
 @media screen and (max-width: 399px) {
-    .foods[theme="vegetables"] .foods__page__list__item__image img,
-    .overlay__set-grams__wrapper[theme="vegetables"] img {
+    .foods__page__list[data-type="vegetables"] .foods__page__list__item__image img,
+    .overlay__set-grams__wrapper[data-type="vegetables"] img {
         background: url('../images/foods/vegetables-sml.png') no-repeat;
     }
 
