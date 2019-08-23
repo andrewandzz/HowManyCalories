@@ -1,3 +1,13 @@
+.menu__item[data-type="fruits"]:hover		{ background-color: var(--fruits-light); }
+.menu__item[data-type="vegetables"]:hover	{ background-color: var(--vegetables-light); }
+.menu__item[data-type="milk"]			{ background-color: var(--milk); }
+.menu__item[data-type="fast-food"]		{ background-color: var(--fast-food); }
+.menu__item[data-type="drinks"]		{ background-color: var(--drinks); }
+.menu__item[data-type="meat"]			{ background-color: var(--meat); }
+.menu__item[data-type="sea-food"]		{ background-color: var(--sea-food); }
+.menu__item[data-type="desserts"]		{ background-color: var(--desserts); }
+.menu__item[data-type="bread"]			{ background-color: var(--bread); }
+
 /*.menu__item:hover {
 	background-repeat: no-repeat;
 	background-size: contain;

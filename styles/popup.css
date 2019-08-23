@@ -2,6 +2,7 @@
 	position: absolute;
 	z-index: 999;
 	display: none;
+	pointer-events: none;
 }
 .popup-calories.display { display: block; }
 .popup-calories.animate { animation: popup-shift-fade 800ms cubic-bezier(.17, .37, .35, .97);}

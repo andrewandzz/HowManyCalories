@@ -3,6 +3,7 @@
 @import './gradients.css';
 @import './popup.css';
 @import './overlay.css';
+@import './tooltip.css';
 
 * {
 	margin: 0;
@@ -30,14 +31,13 @@ body {
 
 	font-family: 'Lato', 'Open Sans', 'Helvetica', sans-serif;
 	color: #444;
-
-	/*
-	We use flexbox only for aligning '.container',
-	because we need the container to be relatively-positioned.
-	*/
+	/* We use flexbox only for aligning '.container',
+	because we need the container to be relatively-positioned. */
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
+
+
 
 	/* color variables */
 	--fruits: #ffcf11;
@@ -50,8 +50,8 @@ body {
 	--desserts: #80e0ba;
 	--bread: #c2281c;
 
-	--fruits-light: #ffdb13;
-	--vegetables-light: #a46897;
+	--fruits-light: #ffd635;
+	--vegetables-light: #7a4e70;
 	--milk-light: #8cc8ff;
 	--fast-food-light: #a5c843;
 	--drinks-light: #6a9563;
@@ -59,26 +59,6 @@ body {
 	--sea-food-light: #feaa68;
 	--desserts-light: #90e8c5;
 	--bread-light: #d85a50;
-
-	--fruits-hover: #ffdb1330;
-	--vegetables-hover: #a4689730;
-	--milk-hover: #8cc8ff30;
-	--fast-food-hover: #a5c84330;
-	--drinks-hover: #6a956330;
-	--meat-hover: #e3899530;
-	--sea-food-hover: #feaa6830;
-	--desserts-hover: #90e8c530;
-	--bread-hover: #d85a5030;
-
-/*	--fruits-light: #fff0b3;
-	--vegetables-light: #d9bfd3;
-	--milk-light: #cce3ff;
-	--fast-food-light: #dcecac;
-	--drinks-light: #c4d7c1;
-	--meat-light: #f3d8dc;
-	--sea-food-light: #fadab7;
-	--desserts-light: #d6f5e9;
-	--bread-light: #f5c0bc;*/
 
 	--fruits-dark: #ff8c12;
 	--vegetables-dark: #40243a;
@@ -89,6 +69,16 @@ body {
 	--sea-food-dark: #b95c1c;
 	--desserts-dark: #468d75;
 	--bread-dark: #73150e;
+
+	--fruits-hover: #ffdb1330;
+	--vegetables-hover: #a4689730;
+	--milk-hover: #8cc8ff30;
+	--fast-food-hover: #a5c84330;
+	--drinks-hover: #6a956330;
+	--meat-hover: #e3899530;
+	--sea-food-hover: #feaa6830;
+	--desserts-hover: #90e8c530;
+	--bread-hover: #d85a5030;
 }
 
 
@@ -239,7 +229,7 @@ nav {
 			color: #fff;
 			padding-left: 1.2ch;
 
-			transition: border-radius 200ms ease-out, transform 250ms ease-out;
+			transition: border-radius 200ms ease-out, transform 250ms ease-out, background-color 100ms ease-out;
 		}
 		@media screen and (max-width: 480px) {
 			.menu__item {
@@ -250,7 +240,7 @@ nav {
 		}
 
 		.menu.open .menu__item {
-			transition: border-radius 200ms ease-out, transform 250ms cubic-bezier(.14, .66, .4, 1.1);
+			transition: border-radius 200ms ease-out, transform 250ms cubic-bezier(.14, .66, .4, 1.1), background-color 100ms ease-out;
 		}
 
 		.menu__item[data-type="fruits"]		{ background-color: var(--fruits); }
@@ -306,7 +296,7 @@ nav {
 	display: flex;
 	align-items: baseline;
 
-	font-family: 'Lato', sans-serif;
+	font-family: 'Lato', 'Helvetica', sans-serif;
 	font-size: 4rem;
 	font-weight: 100;
 
@@ -544,8 +534,10 @@ main::-webkit-scrollbar {
 				transition: transform 100ms ease-out;
 			}
 
+			.foods__page__list__item__image img.hidden { visibility: hidden; }
+
 			.foods__page__list__item:active .foods__page__list__item__image img {
-				transform: scale(.98);
+				transform: scale(.98) translateY(.05rem);
 			}
 			
 			.foods__page__list__item.selected .foods__page__list__item__image img {
@@ -759,11 +751,6 @@ footer {
 				height: 2.6rem;
 				width: 2.6rem;
 				background-size: 2.6rem 2.6rem;
-				filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .8))
-						drop-shadow(1px 0 0 rgba(255, 255, 255, .8))
-						drop-shadow(0 -1px 0 rgba(255, 255, 255, .8))
-						drop-shadow(-1px 0 0 rgba(255, 255, 255, .8))
-						drop-shadow(0 0 .5rem rgba(255, 255, 255, .15));
 			}
 			@media screen and (max-width: 480px) {
 				.bottom__flags__item--icon {
