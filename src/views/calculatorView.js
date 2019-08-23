@@ -7,13 +7,13 @@ export default class CalculatorView {
 	}
 
 	renderTotalCalories() {
-		const curCalories	= +DOMElems.caloriesText.textContent,
+		const curCalories	= +(DOMElems.caloriesText.textContent).replace(/\,/g, ''),
 			  newCalories	= Math.ceil(this.model.totalCalories),
 			  dist 			= Math.abs(newCalories - curCalories),
-			  duration		= 100; /* in ms */
+			  duration		= 120; /* in ms */
 
 		const startTime = performance.now();
-		let progress, number;
+		let progress, number, animate;
 
 		requestAnimationFrame(function animate(curTime) {
 			progress = (curTime - startTime) / duration;
@@ -23,10 +23,10 @@ export default class CalculatorView {
 
 			if (newCalories > curCalories) {
 				// increase
-				DOMElems.caloriesText.textContent = curCalories + number;
+				DOMElems.caloriesText.textContent = formatCalories(curCalories + number);
 			} else {
 				// decrease
-				DOMElems.caloriesText.textContent = curCalories - number;
+				DOMElems.caloriesText.textContent = formatCalories(curCalories - number);
 			}
 			
 
@@ -34,82 +34,86 @@ export default class CalculatorView {
 				requestAnimationFrame(animate);
 			}
 		});
+
+		function formatCalories(number) {
+			if (number < 1000) return number;
+
+			number = number.toString().split('').reverse().join('');
+			number = number.match(/\d{1,3}/g);
+			number = number.join(',');
+			return number.split('').reverse().join('');
+		}
 	}
 
 
-	renderCaloriesPopup(id) {
-		const img = DOMElems.mainContainer.querySelector(`.foods__page__list__item__image img#${id}`),
-			  calories = this.model.getCalories(id),
-			  popup = DOMElems.caloriesPopup;
+	showCaloriesPopup(id) {
+		if (!document.body.querySelector('.popup-calories'))
+			this.renderCaloriesPopup();
+
+		const popupElem = document.body.querySelector('.popup-calories'),
+			  popupText = popupElem.querySelector('.popup-calories--text'),
+			  img = DOMElems.mainContainer.querySelector(`.foods__page__list__item__image img#${id}`),
+			  calories = this.model.getCalories(id);
+
+		const animatePopup = () => {
+			const popupCoords = {
+				width: popupText.offsetWidth,
+				height: popupText.offsetHeight
+			};
+			
+			const left = imgCoords.left + (imgCoords.width / 2) - (popupCoords.width / 2);
+			const top = imgCoords.top + (imgCoords.height / 2) - popupCoords.height;
+
+			popupElem.style.left = left + 'px';
+			popupElem.style.top = top + 'px';
+
+			popupElem.addEventListener('animationend', removeAnimate, false);
+
+			popupElem.classList.add('animate');
+			popupText.classList.add('animate');
+			this.isPopupAnimating = true;
+		}
+
 
 		if (this.isPopupAnimating) {
-			popup.classList.remove('animate');
+			popupElem.classList.remove('animate');
+			popupText.classList.remove('animate');
 			this.isPopupAnimating = false;
 		}
 
-		popup.textContent = `+ ${Math.ceil(calories)}`;
-		popup.style.display = 'block';
-
-		const popupCoords = {
-			height: popup.offsetHeight,
-			width: popup.offsetWidth
-		};
+		popupText.textContent = `+ ${Math.ceil(calories)}`;
 
 		const imgCoords = img.getBoundingClientRect();
 
-		const left = imgCoords.left + (imgCoords.width / 2) - (popupCoords.width / 2);
-		const top = imgCoords.top + (imgCoords.height / 2) - popupCoords.height;
+		const popupElemObserver = new MutationObserver(mutations => {
+			if (mutations) {
+				popupElemObserver.disconnect();
+				animatePopup();
+			}
+		});
+		popupElemObserver.observe(popupElem, { attributes: true });
 
-		popup.style.left = left + 'px';
-		popup.style.top = top + 'px';
-
-		popup.classList.add('animate');
-		this.isPopupAnimating = true;
-
-		popup.addEventListener('animationend', removeAnimate, false);
-
-		animateShifting(top, top - popupCoords.height, 800);
-
+		popupElem.classList.add('display');
 
 
 		function removeAnimate() {
-			popup.removeEventListener('animationend', removeAnimate);
-			popup.classList.remove('animate');
+			popupElem.removeEventListener('animationend', removeAnimate);
+			popupText.classList.remove('animate');
+			popupElem.classList.remove('animate');
+			popupElem.classList.remove('display');
 			this.isPopupAnimating = false;
-			popup.style.display = 'none';
-			popup.style.left = '';
-			popup.style.top = '';
-		}
-
-
-		function animateShifting(from, to, duration = 1000) {
-			let startTime, progress, timeFraction, top;
-			const topDist = from - to;
-
-			startTime = performance.now();
-
-			requestAnimationFrame(function shift(curTime) {
-				timeFraction = (curTime - startTime) / duration;
-				if (timeFraction > 1) timeFraction = 1;
-
-				progress = arc(timeFraction);
-
-				top = from - (topDist * progress);
-
-				popup.style.top = top + 'px';
-
-				if (timeFraction < 1) {
-					requestAnimationFrame(shift);
-				}
-
-			});
-
-			function arc(timeFraction) {
-				return Math.sqrt(timeFraction);
-			}
+			// popupElem.style.left = '';
+			// popupElem.style.top = '';
 		}
 	}
 
+
+	renderCaloriesPopup() {
+		document.body.insertAdjacentHTML('beforeend', `
+<div class="popup-calories">
+	<div class="popup-calories--text"></div>
+</div>`);
+	}
 
 	demonstrateTrashAnimation() {
 		const removeDemonstrate = () => {
@@ -119,13 +123,14 @@ export default class CalculatorView {
 			this.model.STATE.trashIsDemonstrated = true;
 			window.sessionStorage.setItem('trashIsDemonstrated', true);
 
-			this.trashActive(true);
+			this.checkTrashActive();
 
 			this.setTrashEventListeners();
 		}
 
 		DOMElems.caloriesIcon.addEventListener('animationend', removeDemonstrate, false);
 		DOMElems.caloriesIcon.classList.add('demonstrate');
+		
 	}
 
 
@@ -176,7 +181,19 @@ export default class CalculatorView {
 			DOMElems.caloriesIcon.classList.remove('active');
 		}
 	}
+
+	checkTrashActive() {
+		if (this.model.totalCalories === 0) {
+			this.trashActive(false);
+		} else if (this.model.totalCalories > 0) {
+			this.trashActive(true);
+		}
+	}
 }
+
+
+
+
 
 
 

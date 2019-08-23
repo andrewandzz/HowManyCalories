@@ -31,4 +31,16 @@ export default class FoodsController {
 	scrollToNextPage() {
 		this.view.scrollToNextPage();
 	}
+
+	showPressAndHoldTooltip() {
+		if (!this.model.handIsDemonstrated) {
+			setTimeout(() => {
+				this.view.showHandTooltip();
+			}, 1000);
+		}
+	}
 }
+
+
+
+

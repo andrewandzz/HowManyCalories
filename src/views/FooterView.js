@@ -20,7 +20,7 @@ export default class FooterView {
 	}
 
 	changeTheme() {
-		DOMElems.footerBlock.setAttribute('theme', this.model.STATE.menu.current);
+		DOMElems.footerBlock.setAttribute('theme', this.model.STATE.Menu.model.current);
 	}
 
 	clear() {

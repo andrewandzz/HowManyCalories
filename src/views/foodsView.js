@@ -5,17 +5,19 @@ export default class FoodsView {
 		this.model = model;
 	}
 
-	renderFoodsPages() {
+	renderFoodsPages(page) {
 		const type = this.model.curType;
-		DOMElems.mainContainer.setAttribute('theme', type);
 		DOMElems.mainContainer.scrollLeft = 0;
 
 		const numOfPages = Math.ceil(this.model.sets[type].items.length / this.model.itemsPerPage);
 
-		this.renderPage(1);
+		// if 'page' is 2, then load first page too
+		for (let i = 1; i <= page; i++) {
+			this.renderPage(i);
+		}
 
-		if (numOfPages > 1) {
-			this.renderPage(2);
+		if (numOfPages > page) {
+			this.renderPage(page + 1);
 		}
 
 		this.renderPagesButtons();
@@ -28,8 +30,9 @@ export default class FoodsView {
 		const itemsArr = this.model.sets[type].items;
 
 		const createItem = itemObj => {
-			const grams = this.model.STATE.calculator.getGrams(itemObj.title);
-			const capitTitle = (itemObj.title[0].toUpperCase() + itemObj.title.slice(1)).replace(/-/g, ' ');
+			const grams = this.model.STATE.Calculator.model.getGrams(itemObj.title);
+			const title = this.model.STATE.language.dictionary.foods[type][itemObj.title];
+			const g = this.model.STATE.language.dictionary.foods.g;
 
 			return `
 			<li class="foods__page__list__item ${(grams !== false) ? 'selected' : ''}">
@@ -37,8 +40,8 @@ export default class FoodsView {
 					<img id="${itemObj.title}" src="./images/transparent.gif">
 				</div>
 				<div class="foods__page__list__item__text">
-					<div class="foods__page__list__item__text--title">${capitTitle}</div>
-					<div class="foods__page__list__item__text--grams">${grams || '100'}<span> g</span></div>
+					<div class="foods__page__list__item__text--title">${title}</div>
+					<div class="foods__page__list__item__text--grams">${grams || '100'}<span> ${g}</span></div>
 				</div>
 			</li>`;
 		}
@@ -48,7 +51,7 @@ export default class FoodsView {
 		}, '');
 
 		const markupFoodsPage = `
-		<ul class="foods__page__list" data-page="${pageNumber}">
+		<ul class="foods__page__list" data-type="${type}" data-page="${pageNumber}">
 			${markupItems}
 		</ul>`;
 
@@ -66,19 +69,19 @@ export default class FoodsView {
 		const prevPage = DOMElems.mainContainer.querySelector(`.foods__page__list[data-page="${curPage - 1}"]`);
 		const nextPage = DOMElems.mainContainer.querySelector(`.foods__page__list[data-page="${curPage + 1}"]`);
 
-		if (prevPage) {
-			DOMElems.btnPrev.style.display = 'block';
+		if (prevPage && +prevPage.dataset.page !== 0) {
+			DOMElems.btnPrev.classList.add('visible');
 			DOMElems.btnPrev.dataset.goto = +curPage - 1;
 		} else {
-			DOMElems.btnPrev.style.display = 'none';
+			DOMElems.btnPrev.classList.remove('visible');
 			DOMElems.btnPrev.dataset.goto = '';
 		}
 
 		if (nextPage) {
-			DOMElems.btnNext.style.display = 'block';
+			DOMElems.btnNext.classList.add('visible');
 			DOMElems.btnNext.dataset.goto = +curPage + 1;
 		} else {
-			DOMElems.btnNext.style.display = 'none';
+			DOMElems.btnNext.classList.remove('visible');
 			DOMElems.btnNext.dataset.goto = '';
 		}
 	}
@@ -169,70 +172,166 @@ export default class FoodsView {
 			behavior: 'smooth',
 			inline: 'start'
 		});
+
+		return new Promise(resolve => {
+			setTimeout(() => {
+				resolve();
+				// scrollIntoView animation ends at ~300 ms
+			}, 500);
+		});
+	}
+
+	clearAroundPages() {
+		// get all existing pages elements
+		const existPages = DOMElems.mainContainer.querySelectorAll('.foods__page__list');
+
+		Array.from(existPages).forEach(pageElem => {
+			// remove all pages that are around current page
+			if (pageElem.dataset.page != this.model.curPage) {
+				pageElem.remove();
+			} else {
+				// set current page number to 0
+				pageElem.dataset.page = 0;
+			}
+		});
 	}
 
 
-	setGradient() {
-		const containerWidth = DOMElems.container.offsetWidth;
-		const containerHeight = DOMElems.container.offsetHeight;
-		const containerHypotenuse = Math.round(Math.sqrt(Math.pow(containerWidth, 2) + Math.pow(containerHeight, 2)));
-		const gradientCos = containerWidth / containerHypotenuse;
+	scrollToFirstPage() {
+		const zeroPage = DOMElems.mainContainer.querySelector('.foods__page__list[data-page="0"]');
+		zeroPage.classList.add('scroll-out');
+	}
 
-		const gradientAngle = 90 + Math.round(gradientCos * 180 / Math.PI);
-		const gradientLength = window.innerHeight / gradientCos;
+	scrollTo(pageNumber, duration = 200) {
+		const left = DOMElems.mainContainer.querySelector(`.foods__page__list[data-page="${pageNumber}"]`).offsetLeft;
+		const startTime = performance.now();
 
-		const firstItem = DOMElems.mainContainer.querySelector('.foods__page__list__item:first-child');
-		const lastItem = DOMElems.mainContainer.querySelector('.foods__page__list__item:last-child');
-		const lengthToFirstItem = firstItem.getBoundingClientRect().top / gradientCos;
-		const lengthToLastItem = gradientLength - lastItem.getBoundingClientRect().bottom / gradientCos;
+		return new Promise(resolve => {
+			let timeFraction, progress, scrollX;
+
+			requestAnimationFrame(function scroll(curTime) {
+				timeFraction = (curTime - startTime) / duration;
+				if (timeFraction > 1) {
+					timeFraction = 1;
+					resolve();
+				}
+
+				progress = linear(timeFraction);
+				scrollX = progress * left;
+
+				// console.log(scrollX)
+
+				DOMElems.mainContainer.scrollLeft = scrollX;
+
+				if (timeFraction < 1) {
+					requestAnimationFrame(scroll);
+				}
+			});
+
+			function linear(timeFraction) {
+				return timeFraction;
+			}
+		});
+
 		
-		const gradientStartPercent = Math.round(lengthToFirstItem / gradientLength * 100);
-		const gradientEndPercent = 100 - Math.ceil(lengthToLastItem / gradientLength * 100);
+	}
 
-		const colors = {
-			'fruits': ['#ffdb13', '#fe9416'],
-			'vegetables': ['#a46897', '#542a4b'],
-			'milk': ['#8cc8ff', '#2d83d3'],
-			'fast-food': ['#a5c843', '#51680e'],
-			'drinks': ['#6a9563', '#2a4925'],
-			'meat': ['#e38995', '#8a4951'],
-			'sea-food': ['#feaa68', '#c07420'],
-			'desserts': ['#90e8c5', '#3C9773'],
-			'bread': ['#d85a50', '#87302a']
-		};
+	clearZeroPage() {
+		DOMElems.mainContainer.querySelector(`.foods__page__list[data-page="0"]`).remove();
+		DOMElems.mainContainer.scrollLeft = 0;
+	}
 
-		const colorsHover = {
-			'fruits': ['#ffdb1330', '#fe941640'],
-			'vegetables': ['#965a9930', '#5d325f40'],
-			'milk': ['#8cc8ff30', '#2d83d340'],
-			'fast-food': ['#a5c84330', '#51680e40'],
-			'drinks': ['#6a956330', '#2a492540'],
-			'meat': ['#e3899530', '#8a495140'],
-			'sea-food': ['#feaa6830', '#c0742040'],
-			'desserts': ['#90e8c530', '#3C977340'],
-			'bread': ['#d85a5030', '#87302a40']
-		};
+	goToPage(pageNumber) {
+		const left = DOMElems.mainContainer.querySelector(`.foods__page__list[data-page="${pageNumber}"]`).offsetLeft;
+		DOMElems.mainContainer.scrollLeft = left;
+	}
 
+	showHandTooltip() {
+		this.renderTooltip();
 
-
-		let styleElem = document.getElementById('gradient-style');
+		const tooltip = document.body.querySelector('.tooltip-hand');
 		
-		if (!styleElem) {
-			styleElem = document.createElement('style');
-			styleElem.type = 'text/css';
-			styleElem.id = 'gradient-style';
-			document.head.appendChild(styleElem);
+		// set goto coords to the hand
+		const itemObj = this.model.STATE.Calculator.model.items[this.model.STATE.Calculator.model.items.length - 1];
+
+		if (!itemObj) return;
+
+		tooltip.classList.add('display');
+		const tooltipWidth = tooltip.offsetWidth;
+		tooltip.style.left = window.innerWidth / 2 - tooltipWidth / 2 + 'px';
+
+		const itemElem = DOMElems.mainContainer.querySelector(`.foods__page__list__item__image img#${itemObj.title}`).closest('.foods__page__list__item');
+
+		const itemCoords = itemElem.getBoundingClientRect();
+		const left = itemCoords.left + (itemCoords.width / 2) - tooltipWidth / 2;
+		const top = itemCoords.top + (itemCoords.height / 2);
+
+		tooltip.addEventListener('transitionend', scaleDown, false);
+
+		tooltip.style.left = left + 'px';
+		tooltip.style.top = top + 'px';
+
+		// now it is on item
+
+		this.model.handIsDemonstrated = true;
+		window.sessionStorage.setItem('handIsDemonstrated', 'true');
+
+		function scaleDown() {
+			tooltip.removeEventListener('transitionend', scaleDown);
+			tooltip.addEventListener('animationend', changeIcon);
+
+			tooltip.classList.add('scale-down');
 		}
-		
-		styleElem.innerHTML = `
-.foods[theme="${this.model.curType}"] .foods__page__list__item.selected,
-.foods[theme="${this.model.curType}"] .foods__page__list__item.selected:hover {
-	background-image: linear-gradient(${gradientAngle}deg, ${colors[this.model.curType][0]} ${gradientStartPercent + 5}%, ${colors[this.model.curType][1]} ${gradientEndPercent - 5}%);
-}`;
 
+		function changeIcon() {
+			tooltip.removeEventListener('animationend', changeIcon);
+			tooltip.classList.add('press');
+			tooltip.classList.remove('default');
+
+			setTimeout(() => {
+				scaleUp();
+			}, 1600);
+		}
+
+		function scaleUp() {
+			tooltip.classList.add('default');
+			tooltip.classList.remove('press');
+
+			tooltip.addEventListener('animationend', move);
+			tooltip.classList.add('scale-up');
+			tooltip.classList.remove('scale-down');
+		}
+
+		function move() {
+			tooltip.removeEventListener('animationend', move);
+			tooltip.classList.remove('scale-up');
+			tooltip.addEventListener('transitionend', removeHandElem, false);
+
+			tooltip.style.left = window.innerWidth / 2 - tooltipWidth / 2 + 'px';
+			tooltip.style.top = window.innerHeight + 'px';
+		}
+
+		function removeHandElem() {
+			tooltip.removeEventListener('transitionend', removeHandElem);
+			tooltip.remove();
+		}
 	}
 
+	renderTooltip() {
+		const tooltipMarkup = `
+<div class="tooltip-hand default">
+	<svg class="tooltip-hand--icon">
+		<use xlink:href="./images/icons.svg#hand-default"></use>
+		<use xlink:href="./images/icons.svg#hand-press"></use>
+	</svg>
+</div>`;
+		document.body.insertAdjacentHTML('beforeend', tooltipMarkup);
+	}
 }
+
+
+
+
 
 
 

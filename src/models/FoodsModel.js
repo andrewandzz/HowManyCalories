@@ -8,6 +8,7 @@ export default class FoodsModel {
 		this.curPage;
 		this.curType;
 		this.sets = {};
+		this.handIsDemonstrated = -1;
 	}
 
 	async fetchFoodsSet(type) {
@@ -37,6 +38,14 @@ export default class FoodsModel {
 		if (grams % 1000 === 0) return `${kg}<span> ${kgTitle}</span>`;
 
 		return `${kg},${g}<span> ${gTitle}</span>`
+	}
+
+	fetchSessionStorage() {
+		if (!window.sessionStorage.getItem('handIsDemonstrated')) {
+			this.isPressAndHoldDemonstrated = false;
+		} else {
+			this.isPressAndHoldDemonstrated = (window.sessionStorage.getItem('handIsDemonstrated') === 'true') ? true : false;
+		}
 	}
 }
 

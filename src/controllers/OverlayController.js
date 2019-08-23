@@ -8,6 +8,7 @@ export default class OverlayController {
 		this.model.setItem(itemElem);
 		this.view.openOverlay();
 		this.view.openSetGrams();
+
 		this.model.isSetGramsOpened = true;
 	}
 
@@ -18,13 +19,23 @@ export default class OverlayController {
 	}
 
 	openContact() {
+		if (!this.model.overlayElem) {
+			this.view.renderOverlay();
+			this.setupOverlayListeners();
+		}
 		this.view.openOverlay();
+
+		if (!this.model.contactElem) {
+			this.view.renderContact();
+			this.setupContactListeners();
+		}
 		this.view.openContact();
+
 		this.model.isContactOpened = true;
 	}
 
-	closeContact(clear) {
-		this.view.closeContact(clear);
+	closeContact() {
+		this.view.closeContact();
 		this.view.closeOverlay();
 		this.model.isContactOpened = false;
 	}
@@ -93,9 +104,84 @@ export default class OverlayController {
 		return this.model.firstValue !== this.model.itemData.grams;
 	}
 
-	sendMessage() {
-		// here SEND
-		this.closeContact(true);
+	async sendMessage() {
+		// here SEND to PHP
+		if (!this.model.contactElem.container.querySelector('.overlay__contact__thanks')) {
+			this.view.renderContactThanks();
+		}
+		await this.view.showContactThanks();
+		this.closeContact();
+	}
+
+
+	async handleOverlayGramsClose(save) {
+		const itemElem = this.model.itemElem;
+		const type = this.model.STATE.Menu.model.current;
+		const title = this.model.itemData.title;
+
+		if (save) {
+			const Calculator = this.model.STATE.Calculator;
+			const Foods = this.model.STATE.Foods;
+
+			if (itemElem.classList.contains('hover')) {
+				// if it was NOT selected
+				if (this.validateGramsInput()) {
+					const grams = this.model.itemData.grams;
+					
+					await this.closeSetGrams();
+
+					Calculator.setGrams(Foods.model.sets[type].getItemObj(title), grams);
+					Foods.view.selectItem(itemElem);
+					Foods.view.setItemGrams(itemElem, grams);
+
+					itemElem.classList.remove('hover');
+				}
+
+			} else {
+				// if it WAS selected
+				if (this.isGramsInputChanged()) {
+					// something changed, check
+					if (this.validateGramsInput()) {
+						const grams = this.model.itemData.grams;
+
+						await this.closeSetGrams();
+
+						Calculator.setGrams(Foods.model.sets[type].getItemObj(title), grams);
+						Foods.view.setItemGrams(itemElem, grams);
+					}
+
+				} else {
+					// nothing changed, just close
+					this.closeSetGrams();
+				}
+			}
+
+		} else {
+			// if we don't want to save, then we don't care
+			await this.closeSetGrams();
+			itemElem.classList.remove('hover');
+		}
+	}
+
+
+	
+
+
+	setupContactListeners() {
+		this.model.contactElem.form.addEventListener('submit', event => {
+			event.preventDefault();
+			this.sendMessage();
+		});
+
+		this.model.contactElem.email.addEventListener('invalid', event => {
+			event.preventDefault();
+			this.sendMessage();
+		});
+
+		this.model.contactElem.message.addEventListener('invalid', event => {
+			event.preventDefault();
+			this.view.showContactInvalidMessage();
+		});
 	}
 }
 

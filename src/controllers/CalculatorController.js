@@ -8,7 +8,7 @@ export default class CalculatorController {
 
 	addItem(itemObj) {
 		this.model.addItem(itemObj);
-		this.view.renderCaloriesPopup(itemObj.title);
+		this.view.showCaloriesPopup(itemObj.title);
 		this.calculateTotalCalories();
 	}
 
@@ -32,7 +32,7 @@ export default class CalculatorController {
 
 	setGrams(itemObj, grams) {
 		this.model.setGrams(itemObj, grams);
-		this.view.renderCaloriesPopup(itemObj.title);
+		this.view.showCaloriesPopup(itemObj.title);
 		this.calculateTotalCalories();
 	}
 

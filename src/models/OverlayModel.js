@@ -15,8 +15,8 @@ export default class OverlayModel {
 		const origImg	= itemElem.querySelector('.foods__page__list__item__image img'),
 			  origImgCoords = origImg.getBoundingClientRect(),
 			  title	= origImg.id,
-			  type	= this.STATE.menu.current,
-			  grams	= this.STATE.calculator.getGrams(title) || 100;
+			  type	= this.STATE.Menu.model.current,
+			  grams	= this.STATE.Calculator.model.getGrams(title) || 100;
 
 		this.firstValue = grams;
 		this.onFocusValue = -1;
@@ -35,3 +35,5 @@ export default class OverlayModel {
 		return result.split('').reverse().join('');
 	}
 }
+
+

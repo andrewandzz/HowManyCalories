@@ -11,10 +11,7 @@
 </head>
 <body>
 
-	<div class="container">
-		<!-- <div id="mouse"></div> -->
-
-		
+	<div class="container">		
 
 		<!-- TOP -->
 		<nav>
@@ -43,7 +40,7 @@
 		<button class="btn__prev">
 			<div class="arrow">
 				<svg class="arrow--icon">
-					<use xlink:href="./images/icons/arrows.svg#left"></use>
+					<use xlink:href="./images/icons.svg#arrow-left"></use>
 				</svg>
 			</div>
 		</button>
@@ -65,7 +62,7 @@
 		<button class="btn__next">
 			<div class="arrow">
 				<svg class="arrow--icon">
-					<use xlink:href="./images/icons/arrows.svg#right"></use>
+					<use xlink:href="./images/icons.svg#arrow-right"></use>
 				</svg>
 			</div>
 		</button>
@@ -103,13 +100,12 @@
 
 	<div class="overlay">
 
-		<!-- SET GRAMS -->
-		<div class="overlay__set-grams__wrapper" data-type="fruits">
+		<div class="overlay__set-grams__wrapper" data-type="">
 			<div class="overlay__set-grams__container">
 				<img class="overlay__set-grams--image--pseudo" src="./images/transparent.gif">
 				<div class="overlay__set-grams__input">
 					<input class="overlay__set-grams__input--number" type="number" min="1" max="999999" step="1">
-					<div class="symbol"><span>g</span></div>
+					<div class="overlay__set-grams__input--symbol"><span>g</span></div>
 					<div class="overlay__set-grams__input--btns">
 						<div class="overlay__set-grams__input--btns__btn--inc">&#9650;</div>
 						<div class="overlay__set-grams__input--btns__btn--dec">&#9660;</div>
@@ -119,27 +115,16 @@
 			</div>
 			<img class="overlay__set-grams--image" src="./images/transparent.gif">
 		</div>
-
-
-		<!-- CONTACT -->
-		<div class="overlay__contact__container">
-			<!-- <div class="overlay__contact--text">
-				If you have any questions or suggestions, or if you would like to report an error, please send us a message, we will really appreciate it.
-			</div> -->
-
-			<form>
-				<input class="overlay__contact--input" type="text" name="name" placeholder="" tabindex="1">
-				<input class="overlay__contact--input" type="email" name="email" placeholder="" tabindex="2">
-				<textarea class="overlay__contact--input" rows="6" placeholder="" required="required" tabindex="3"></textarea>
-				<button class="overlay__contact--btn" type="submit" tabindex="4">Send</button>
-			</form>
-		</div>
 		
 	</div>
 
-	<div class="popup-calories">
-		<div class="popup-calories--text"></div>
-	</div>
+	<!-- <div class="tooltip-hand display default">
+		<svg class="tooltip-hand--icon">
+			<use xlink:href="./images/icons.svg#hand-default"></use>
+			<use xlink:href="./images/icons.svg#hand-press"></use>
+		</svg>
+	</div> -->
+	
 
 </body>
 </html>

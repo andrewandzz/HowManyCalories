@@ -32,38 +32,42 @@ STATE.language = languageModel;
 const menuModel = new MenuModel(STATE.language);
 const menuView = new MenuView(menuModel);
 const Menu = new MenuController(menuModel, menuView);
-STATE.menu = menuModel;
+STATE.Menu = Menu;
 
 const calculatorModel = new CalculatorModel(STATE);
 const calculatorView = new CalculatorView(calculatorModel);
 const Calculator = new CalculatorController(calculatorModel, calculatorView);
-STATE.calculator = calculatorModel;
+STATE.Calculator = Calculator;
 
 const foodsModel = new FoodsModel(STATE);
 const foodsView = new FoodsView(foodsModel);
 const Foods = new FoodsController(foodsModel, foodsView);
-STATE.foods = foodsModel;
+STATE.Foods = Foods;
 
 const footerModel = new FooterModel(STATE);
 const footerView = new FooterView(footerModel);
 const Footer = new FooterController(footerModel, footerView);
-STATE.footer = footerModel;
+STATE.Footer = Footer;
 
 const overlayModel = new OverlayModel(STATE);
 const overlayView = new OverlayView(overlayModel);
 const Overlay = new OverlayController(overlayModel, overlayView);
-STATE.overlay = overlayModel;
+STATE.Overlay = Overlay;
 
 
 async function init() {
 	getItemsPerPage();
-	getDevice();
 	setBtnsBgPos();
 	await Language.setCurrent();
 	Menu.render();
 	Footer.render();
-	fetchSessionStorage();
 	Foods.openFoodsSet(Menu.model.current);
+}
+
+
+function load() {
+	getDevice();
+	fetchSessionStorage();
 }
 
 
@@ -145,6 +149,7 @@ DOMElems.mainContainer.addEventListener('mousedown', handleFoodsMouseDown, false
 
 
 window.addEventListener('DOMContentLoaded', init);
+window.addEventListener('load', load);
 window.addEventListener('resize', getItemsPerPage);
 window.addEventListener('resize', setBtnsBgPos);
 window.addEventListener('dblclick', event => event.preventDefault());
@@ -159,53 +164,64 @@ DOMElems.btnNext.addEventListener('click', () => {
 });
 
 
-document.addEventListener('keypress', event => {
-	if (event.keyCode === 13 && Overlay.model.isSetGramsOpened) {
-		const id = DOMElems.overlay.querySelector('.overlay__set-grams--image--pseudo').id;
-		const origItemElem = DOMElems.mainContainer.querySelector(`.foods__page__list__item__image #${id}`).closest('.foods__page__list__item');
 
-		handleOverlayGramsClose(true);
+DOMElems.overlay.addEventListener('click', event => {
+	// only click outside the container
+	if (event.target.closest('.overlay__set-grams__container') || event.target.matches('.overlay__set-grams--image') || event.target.matches('.overlay__contact__container, .overlay__contact__container *')) return;
+
+	if (Overlay.model.isSetGramsOpened) {
+		Overlay.handleOverlayGramsClose(false);
+	} else if (Overlay.model.isContactOpened) {
+		Overlay.closeContact();
 	}
+}, false);
+
+
+document.addEventListener('keyup', event => {
+	if (event.keyCode === 13 && Overlay.model.isSetGramsOpened) {
+		Overlay.handleOverlayGramsClose(true);
+	} else if (event.keyCode === 27 && this.model.isSetGramsOpened) {
+		Overlay.handleOverlayGramsClose(false);
+	} else return;
 });
 
-
-DOMElems.overlayGramsBtnInc.addEventListener('click', () => {
+DOMElems.setGramsBtnInc.addEventListener('click', () => {
 	Overlay.increaseGrams();
 	// -1 because when we click buttons,
-	// we don't need to compare focus and blur values
+	// we don't need to compare focus value and blur value
 	// (because animation has already played)
 	Overlay.model.onFocusValue = -1;
 }, false);
 
-DOMElems.overlayGramsBtnDec.addEventListener('click', () => {
+DOMElems.setGramsBtnDec.addEventListener('click', () => {
 	Overlay.decreaseGrams();
 	// -1 because when we click buttons,
-	// we don't need to compare focus and blur values
+	// we don't need to compare focus value and blur value
 	// (because animation has already played)
 	Overlay.model.onFocusValue = -1;
 }, false);
 
-
-DOMElems.overlayGramsBtn.addEventListener('click', () => {
-	handleOverlayGramsClose(true);
+DOMElems.setGramsBtn.addEventListener('click', () => {
+	Overlay.handleOverlayGramsClose(true);
 }, false);
 
-DOMElems.overlayGramsInputNumber.addEventListener('focus', function() {
+DOMElems.setGramsInputNumber.addEventListener('focus', () => {
 	if (Overlay.model.onFocusValue === -1) {
-		Overlay.model.onFocusValue = this.value.replace('.', '');
+		Overlay.model.onFocusValue = DOMElems.setGramsInputNumber.value.replace('.', '');
 	}
 });
 
-DOMElems.overlayGramsContainer.addEventListener('click', event => {
+DOMElems.setGramsContainer.addEventListener('click', event => {
 	if (!event.target.matches('.overlay__set-grams__container')) return;
 	// it's blur, not cancel
 	handleOverlayGramsInputBlur();
 }, false);
 
-DOMElems.overlayGramsImg.addEventListener('click', () => {
+DOMElems.setGramsImg.addEventListener('click', () => {
 	// it's blur, not cancel
 	handleOverlayGramsInputBlur();
 }, false);
+
 
 
 function handleOverlayGramsInputBlur() {
@@ -214,7 +230,7 @@ function handleOverlayGramsInputBlur() {
 	// -1 can be, when we click on inc/dec buttons
 	if (focusValue === -1) return;
 
-	const blurValue = DOMElems.overlayGramsInputNumber.value.replace('.', '');
+	const blurValue = DOMElems.setGramsInputNumber.value.replace('.', '');
 
 	if (focusValue < blurValue) {
 		Overlay.view.animateImgChangeSize(1);
@@ -224,19 +240,6 @@ function handleOverlayGramsInputBlur() {
 
 	Overlay.model.onFocusValue = -1;
 }
-
-DOMElems.overlay.addEventListener('click', event => {
-	// only click outside the container
-	if (event.target.closest('.overlay__set-grams__container') || event.target.matches('.overlay__set-grams--image') || event.target.matches('.overlay__contact__container, .overlay__contact__container *')) return;
-
-	if (Overlay.model.isSetGramsOpened) {
-		handleOverlayGramsClose(false);
-	} else if (Overlay.model.isContactOpened) {
-		Overlay.closeContact();
-	}
-
-	
-}, false);
 
 
 
@@ -274,20 +277,20 @@ DOMElems.footerLangList.addEventListener('click', async event => {
 }, false);
 
 
-DOMElems.overlayContactForm.addEventListener('submit', event => {
-	event.preventDefault();
-	Overlay.sendMessage();
-}, false);
+// DOMElems.overlayContactForm.addEventListener('submit', event => {
+// 	event.preventDefault();
+// 	Overlay.sendMessage();
+// }, false);
 
-DOMElems.overlayContactEmail.addEventListener('invalid', event => {
-	event.preventDefault();
-	Overlay.sendMessage();
-});
+// DOMElems.overlayContactEmail.addEventListener('invalid', event => {
+// 	event.preventDefault();
+// 	Overlay.sendMessage();
+// });
 
-DOMElems.overlayContactMessage.addEventListener('invalid', event => {
-	event.preventDefault();
-	Overlay.view.showContactInvalidMessage();
-});
+// DOMElems.overlayContactMessage.addEventListener('invalid', event => {
+// 	event.preventDefault();
+// 	Overlay.view.showContactInvalidMessage();
+// });
 
 
 
@@ -477,16 +480,20 @@ function handleFoodsMouseDown(event) {
 	function handleFoodsMouseUp() {
 		DOMElems.mainContainer.removeEventListener('mouseup', handleFoodsMouseUp);
 		clearTimeout(timer);
-		// it's just a click
-		// controlCalculator(item);
+
+		// it's just a CLICK
+
 		const type = Menu.model.current;
 		const title = itemElem.querySelector('.foods__page__list__item__image img').id;
 
 		if (!Calculator.includes(title)) {
-			Calculator.addItem(STATE.foods.sets[type].getItemObj(title));
+			// ADD ITEM
+			Calculator.addItem(Foods.model.sets[type].getItemObj(title));
 			Foods.view.selectItem(itemElem);
+			Foods.showPressAndHoldTooltip();
 			
 		} else {
+			// DELETE ITEM
 			Calculator.deleteItem(title);
 			Foods.view.deselectItem(itemElem);
 			Foods.view.setItemGrams(itemElem, 100);
@@ -511,53 +518,53 @@ function handleLongPress(event) {
 }
 
 
-async function handleOverlayGramsClose(save) {
-	const itemElem = Overlay.model.itemElem;
-	const type = Menu.model.current;
-	const title = Overlay.model.itemData.title;
+// async function handleOverlayGramsClose(save) {
+// 	const itemElem = Overlay.model.itemElem;
+// 	const type = Menu.model.current;
+// 	const title = Overlay.model.itemData.title;
 
-	if (save) {
+// 	if (save) {
 
-		if (itemElem.classList.contains('hover')) {
-			// if it was NOT selected
+// 		if (itemElem.classList.contains('hover')) {
+// 			// if it was NOT selected
 
-			if (Overlay.validateGramsInput()) {
-				const grams = Overlay.model.itemData.grams;
+// 			if (Overlay.validateGramsInput()) {
+// 				const grams = Overlay.model.itemData.grams;
 				
-				await Overlay.closeSetGrams();
+// 				await Overlay.closeSetGrams();
 
-				Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), grams);
-				Foods.view.selectItem(itemElem);
-				Foods.view.setItemGrams(itemElem, grams);
+// 				Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), grams);
+// 				Foods.view.selectItem(itemElem);
+// 				Foods.view.setItemGrams(itemElem, grams);
 
-				itemElem.classList.remove('hover');
-			}
-		} else {
-			// if it WAS selected
+// 				itemElem.classList.remove('hover');
+// 			}
+// 		} else {
+// 			// if it WAS selected
 
-			if (Overlay.isGramsInputChanged()) {
-				// something changed, check
-				if (Overlay.validateGramsInput()) {
-					const grams = Overlay.model.itemData.grams;
+// 			if (Overlay.isGramsInputChanged()) {
+// 				// something changed, check
+// 				if (Overlay.validateGramsInput()) {
+// 					const grams = Overlay.model.itemData.grams;
 
-					await Overlay.closeSetGrams();
+// 					await Overlay.closeSetGrams();
 
-					Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), grams);
-					Foods.view.setItemGrams(itemElem, grams);
-				}
+// 					Calculator.setGrams(STATE.foods.sets[type].getItemObj(title), grams);
+// 					Foods.view.setItemGrams(itemElem, grams);
+// 				}
 
-			} else {
-				// nothing changed, just close
-				Overlay.closeSetGrams();
-			}
-		}
+// 			} else {
+// 				// nothing changed, just close
+// 				Overlay.closeSetGrams();
+// 			}
+// 		}
 
-	} else {
-		// if we don't want to save, then we don't care
-		await Overlay.closeSetGrams();
-		itemElem.classList.remove('hover');
-	}
-}
+// 	} else {
+// 		// if we don't want to save, then we don't care
+// 		await Overlay.closeSetGrams();
+// 		itemElem.classList.remove('hover');
+// 	}
+// }
 
 
 
@@ -567,19 +574,15 @@ async function handleOverlayGramsClose(save) {
 
 function fetchSessionStorage() {
 	const trashIsDemonstrated = window.sessionStorage.getItem('trashIsDemonstrated');
-	if (!trashIsDemonstrated) {
-		STATE.trashIsDemonstrated = false;
-	} else {
-		STATE.trashIsDemonstrated = true;
-	}
-	
+	const handIsDemonstrated = window.sessionStorage.getItem('handIsDemonstrated');
+
+	if (!trashIsDemonstrated) STATE.trashIsDemonstrated = false;
+	else STATE.trashIsDemonstrated = true;
+
+	if (!handIsDemonstrated) Foods.model.handIsDemonstrated = false;
+	// else Foods.model.handIsDemonstrated = true;
+	else Foods.model.handIsDemonstrated = false;
 }
-
-
-// testing
-// document.addEventListener('mousemove', event => {
-// 	mouse.textContent = 'x: ' + event.clientX + ', y: ' + event.clientY;
-// });
 
 
 // testing

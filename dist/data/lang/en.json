@@ -48,8 +48,9 @@
 	},
 	"contact": {
 		"name": "Name",
-		"email": "Email",
+		"email": "E-mail",
 		"message": "Message",
-		"send": "Send"
+		"send": "Send",
+		"thanks": "Your message has been sent. Thank you!"
 	}
 }

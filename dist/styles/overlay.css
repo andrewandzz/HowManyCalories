@@ -8,10 +8,8 @@
 	background-color: rgba(0, 0, 0, 0);
 	transition: background-color 200ms ease-in-out;
 }
-	.overlay.visible {
-		display: flex;
-		background-color: rgba(0, 0, 0, .2);
-	}
+	.overlay.display { display: flex; }
+	.overlay.visible { background-color: rgba(0, 0, 0, .2);	}
 
 
 .overlay__set-grams__container,
@@ -28,7 +26,8 @@
 	opacity: 0;
 	transition: opacity 200ms ease-in-out;
 }
-	.overlay__contact__container.display { display: flex; }
+	
+	.overlay__set-grams__container.display { display: flex; }
 
 	.overlay__set-grams__container.visible,
 	.overlay__contact__container.visible {
@@ -47,7 +46,7 @@
 	}
 	.overlay__set-grams--image.display { display: block; }
 
-	.overlay__set-grams--image.animate { transition: left 200ms ease-in-out, top 200ms ease-in-out, transform 250ms ease-in-out; }
+	.overlay__set-grams--image.move { transition: left 200ms ease-in-out, top 200ms ease-in-out, transform 250ms /* this is for scaling back to 1 when closing 'set grams' */; }
 	.overlay__set-grams--image.animate-increase {
 		animation: animate-increase 200ms 20ms ease-out;
 	}
@@ -87,7 +86,7 @@
 	    	-moz-appearance: textfield;
 	    	margin: 0;
 		}
-		.overlay__set-grams__input .symbol {
+		.overlay__set-grams__input--symbol {
 			position: absolute;
 			color: transparent;
 			width: 100%;
@@ -102,7 +101,7 @@
 			margin-left: .8rem;
 			pointer-events: none !important;
 		}
-		.overlay__set-grams__input .symbol span {
+		.overlay__set-grams__input--symbol span {
 			color: #444;
 		}
 
@@ -148,11 +147,20 @@
 
 
 /* CONTACT */
-.overlay__contact__container form {
+.overlay__contact__container {
+	transition: height 1s ease-in-out, width 1s ease-in-out;
+}
+.overlay__contact__container.display { display: flex; }
+
+.overlay__contact__form.display {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	transition: opacity 1s ease-in-out;
 }
+
+.overlay__contact__form.hide { opacity: 0; }
+.overlay__contact__form { display: none; }
 
 .overlay__contact--input {
 	width: 15rem;
@@ -194,4 +202,7 @@
 }
 
 .overlay__contact--input.invalid { animation: invalid-input 500ms ease-in-out; }
+
+.overlay__contact__thanks { display: none; }
+.overlay__contact__thanks.display { display: block; }
 

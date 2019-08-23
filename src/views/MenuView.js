@@ -13,7 +13,7 @@ export default class MenuView {
 			return string + `<li class="menu__item" data-type="${itemTitle}">${title}</li>`;
 		}, '');
 
-		DOMElems.menuList.insertAdjacentHTML('afterbegin', markup);
+		DOMElems.menuList.insertAdjacentHTML('beforeend', markup);
 
 		// set current items to be the first array's element
 		this.model.current = this.model.items[0];
@@ -23,7 +23,7 @@ export default class MenuView {
 		DOMElems.menuList.innerHTML = '';
 	}
 
-	open() {
+	async open() {
 		// make items visible first
 		DOMElems.menuList.classList.remove('hidden');
 		// then open menu

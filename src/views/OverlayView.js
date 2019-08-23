@@ -9,87 +9,76 @@ export default class OverlayView {
 
 
 	openOverlay() {
-		const observer = new MutationObserver(mutations => {
-			// listen for 'display: flex'
-			if (mutations) {
-				observer.disconnect();
-				DOMElems.overlay.classList.add('visible');
-			}
-		});
-		observer.observe(DOMElems.overlay, { attributes: true });
+		DOMElems.overlay.classList.add('display');
 
-		DOMElems.overlay.style.display = 'flex';
+		// little hack to prevent adding class 'visible' before getting class 'display'
+		void DOMElems.overlay.offsetWidth;
 
+		DOMElems.overlay.classList.add('visible');
 		DOMElems.container.classList.add('blur');
 	}
 
 
 	closeOverlay() {
 		return new Promise(resolve => {
+			const handleOverlayClose = () => {
+				DOMElems.container.removeEventListener('transitionend', handleOverlayClose);
+				DOMElems.overlay.classList.remove('display');
+				resolve();
+			}
+
 			// listen on 'container', not on 'overlay'
 			DOMElems.container.addEventListener('transitionend', handleOverlayClose, false);
 			DOMElems.overlay.classList.remove('visible');
 			DOMElems.container.classList.remove('blur');
-
-			function handleOverlayClose() {
-				DOMElems.container.removeEventListener('transitionend', handleOverlayClose);
-				DOMElems.overlay.style.display = 'none';
-				resolve();
-			}
 		});
 	}
 
 
-
 	openSetGrams() {
 		const itemData = this.model.itemData;
-		DOMElems.overlayGramsWrapper.dataset.type = itemData.type;
-		DOMElems.overlayGramsImg.id = itemData.title;
-		DOMElems.overlayGramsImgPseudo.id = itemData.title;
+
+		DOMElems.setGramsWrapper.dataset.type = itemData.type;
+		DOMElems.setGramsImg.id = itemData.title;
+		DOMElems.setGramsImgPseudo.id = itemData.title;
 
 		/*
 			here we need to position the new image firstly WITHOUT animation,
 			and then, before setting new top/left, add class 'animate'.
 			after the image replaced, we need to remove 'animate' class
 		*/
-		const imgObserver = new MutationObserver(mutations => {
+		const imgObserver = new MutationObserver(() => {
 			// listen for assigning 'top' and 'left'
-			if (mutations) {
-				imgObserver.disconnect();
-				DOMElems.overlayGramsImg.classList.add('animate');
-				adjustOverlayGramsImgPos();
-
-				// remove class 'animate'
-				DOMElems.overlayGramsImg.addEventListener('transitionend', handleImgOnOverlay, false);
-			}
+			imgObserver.disconnect();
+			DOMElems.setGramsImg.classList.add('move');
+			adjustOverlayGramsImgPos();
+			// remove class 'move'
+			DOMElems.setGramsImg.addEventListener('transitionend', handleImgOnOverlay, false);
 		});
-		imgObserver.observe(DOMElems.overlayGramsImg, { attributes: true });
+		imgObserver.observe(DOMElems.setGramsImg, { attributes: true });
 
-		DOMElems.overlayGramsImg.classList.add('display');
-		DOMElems.overlayGramsImg.style.top = itemData.origImgCoords.top + 'px';
-		DOMElems.overlayGramsImg.style.left = itemData.origImgCoords.left + 'px';
+		DOMElems.setGramsImg.classList.add('display');
+		DOMElems.setGramsImg.style.top = itemData.origImgCoords.top + 'px';
+		DOMElems.setGramsImg.style.left = itemData.origImgCoords.left + 'px';
 
+		itemData.origImg.classList.add('hidden');
 
-		itemData.origImg.style.visibility = 'hidden';
-
-
-		const overlayObserver = new MutationObserver(mutations => {
+		const overlayObserver = new MutationObserver(() => {
 			// listen for 'display: flex'
-			if (mutations) {
-				overlayObserver.disconnect();
-				DOMElems.overlayGramsContainer.classList.add('visible');
-				this.renderGramsNumber(itemData.grams);
-				this.focusInput();
-			}
+			overlayObserver.disconnect();
+			DOMElems.setGramsContainer.classList.add('visible');
+			this.renderGramsNumber(itemData.grams);
+			this.focusInput();
 		});
-		overlayObserver.observe(DOMElems.overlayGramsContainer, { attributes: true });
-		DOMElems.overlayGramsContainer.style.display = 'flex';
+		overlayObserver.observe(DOMElems.setGramsContainer, { attributes: true });
+		DOMElems.setGramsContainer.classList.add('display');
 
 		window.addEventListener('resize', adjustOverlayGramsImgPos, false);
 
+
 		// this function captures on keydown
 		const preventNotNumber = event => {
-			if (event.ctrlKey || event.metaKey) return;
+			if (event.ctrlKey || event.metaKey || event.keyCode === 13) return;
 
 			if (itemData.grams.toString().length === 6) {
 				if (event.keyCode !== 8 && event.keyCode !== 37 && event.keyCode !== 39 && event.keyCode !== 40) {
@@ -116,26 +105,28 @@ export default class OverlayView {
 			}
 		}
 
+
 		// whilest this function formats GOOD (after previous function) number
 		const updateGrams = () => {
-			itemData.grams = DOMElems.overlayGramsInputNumber.value.replace('.', '');
+			itemData.grams = DOMElems.setGramsInputNumber.value.replace('.', '');
 			this.renderGramsNumber(itemData.grams);
 		}
-		
-		DOMElems.overlayGramsInputNumber.addEventListener('keydown', preventNotNumber);
-		DOMElems.overlayGramsInputNumber.addEventListener('input', updateGrams);
+
+
+		DOMElems.setGramsInputNumber.onkeydown = preventNotNumber;
+		DOMElems.setGramsInputNumber.oninput = updateGrams;
 
 
 		function handleImgOnOverlay() {
-			DOMElems.overlayGramsImg.removeEventListener('transitionend', handleImgOnOverlay);
-			DOMElems.overlayGramsImg.classList.remove('animate');
+			DOMElems.setGramsImg.removeEventListener('transitionend', handleImgOnOverlay);
+			DOMElems.setGramsImg.classList.remove('move');
 		}
 
 
 		function adjustOverlayGramsImgPos() {
-			const pseudoImgCoords = DOMElems.overlayGramsImgPseudo.getBoundingClientRect();
-			DOMElems.overlayGramsImg.style.top = pseudoImgCoords.top + 'px';
-			DOMElems.overlayGramsImg.style.left = pseudoImgCoords.left + 'px';
+			const pseudoImgCoords = DOMElems.setGramsImgPseudo.getBoundingClientRect();
+			DOMElems.setGramsImg.style.top = pseudoImgCoords.top + 'px';
+			DOMElems.setGramsImg.style.left = pseudoImgCoords.left + 'px';
 		}
 	}
 
@@ -146,8 +137,8 @@ export default class OverlayView {
 
 		const handleContainerClose = () => {
 			DOMElems.container.removeEventListener('transitionend', handleContainerClose);
-			DOMElems.overlayGramsContainer.style.display = 'none';
-			this.model.itemData.origImg.style.visibility = 'visible';
+			DOMElems.setGramsContainer.classList.remove('display')
+			itemData.origImg.classList.remove('hidden');
 		}
 
 		/*
@@ -155,46 +146,42 @@ export default class OverlayView {
 			fires transitionend event, so the overlay closes early.
 		*/
 		DOMElems.container.addEventListener('transitionend', handleContainerClose, false);
-		DOMElems.overlayGramsContainer.classList.remove('visible');
-		DOMElems.overlayGramsImg.style.transform = 'scale(1)';
+		DOMElems.setGramsContainer.classList.remove('visible');
+		DOMElems.setGramsImg.style.transform = 'scale(1)';
 
 
-		/*
-			the same as before
-		*/
-		const imgObserver = new MutationObserver(mutations => {
-			if (mutations) {
-				imgObserver.disconnect();
-				DOMElems.overlayGramsImg.style.top = itemData.origImgCoords.top + 'px';
-				DOMElems.overlayGramsImg.style.left = itemData.origImgCoords.left + 'px';
+		/* the same as before */
+		const imgObserver = new MutationObserver(() => {
+			imgObserver.disconnect();
+			DOMElems.setGramsImg.style.top = itemData.origImgCoords.top + 'px';
+			DOMElems.setGramsImg.style.left = itemData.origImgCoords.left + 'px';
 
-				DOMElems.overlayGramsImg.addEventListener('transitionend', handleImgIsBack, false);
-			}
+			DOMElems.setGramsImg.addEventListener('transitionend', handleImgIsBack, false);
 		});
-		imgObserver.observe(DOMElems.overlayGramsImg, { attributes: true });
+		imgObserver.observe(DOMElems.setGramsImg, { attributes: true });
 
-		DOMElems.overlayGramsImg.classList.add('animate');
+		DOMElems.setGramsImg.classList.add('move');
 
 		
 		function handleImgIsBack() {
-			DOMElems.overlayGramsImg.removeEventListener('transitionend', handleImgIsBack);
-			DOMElems.overlayGramsImg.classList.remove('animate');
-			DOMElems.overlayGramsImg.classList.remove('display');
-			DOMElems.overlayGramsImg.style.top = '';
-			DOMElems.overlayGramsImg.style.left = '';
+			DOMElems.setGramsImg.removeEventListener('transitionend', handleImgIsBack);
+			DOMElems.setGramsImg.classList.remove('move');
+			DOMElems.setGramsImg.classList.remove('display');
+			DOMElems.setGramsImg.style.top = '';
+			DOMElems.setGramsImg.style.left = '';
 		}
 	}
 
 
 	showGramsInvalidInput() {
-		DOMElems.overlayGramsInputContainer.addEventListener('animationend', removeInvalid);
-		DOMElems.overlayGramsInputContainer.classList.add('invalid');
-		this.focusInput();
-
-		function removeInvalid() {
-			DOMElems.overlayGramsInputContainer.removeEventListener('animationend', removeInvalid);
-			DOMElems.overlayGramsInputContainer.classList.remove('invalid');
+		const removeInvalid = () => {
+			DOMElems.setGramsInputContainer.removeEventListener('animationend', removeInvalid);
+			DOMElems.setGramsInputContainer.classList.remove('invalid');
 		}
+
+		DOMElems.setGramsInputContainer.addEventListener('animationend', removeInvalid);
+		DOMElems.setGramsInputContainer.classList.add('invalid');
+		this.focusInput();
 	}
 
 
@@ -202,13 +189,13 @@ export default class OverlayView {
 		const formattedGrams = this.model.formatInputGrams(grams);
 		const g = this.model.STATE.language.dictionary.foods.g;
 
-		DOMElems.overlayGramsInputNumber.value = formattedGrams;
-		DOMElems.overlayGramsInputSymbol.innerHTML = formattedGrams + `<span>${g}</span>`;
+		DOMElems.setGramsInputNumber.value = formattedGrams;
+		DOMElems.setGramsInputSymbol.innerHTML = formattedGrams + `<span>${g}</span>`;
 	}
 
 
 	focusInput() {
-		DOMElems.overlayGramsInputNumber.focus();
+		DOMElems.setGramsInputNumber.focus();
 	}
 
 
@@ -233,10 +220,12 @@ export default class OverlayView {
 
 		if (type === 1) animationType = 'animate-increase';
 		else if (type === 0) animationType = 'animate-decrease';
-		
+
+
+		const img = DOMElems.setGramsImg;		
 
 		if (this.isImgAnimating) {
-			DOMElems.overlayGramsImg.classList.remove(animationType);
+			img.classList.remove(animationType);
 			this.isImgAnimating = false;
 		}
 
@@ -279,48 +268,70 @@ export default class OverlayView {
 	}
 }`;
 		
-		DOMElems.overlayGramsImg.addEventListener('animationend', removeImgAnimate, false);
+		img.addEventListener('animationend', removeImgAnimate, false);
 
 		if (type === 1) this.model.imgSize++;
 		else if (type === 0) this.model.imgSize--; 
 
-		DOMElems.overlayGramsImg.classList.add(animationType);
+		img.classList.add(animationType);
 		this.isImgAnimating = true;
 
 		function removeImgAnimate() {
-			DOMElems.overlayGramsImg.removeEventListener('animationend', removeImgAnimate);
+			img.removeEventListener('animationend', removeImgAnimate);
 
-			DOMElems.overlayGramsImg.classList.remove(animationType);
-			DOMElems.overlayGramsImg.style.transform = `scale(${
+			img.classList.remove(animationType);
+			img.style.transform = `scale(${
 				(type === 1) ? incScale100 : decScale100})`;
 			this.isImgAnimating = false;
 		}
 	}
 
 
+	renderContact() {
+		const contactMarkup = `
+<div class="overlay__contact__container">
+	<form class="overlay__contact__form display">
+		<input class="overlay__contact--input" type="text" name="name" placeholder="" tabindex="1">
+		<input class="overlay__contact--input" type="email" name="email" placeholder="" tabindex="2">
+		<textarea class="overlay__contact--input" rows="6" placeholder="" required="required" tabindex="3"></textarea>
+		<button class="overlay__contact--btn" type="submit" tabindex="4">Send</button>
+	</form>
+</div>`;
+		
+		this.model.overlayElem.insertAdjacentHTML('beforeend', contactMarkup);
+
+		this.model.contactElem = {};
+		this.model.contactElem.container = this.model.overlayElem.querySelector('.overlay__contact__container');
+		this.model.contactElem.form = this.model.contactElem.container.querySelector('.overlay__contact__form');
+		this.model.contactElem.name = this.model.contactElem.form.querySelector('.overlay__contact--input[name="name"]');
+		this.model.contactElem.email = this.model.contactElem.form.querySelector('.overlay__contact--input[name="email"]');
+		this.model.contactElem.message = this.model.contactElem.form.querySelector('textarea.overlay__contact--input');
+		this.model.contactElem.btn = this.model.contactElem.form.querySelector('.overlay__contact--btn');
+	}
+
+
 	openContact() {
 		this.renderContactPlaceholders();
 
-		DOMElems.overlayContactContainer.classList.add('display');
-		DOMElems.overlayContactName.focus();
+		this.model.contactElem.container.classList.add('display');
+		this.model.contactElem.name.focus();
+		// little hack to add class 'visible' just after class 'display'
+		void this.model.contactElem.container.offsetWidth;
 
-		setTimeout(() => {
-			DOMElems.overlayContactContainer.classList.add('visible');
-		}, 10);
-
+		this.model.contactElem.container.classList.add('visible');
 	}
 	
 
-	closeContact(clear = false) {
+	closeContact() {
 		const removeDisplay = () => {
-			DOMElems.overlayContactContainer.removeEventListener('transitionend', removeDisplay);
-			DOMElems.overlayContactContainer.classList.remove('display');
+			this.model.contactElem.container.removeEventListener('transitionend', removeDisplay);
+			this.model.contactElem.container.classList.remove('display');
 
-			if (clear) this.clearContactFields();
+			// if (clear) this.clearContactFields();
 		}
 
-		DOMElems.overlayContactContainer.addEventListener('transitionend', removeDisplay, false);
-		DOMElems.overlayContactContainer.classList.remove('visible');
+		this.model.contactElem.container.addEventListener('transitionend', removeDisplay, false);
+		this.model.contactElem.container.classList.remove('visible');
 	}
 
 
@@ -330,29 +341,61 @@ export default class OverlayView {
 		const messagePlaceholder = this.model.STATE.language.dictionary.contact.message;
 		const btnTitle = this.model.STATE.language.dictionary.contact.send;
 
-		DOMElems.overlayContactName.placeholder = namePlaceholder;
-		DOMElems.overlayContactEmail.placeholder = emailPlaceholder;
-		DOMElems.overlayContactMessage.placeholder = messagePlaceholder;
-		DOMElems.overlayContactBtn.textContent = btnTitle;
+		this.model.contactElem.name.placeholder = namePlaceholder;
+		this.model.contactElem.email.placeholder = emailPlaceholder;
+		this.model.contactElem.message.placeholder = messagePlaceholder;
+		this.model.contactElem.btn.textContent = btnTitle;
 	}
 
 
 	showContactInvalidMessage() {
-		DOMElems.overlayContactMessage.addEventListener('animationend', removeInvalid);
-		DOMElems.overlayContactMessage.classList.add('invalid');
-		DOMElems.overlayContactMessage.focus();
-
-		function removeInvalid() {
-			DOMElems.overlayContactMessage.removeEventListener('animationend', removeInvalid);
-			DOMElems.overlayContactMessage.classList.remove('invalid');
+		const removeInvalid = () => {
+			this.model.contactElem.message.removeEventListener('animationend', removeInvalid);
+			this.model.contactElem.message.classList.remove('invalid');
 		}
+
+		this.model.contactElem.message.addEventListener('animationend', removeInvalid);
+		this.model.contactElem.message.classList.add('invalid');
+		this.model.contactElem.message.focus();
 	}
 
 
-	clearContactFields() {
-		DOMElems.overlayContactName.value = '';
-		DOMElems.overlayContactEmail.value = '';
-		DOMElems.overlayContactMessage.value = '';
+	// clearContactFields() {
+	// 	DOMElems.overlayContactName.value = '';
+	// 	DOMElems.overlayContactEmail.value = '';
+	// 	DOMElems.overlayContactMessage.value = '';
+	// }
+
+
+	renderContactThanks() {
+		const text = this.model.STATE.language.dictionary.contact.thanks;
+		const thanksMarkup = `
+<div class="overlay__contact__thanks">${text}</div>`;
+		
+		this.model.contactElem.container.insertAdjacentHTML('beforeend', thanksMarkup);
+		this.model.contactElem.thanks = this.model.contactElem.container.querySelector('.overlay__contact__thanks');
+	}
+
+
+	clearContactThanks() {
+		/* we need this when we change language */
+	}
+
+	showContactThanks() {
+		return new Promise(resolve => {
+			const removeDisplay = () => {
+				this.model.contactElem.form.removeEventListener('transitionend', removeDisplay);
+				this.model.contactElem.form.classList.remove('display');
+				this.model.contactElem.thanks.classList.add('display');
+
+			};
+
+			this.model.contactElem.form.addEventListener('transitionend', removeDisplay);
+
+			this.model.contactElem.form.classList.add('hide');
+			// resolve();
+
+		});
 	}
 }
 
