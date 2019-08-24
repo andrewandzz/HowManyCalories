@@ -184,7 +184,6 @@ nav {
 		font-size: 1.7rem;
 		font-weight: 300;
 		height: 2.8rem;
-		width: 13.5rem;
 		margin-top: 1.6rem;
 
 		border-bottom-right-radius: 1.4rem;
@@ -192,7 +191,7 @@ nav {
 		box-shadow: 0 .1rem .16rem rgba(0, 0, 0, .1);
 		/* animate height so that shadow under the menu could adjust to its size.
 			we also need this transition to detect its end */
-		transition: height 250ms ease-out;
+		transition: height 250ms ease-out, width 200ms ease-out;
 	}
 		.menu.open {
 			height: calc(2.8rem * 9);
@@ -203,7 +202,6 @@ nav {
 			.menu {
 				font-size: 1.3rem;
 				height: 2.1rem;
-				width: 10.3rem;
 				margin-top: 1.2rem;
 				box-shadow: 0 .1rem .12rem rgba(0, 0, 0, .1);
 			}
@@ -211,6 +209,14 @@ nav {
 				height: calc(2.1rem * 9);
 			}
 		}
+			.menu.en { width: 13.5rem; }
+			@media screen and (max-width: 480px) {
+				.menu.en { width: 10.3rem; }
+			}
+			.menu.ru { width: 16.5rem; }
+			@media screen and (max-width: 480px) {
+				.menu.ru { width: 12.5rem; }
+			}
 
 	
 
