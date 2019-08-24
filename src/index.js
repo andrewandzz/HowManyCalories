@@ -58,7 +58,7 @@ STATE.Overlay = Overlay;
 async function init() {
 	getItemsPerPage();
 	setBtnsBgPos();
-	await Language.setCurrent();
+	await Language.setLanguage();
 	Menu.render();
 	Footer.render();
 	Foods.openFoodsSet(Menu.model.current);
@@ -260,7 +260,7 @@ DOMElems.footerLangList.addEventListener('click', async event => {
 
 	if (langItem.classList.contains('clickable')) {
 		const lang = langItem.dataset.lang;
-		await Language.change(lang);
+		await Language.setLanguage(lang);
 		// rerender menu
 		Menu.render();
 		// reload foods pages on new language
@@ -515,6 +515,8 @@ function handleLongPress(event) {
 	}
 	
 	Overlay.openSetGrams(itemElem);
+	Foods.model.handIsDemonstrated = true;
+	window.sessionStorage.setItem('handIsDemonstrated', 'true');
 }
 
 
@@ -580,8 +582,7 @@ function fetchSessionStorage() {
 	else STATE.trashIsDemonstrated = true;
 
 	if (!handIsDemonstrated) Foods.model.handIsDemonstrated = false;
-	// else Foods.model.handIsDemonstrated = true;
-	else Foods.model.handIsDemonstrated = false;
+	else Foods.model.handIsDemonstrated = true;
 }
 
 

@@ -4,18 +4,20 @@ export default class LanguageController {
 		this.view = view;
 	}
 
-	async setCurrent() {
-		this.model.fetchLocalStorage();
+	async setLanguage(newLanguage) {
+		if (!newLanguage) {
+			this.model.fetchLocalStorage();
+		} else {
+			this.model.changeLanguage(newLanguage);
+		}
+		
+		if (this.model.current === 'ru') {
+			this.model.loadRuFonts();
+			this.model.STATE.Menu.view.ruMenu();
 
-		if (this.model.current === 'ru') this.model.loadRuFonts();
-
-		await this.model.fetchDictionary();
-	}
-
-	async change(lang) {
-		this.model.changeLanguage(lang);
-
-		if (lang === 'ru') this.model.loadRuFonts();
+		} else {
+			this.model.STATE.Menu.view.enMenu();
+		}
 
 		await this.model.fetchDictionary();
 	}

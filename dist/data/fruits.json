@@ -4,39 +4,39 @@
 		"calories": 52
 	},
 	{
-		"title": "kiwi",
-		"calories": 61
-	},
-	{
 		"title": "banana",
 		"calories": 89
-	},
-	{
-		"title": "strawberry",
-		"calories": 33
-	},
-	{
-		"title": "mango",
-		"calories": 60
-	},
-	{
-		"title": "grapes",
-		"calories": 67
-	},
-	{
-		"title": "pineapple",
-		"calories": 50
-	},
-	{
-		"title": "watermelon",
-		"calories": 30
 	},
 	{
 		"title": "orange",
 		"calories": 47
 	},
 	{
+		"title": "strawberry",
+		"calories": 33
+	},
+	{
+		"title": "grapes",
+		"calories": 67
+	},
+	{
+		"title": "watermelon",
+		"calories": 30
+	},
+	{
+		"title": "kiwi",
+		"calories": 61
+	},
+	{
 		"title": "cherry",
+		"calories": 50
+	},
+	{
+		"title": "apricot",
+		"calories": 48
+	},
+	{
+		"title": "pineapple",
 		"calories": 50
 	},
 	{
@@ -44,7 +44,7 @@
 		"calories": 354
 	},
 	{
-		"title": "apricot",
-		"calories": 48
-	}
+		"title": "mango",
+		"calories": 60
+	}	
 ]

@@ -21,7 +21,7 @@ export default class CalculatorController {
 		this.model.calculateTotalCalories();
 		this.view.renderTotalCalories();
 
-		if (!this.model.STATE.trashIsDemonstrated) {
+		if (this.model.items.length === 2 && !this.model.STATE.trashIsDemonstrated) {
 			this.view.demonstrateTrashAnimation();
 			return;
 		}

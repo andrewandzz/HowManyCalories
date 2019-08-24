@@ -58,6 +58,16 @@ export default class MenuView {
 		DOMElems.menuList.insertAdjacentHTML('afterbegin', newItemMarkup);
 		DOMElems.menuList.removeChild(newItemElem);
 	}
+
+	ruMenu() {
+		DOMElems.menuList.classList.remove('en');
+		DOMElems.menuList.classList.add('ru');
+	}
+
+	enMenu() {
+		DOMElems.menuList.classList.remove('ru');
+		DOMElems.menuList.classList.add('en');
+	}
 }
 
 

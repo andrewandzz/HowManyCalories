@@ -298,10 +298,10 @@ export default class OverlayView {
 	</form>
 </div>`;
 		
-		this.model.overlayElem.insertAdjacentHTML('beforeend', contactMarkup);
+		DOMElems.overlay.insertAdjacentHTML('beforeend', contactMarkup);
 
 		this.model.contactElem = {};
-		this.model.contactElem.container = this.model.overlayElem.querySelector('.overlay__contact__container');
+		this.model.contactElem.container = DOMElems.overlay.querySelector('.overlay__contact__container');
 		this.model.contactElem.form = this.model.contactElem.container.querySelector('.overlay__contact__form');
 		this.model.contactElem.name = this.model.contactElem.form.querySelector('.overlay__contact--input[name="name"]');
 		this.model.contactElem.email = this.model.contactElem.form.querySelector('.overlay__contact--input[name="email"]');
@@ -320,14 +320,15 @@ export default class OverlayView {
 
 		this.model.contactElem.container.classList.add('visible');
 	}
+
+	// TO DO
 	
 
 	closeContact() {
 		const removeDisplay = () => {
 			this.model.contactElem.container.removeEventListener('transitionend', removeDisplay);
 			this.model.contactElem.container.classList.remove('display');
-
-			// if (clear) this.clearContactFields();
+			console.log('deleted')
 		}
 
 		this.model.contactElem.container.addEventListener('transitionend', removeDisplay, false);
@@ -360,11 +361,15 @@ export default class OverlayView {
 	}
 
 
-	// clearContactFields() {
-	// 	DOMElems.overlayContactName.value = '';
-	// 	DOMElems.overlayContactEmail.value = '';
-	// 	DOMElems.overlayContactMessage.value = '';
-	// }
+	clearContact() {
+		this.model.contactElem.name.value = '';
+		this.model.contactElem.email.value = '';
+		this.model.contactElem.message.value = '';
+
+		this.model.contactElem.thanks.remove();
+		this.model.contactElem.form.classList.remove('hide');
+		this.model.contactElem.form.classList.add('display');
+	}
 
 
 	renderContactThanks() {
@@ -377,10 +382,6 @@ export default class OverlayView {
 	}
 
 
-	clearContactThanks() {
-		/* we need this when we change language */
-	}
-
 	showContactThanks() {
 		return new Promise(resolve => {
 			const removeDisplay = () => {
@@ -388,13 +389,14 @@ export default class OverlayView {
 				this.model.contactElem.form.classList.remove('display');
 				this.model.contactElem.thanks.classList.add('display');
 
+				setTimeout(() => {
+					resolve();
+				}, 2000);
 			};
 
 			this.model.contactElem.form.addEventListener('transitionend', removeDisplay);
 
 			this.model.contactElem.form.classList.add('hide');
-			// resolve();
-
 		});
 	}
 }

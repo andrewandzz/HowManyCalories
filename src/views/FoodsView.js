@@ -257,14 +257,18 @@ export default class FoodsView {
 		if (!itemObj) return;
 
 		tooltip.classList.add('display');
+
 		const tooltipWidth = tooltip.offsetWidth;
+		const tooltipHeight = tooltip.offsetHeight;
 		tooltip.style.left = window.innerWidth / 2 - tooltipWidth / 2 + 'px';
 
 		const itemElem = DOMElems.mainContainer.querySelector(`.foods__page__list__item__image img#${itemObj.title}`).closest('.foods__page__list__item');
 
+		const tooltipHandHeight = parseInt(getComputedStyle(tooltip.querySelector('.tooltip-hand--icon')).height);
+
 		const itemCoords = itemElem.getBoundingClientRect();
 		const left = itemCoords.left + (itemCoords.width / 2) - tooltipWidth / 2;
-		const top = itemCoords.top + (itemCoords.height / 2);
+		const top = itemCoords.top + (itemCoords.height / 2) - (tooltipHeight - tooltipHandHeight);
 
 		tooltip.addEventListener('transitionend', scaleDown, false);
 
@@ -325,6 +329,7 @@ export default class FoodsView {
 	renderTooltip() {
 		const tooltipMarkup = `
 <div class="tooltip-hand default">
+<div class="tooltip-hand--text">${this.model.STATE.language.dictionary.tooltipText}</div>
 	<svg class="tooltip-hand--icon">
 		<use xlink:href="./images/icons.svg#hand-default"></use>
 		<use xlink:href="./images/icons.svg#hand-press"></use>

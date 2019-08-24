@@ -19,24 +19,19 @@ export default class OverlayController {
 	}
 
 	openContact() {
-		if (!this.model.overlayElem) {
-			this.view.renderOverlay();
-			this.setupOverlayListeners();
-		}
-		this.view.openOverlay();
-
 		if (!this.model.contactElem) {
 			this.view.renderContact();
 			this.setupContactListeners();
 		}
+		this.view.openOverlay();
 		this.view.openContact();
 
 		this.model.isContactOpened = true;
 	}
 
-	closeContact() {
+	async closeContact() {
 		this.view.closeContact();
-		this.view.closeOverlay();
+		await this.view.closeOverlay();
 		this.model.isContactOpened = false;
 	}
 
@@ -110,7 +105,8 @@ export default class OverlayController {
 			this.view.renderContactThanks();
 		}
 		await this.view.showContactThanks();
-		this.closeContact();
+		await this.closeContact();
+		this.view.clearContact();
 	}
 
 
