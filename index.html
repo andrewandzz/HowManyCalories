@@ -2,7 +2,8 @@
 <html>
 <head>
 	<title>How Many Calories</title>
-	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="./styles/style.css">
 	<link rel="icon" type="image/png" href="./images/icon.png">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
@@ -10,105 +11,120 @@
 </head>
 <body>
 
-	<div class="container">
+	<div class="container">		
 
 		<!-- TOP -->
 		<nav>
 			<ul class="menu hidden">
-				<li class="menu__item" data-type="fruits"><a href="#">Fruits</a></li>
-				<li class="menu__item" data-type="vegetables"><a href="#">Vegetables</a></li>
-				<li class="menu__item" data-type="milk"><a href="#">Milk</a></li>
-				<li class="menu__item" data-type="fast-food"><a href="#">Fast food</a></li>
-				<li class="menu__item" data-type="drinks"><a href="#">Drinks</a></li>
-				<li class="menu__item" data-type="meat"><a href="#">Meat</a></li>
-				<li class="menu__item" data-type="sea-food"><a href="#">Sea food</a></li>
-				<li class="menu__item" data-type="desserts"><a href="#">Desserts</a></li>
-				<li class="menu__item" data-type="bread"><a href="#">Bread</a></li>
+				<!-- <li class="menu__item" data-type="fruits">Fruits</li>
+				<li class="menu__item" data-type="vegetables">Vegetables</li>
+				<li class="menu__item" data-type="milk">Milk</li>
+				<li class="menu__item" data-type="fast-food">Fast food</li>
+				<li class="menu__item" data-type="drinks">Drinks</li>
+				<li class="menu__item" data-type="meat">Meat</li>
+				<li class="menu__item" data-type="sea-food">Sea food</li>
+				<li class="menu__item" data-type="desserts">Desserts</li>
+				<li class="menu__item" data-type="bread">Bread</li> -->
 			</ul>
 		</nav>
 
-		<div class="calories"><span class="calories--text">0</span><span class="calories--icon">d</span></div>
+		<div class="calories">
+			<span class="calories--text">0</span>&nbsp;
+			<div class="calories--icon">
+				<img src="./images/transparent.gif">
+			</div>
+		</div>
 
 
 		<!-- MIDDLE -->
-		<button class="btn__prev"><</button>
+		<button class="btn__prev">
+			<div class="arrow">
+				<svg class="arrow--icon">
+					<use xlink:href="./images/icons.svg#arrow-left"></use>
+				</svg>
+			</div>
+		</button>
 
-		<main class="foods" theme="fruits" style="display: none;">
-			<!-- <div class="foods__page">	<==  THERE'S NO MORE THIS DIV
-				<ul class="foods__page__list">
-					<li class="foods__page__list__item">
-						<div class="foods__page__list__item--image">
-							<img id="apple" src="./images/foods/transparent.gif">
-						</div>
-						<h3 class="foods__page__list__item--title">Apple</h3>
-					</li>
-					<li class="foods__list__item" value="Kiwi">
-						<div class="foods__list__item--image">
-							<img id="kiwi" src="./images/foods/transparent.gif">
-						</div>
-						<h3 class="foods__list__item--title">Kiwi</h3>
-					</li>
-					<li class="foods__list__item" value="banana">
-						<div class="foods__list__item--image">
-							<img id="banana" src="./images/foods/transparent.gif">
-						</div>
-						<h3 class="foods__list__item--title">Banana</h3>
-					</li>
-					<li class="foods__list__item" value="strawberry">
-						<div class="foods__list__item--image">
-							<img id="strawberry" src="./images/foods/transparent.gif">
-						</div>
-						<h3 class="foods__list__item--title">Strawberry</h3>
-					</li>
-					<li class="foods__list__item" value="mango">
-						<div class="foods__list__item--image">
-							<img id="mango" src="./images/foods/transparent.gif">
-						</div>
-						<h3 class="foods__list__item--title">Mango</h3>
-					</li>
-					<li class="foods__list__item" value="grapes">
-						<div class="foods__list__item--image">
-							<img id="grapes" src="./images/foods/transparent.gif">
-						</div>
-						<h3 class="foods__list__item--title">Grapes</h3>
-					</li>
-					<li class="foods__list__item" value="pineapple">
-						<div class="foods__list__item--image">
-							<img id="pineapple" src="./images/foods/transparent.gif">
-						</div>
-						<h3 class="foods__list__item--title">Pineapple</h3>
-					</li>
-					<li class="foods__list__item" value="watermelon">
-						<div class="foods__list__item--image">
-							<img id="watermelon" src="./images/foods/transparent.gif">
-						</div>
-						<h3 class="foods__list__item--title">Watermelon</h3>
-					</li>
-					<li class="foods__list__item" value="orange">
-						<div class="foods__list__item--image">
-							<img id="orange" src="./images/foods/transparent.gif">
-						</div>
-						<h3 class="foods__list__item--title">Orange</h3>
-					</li>
-				</ul>
-			</div> -->
+		<main class="foods">
+			<!-- <ul class="foods__page__list" data-page="1">
+				<li class="foods__page__list__item">
+					<div class="foods__page__list__item__image">
+						<img id="apple" src="./images/transparent.gif">
+					</div>
+					<div class="foods__page__list__item__text">
+						<h3 class="foods__page__list__item__text--title">Apple</h3>
+						<h4 class="foods__page__list__item__text--grams">100<span> g</span></h4>
+					</div>
+				</li>
+			</ul> -->
 		</main>
 
-		<button class="btn__next">></button>
+		<button class="btn__next">
+			<div class="arrow">
+				<svg class="arrow--icon">
+					<use xlink:href="./images/icons.svg#arrow-right"></use>
+				</svg>
+			</div>
+		</button>
 		
 		
 		<!-- BOTTOM -->
 		<footer>
-			<div class="block" theme="fruits">
-				<ul>
-					<li><a href="#">English</a></li>
+			<div class="bottom" theme="fruits">
+				<ul class="bottom__menu visible">
+					<!-- <li class="bottom__menu--language">English</li>
 					<li class="separator">|</li>
-					<li><a href="#">Contact</a></li>
+					<li class="bottom__menu--contact">Contact</li> -->
+				</ul>
+
+				<ul class="bottom__flags">
+					<!-- <li class="bottom__flags__item">
+						<svg class="bottom__flags--icon">
+							<use xlink:href="./images/flags-icons.svg#en"></use>
+						</svg>
+					</li>
+					<li class="bottom__flags__item">
+						<svg class="bottom__flags--icon">
+							<use xlink:href="./images/flags-icons.svg#ru"></use>
+						</svg>
+					</li> -->
 				</ul>
 			</div>
 		</footer>
 
 	</div>
+
+
+
+
+
+	<div class="overlay">
+
+		<div class="overlay__set-grams__wrapper" data-type="">
+			<div class="overlay__set-grams__container">
+				<img class="overlay__set-grams--image--pseudo" src="./images/transparent.gif">
+				<div class="overlay__set-grams__input">
+					<input class="overlay__set-grams__input--number" type="number" min="1" max="999999" step="1">
+					<div class="overlay__set-grams__input--symbol"><span>g</span></div>
+					<div class="overlay__set-grams__input--btns">
+						<div class="overlay__set-grams__input--btns__btn--inc">&#9650;</div>
+						<div class="overlay__set-grams__input--btns__btn--dec">&#9660;</div>
+					</div>
+				</div>
+				<button class="overlay__set-grams__btn">OK</button>
+			</div>
+			<img class="overlay__set-grams--image" src="./images/transparent.gif">
+		</div>
+		
+	</div>
+
+	<!-- <div class="tooltip-hand display default">
+		<svg class="tooltip-hand--icon">
+			<use xlink:href="./images/icons.svg#hand-default"></use>
+			<use xlink:href="./images/icons.svg#hand-press"></use>
+		</svg>
+	</div> -->
+	
 
 <script type="text/javascript" src="main.js"></script></body>
 </html>
