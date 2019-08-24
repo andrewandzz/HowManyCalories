@@ -3,8 +3,8 @@
 	top: 100vh;
 	display: none;
 	pointer-events: none;
-	transition: left 600ms ease-out, top 600ms ease-out;
 }
+	.tooltip-hand.move { transition: left 600ms ease-out, top 600ms ease-out; }
 	.tooltip-hand.display { display: block; }
 	.tooltip-hand.press-and-hold { animation: press-and-hold 1600ms ease-in-out; }
 	
@@ -26,5 +26,5 @@
 	.tooltip-hand.press .tooltip-hand--icon use:first-child { display: none; }
 	.tooltip-hand.press .tooltip-hand--icon use:last-child { display: block; }
 
-	.tooltip-hand.scale-down { animation: hand-scale-down 300ms ease-in forwards; }
-	.tooltip-hand.scale-up { animation: hand-scale-up 300ms ease-out; }
+	.tooltip-hand.scale-down { animation: hand-scale-down 100ms ease-in forwards; }
+	.tooltip-hand.scale-up { animation: hand-scale-up 100ms ease-out; }

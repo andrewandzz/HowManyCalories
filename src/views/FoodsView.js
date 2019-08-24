@@ -268,6 +268,7 @@ export default class FoodsView {
 
 		tooltip.addEventListener('transitionend', scaleDown, false);
 
+		tooltip.classList.add('move');
 		tooltip.style.left = left + 'px';
 		tooltip.style.top = top + 'px';
 
@@ -276,11 +277,14 @@ export default class FoodsView {
 		this.model.handIsDemonstrated = true;
 		window.sessionStorage.setItem('handIsDemonstrated', 'true');
 
+
 		function scaleDown() {
 			tooltip.removeEventListener('transitionend', scaleDown);
 			tooltip.addEventListener('animationend', changeIcon);
 
 			tooltip.classList.add('scale-down');
+			tooltip.classList.remove('move');
+
 		}
 
 		function changeIcon() {
@@ -305,6 +309,7 @@ export default class FoodsView {
 		function move() {
 			tooltip.removeEventListener('animationend', move);
 			tooltip.classList.remove('scale-up');
+			tooltip.classList.add('move');
 			tooltip.addEventListener('transitionend', removeHandElem, false);
 
 			tooltip.style.left = window.innerWidth / 2 - tooltipWidth / 2 + 'px';
