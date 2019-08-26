@@ -92,7 +92,7 @@ export default class FooterView {
 			return `
 <li class="bottom__flags__item ${(!!clickable) ? 'clickable' : ''}" data-lang="${lang}">
 	<svg class="bottom__flags__item--icon">
-		<use xlink:href="./images/flags-icons.svg#${lang}"></use>
+		<use xlink:href="./images/icons.svg#flag-${lang}"></use>
 	</svg>
 </li>`;
 		}
