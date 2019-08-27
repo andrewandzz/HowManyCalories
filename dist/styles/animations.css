@@ -61,6 +61,27 @@
 }
 
 
+
+@keyframes calc-trash-open {
+	from {
+		transform: scaleX(1);
+	}
+	to {
+		transform: scaleX(.1);
+	}
+}
+
+
+@keyframes trash-trash-open {
+	from {
+		transform: scaleX(.1);
+	}
+	to {
+		transform: scaleX(1);
+	}
+}
+
+
 @keyframes trash-open {
 	0% {
 		background: url('../images/calculator.svg');
@@ -78,6 +99,25 @@
 		transform: scaleX(1);
 	}
 }
+
+
+/*@keyframes trash-open {
+	0% {
+		background: url('../images/icons.svg#calculator(viewBox(0, 0, 245, 245))');
+		transform: scaleX(1);
+	}
+	49% {
+		background: url('../images/icons.svg#calculator(viewBox(0, 0, 245, 245))');
+		transform: scaleX(.1);
+	}
+	50% {
+		background: url('../images/icons.svg#trash(viewBox(0, 0, 245, 245))');
+	}
+	100% {
+		background: url('../images/icons.svg#trash(viewBox(0, 0, 245, 245))');
+		transform: scaleX(1);
+	}
+}*/
 
 
 

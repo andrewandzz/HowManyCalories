@@ -452,10 +452,8 @@ DOMElems.footerLangList.addEventListener('click', async event => {
 
 
 DOMElems.caloriesIcon.addEventListener('click', event => {
-	const icon = event.target.closest('.calories--icon');
-	if (!icon) return;
-
-	if (icon.classList.contains('active') && icon.classList.contains('clickable')) {
+	const icon = DOMElems.caloriesIcon;
+	if (icon.classList.contains('active') && icon.classList.contains('trash')) {
 		Calculator.clearTotalCalories();
 		Foods.view.deselectAll();
 	}	
@@ -579,7 +577,7 @@ function fetchSessionStorage() {
 	const handIsDemonstrated = window.sessionStorage.getItem('handIsDemonstrated');
 
 	if (!trashIsDemonstrated) STATE.trashIsDemonstrated = false;
-	else STATE.trashIsDemonstrated = true;
+	else Calculator.model.trashIsDemonstrated = true;
 
 	if (!handIsDemonstrated) Foods.model.handIsDemonstrated = false;
 	else Foods.model.handIsDemonstrated = true;

@@ -115,30 +115,32 @@ export default class CalculatorView {
 </div>`);
 	}
 
-	demonstrateTrashAnimation() {
-		const removeDemonstrate = () => {
-			DOMElems.caloriesIcon.removeEventListener('animationend', removeDemonstrate);
-			DOMElems.caloriesIcon.classList.remove('demonstrate');
-
-			this.model.STATE.trashIsDemonstrated = true;
-			window.sessionStorage.setItem('trashIsDemonstrated', true);
-
-			this.checkTrashActive();
-
-			this.setTrashEventListeners();
-		}
-
-		DOMElems.caloriesIcon.addEventListener('animationend', removeDemonstrate, false);
-		DOMElems.caloriesIcon.classList.add('demonstrate');
-		
+	async demonstrateTrashAnimation() {
+		setTimeout(() => {
+			this.openTrash();
+			setTimeout(() => {
+				this.closeTrash(true);
+				this.model.trashIsDemonstrated = true;
+				window.sessionStorage.setItem('trashIsDemonstrated', true);
+			}, 2000);
+		}, 1000);
 	}
 
 
-	setTrashEventListeners() {
-		DOMElems.caloriesIcon.addEventListener('mouseenter', () => {
+	setupTrashEventListeners() {
+		const icon = DOMElems.caloriesIcon;
+
+		icon.addEventListener('mouseenter', () => {
+			// clear all classes before adding new
+			icon.classList.remove('calculator-close');
+			icon.classList.remove('trash-close');
 			this.openTrash();
 		}, false);
-		DOMElems.caloriesIcon.addEventListener('mouseleave', () => {
+
+		icon.addEventListener('mouseleave', () => {
+			// clear all classes before adding new
+			icon.classList.remove('calculator-close');
+			icon.classList.remove('trash-close');
 			this.closeTrash();
 		}, false);
 	}
@@ -154,39 +156,42 @@ export default class CalculatorView {
 	openTrash() {
 		if (!DOMElems.caloriesIcon.classList.contains('active')) return;
 
-		DOMElems.caloriesIcon.addEventListener('animationend', setClickable, false);
+		const icon = DOMElems.caloriesIcon;
 
-		DOMElems.caloriesIcon.classList.remove('trash-close');
-		DOMElems.caloriesIcon.classList.add('trash-open');
+		icon.addEventListener('transitionend', changeToTrash);
+		icon.classList.add('calculator-close');
 
-		function setClickable() {
-			DOMElems.caloriesIcon.removeEventListener('animationend', setClickable);
-			// we need class 'clickable' for taking mobile touch just AFTER animation
-			DOMElems.caloriesIcon.classList.add('clickable');
+		function changeToTrash() {
+			icon.removeEventListener('transitionend', changeToTrash);
+			icon.classList.remove('calculator');
+			icon.classList.add('trash');
+			icon.classList.remove('calculator-close');
 		}
 	}
 
-	closeTrash() {
-		if (!DOMElems.caloriesIcon.classList.contains('active')) return;
 
-		DOMElems.caloriesIcon.classList.remove('clickable');
-		DOMElems.caloriesIcon.classList.remove('trash-open');
-		DOMElems.caloriesIcon.classList.add('trash-close');
+	closeTrash(demonstration) {
+		if (!demonstration && !DOMElems.caloriesIcon.classList.contains('active')) return;
+
+		const icon = DOMElems.caloriesIcon;
+
+		icon.addEventListener('transitionend', changeToCalc);
+		icon.classList.add('trash-close');
+
+		function changeToCalc() {
+			icon.removeEventListener('transitionend', changeToCalc);
+			icon.classList.remove('trash');
+			icon.classList.add('calculator');
+			icon.classList.remove('trash-close');
+		}
 	}
+	
 
 	trashActive(active) {
 		if (active) {
 			DOMElems.caloriesIcon.classList.add('active');
 		} else {
 			DOMElems.caloriesIcon.classList.remove('active');
-		}
-	}
-
-	checkTrashActive() {
-		if (this.model.totalCalories === 0) {
-			this.trashActive(false);
-		} else if (this.model.totalCalories > 0) {
-			this.trashActive(true);
 		}
 	}
 }

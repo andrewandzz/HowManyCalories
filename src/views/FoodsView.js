@@ -246,16 +246,11 @@ export default class FoodsView {
 		DOMElems.mainContainer.scrollLeft = left;
 	}
 
-	showHandTooltip() {
+	showHandTooltip(itemObj) {
 		this.renderTooltip();
 
 		const tooltip = document.body.querySelector('.tooltip-hand');
-		
 		// set goto coords to the hand
-		const itemObj = this.model.STATE.Calculator.model.items[this.model.STATE.Calculator.model.items.length - 1];
-
-		if (!itemObj) return;
-
 		tooltip.classList.add('display');
 
 		const tooltipWidth = tooltip.offsetWidth;
@@ -276,11 +271,6 @@ export default class FoodsView {
 		tooltip.style.left = left + 'px';
 		tooltip.style.top = top + 'px';
 
-		// now it is on item
-
-		this.model.handIsDemonstrated = true;
-		window.sessionStorage.setItem('handIsDemonstrated', 'true');
-
 
 		function scaleDown() {
 			tooltip.removeEventListener('transitionend', scaleDown);
@@ -288,8 +278,8 @@ export default class FoodsView {
 
 			tooltip.classList.add('scale-down');
 			tooltip.classList.remove('move');
-
 		}
+
 
 		function changeIcon() {
 			tooltip.removeEventListener('animationend', changeIcon);
@@ -301,6 +291,7 @@ export default class FoodsView {
 			}, 1600);
 		}
 
+
 		function scaleUp() {
 			tooltip.classList.add('default');
 			tooltip.classList.remove('press');
@@ -309,6 +300,7 @@ export default class FoodsView {
 			tooltip.classList.add('scale-up');
 			tooltip.classList.remove('scale-down');
 		}
+
 
 		function move() {
 			tooltip.removeEventListener('animationend', move);
@@ -319,6 +311,7 @@ export default class FoodsView {
 			tooltip.style.left = window.innerWidth / 2 - tooltipWidth / 2 + 'px';
 			tooltip.style.top = window.innerHeight + 'px';
 		}
+
 
 		function removeHandElem() {
 			tooltip.removeEventListener('transitionend', removeHandElem);

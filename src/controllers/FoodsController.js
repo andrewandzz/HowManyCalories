@@ -34,8 +34,12 @@ export default class FoodsController {
 
 	showPressAndHoldTooltip() {
 		if (!this.model.handIsDemonstrated) {
+			const itemObj = this.model.STATE.Calculator.model.items[this.model.STATE.Calculator.model.items.length - 1];
+			this.model.handIsDemonstrated = true;
+			window.sessionStorage.setItem('handIsDemonstrated', 'true');
+
 			setTimeout(() => {
-				this.view.showHandTooltip();
+				this.view.showHandTooltip(itemObj);
 			}, 1000);
 		}
 	}

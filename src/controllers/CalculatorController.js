@@ -21,13 +21,14 @@ export default class CalculatorController {
 		this.model.calculateTotalCalories();
 		this.view.renderTotalCalories();
 
-		if (this.model.items.length === 2 && !this.model.STATE.trashIsDemonstrated) {
+		if (this.model.items.length === 2 && !this.model.trashIsDemonstrated) {
 			this.view.demonstrateTrashAnimation();
 			return;
 		}
+
 		// do we need the trash to be active
-		this.view.checkTrashActive();
-		this.view.setTrashEventListeners();
+		this.checkTrashActive();
+		this.view.setupTrashEventListeners();
 	}
 
 	setGrams(itemObj, grams) {
@@ -44,6 +45,14 @@ export default class CalculatorController {
 	clearTotalCalories() {
 		this.model.clearTotalCalories();
 		this.view.clearTotalCalories();
+	}
+
+	checkTrashActive() {
+		if (this.model.totalCalories === 0) {
+			this.view.trashActive(false);
+		} else if (this.model.totalCalories > 0) {
+			this.view.trashActive(true);
+		}
 	}
 }
 
