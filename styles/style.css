@@ -318,46 +318,36 @@ nav {
 	}
 }
 
-	.calories--icon { transition: transform 100ms ease-out, opacity 100ms ease-in-out; }
-	.calories--icon.active.trash-open:active { transform: translateY(.1rem); }
-
-	.calories--icon,
-	.calories--icon.trash-close {
+	.calories--icon {
 		opacity: .7;
+		transition: opacity 100ms ease-in-out;
 	}
 
-	.calories--icon img {
-		background: url('../images/calculator.svg');
+	.calories--icon__wrapper {
 		width: 1.8rem;
 		height: 1.8rem;
-		background-size: 1.8rem 1.8rem;
-		background-repeat: no-repeat;
+		transition: transform 150ms ease-in-out;
+		transform-origin: center;
 	}
 	@media screen and (max-width: 480px) {
-		.calories--icon img {
+		.calories--icon__wrapper {
 			width: 1.2rem;
 			height: 1.2rem;
-			background-size: 1.2rem 1.2rem;
 		}
 	}
 
-	.calories--icon.active {
-		cursor: pointer;
-		opacity: 1;
-	}
+	.calories--icon.active { opacity: 1; cursor: pointer; }
 
-	.calories--icon.demonstrate { opacity: 1; }
-	.calories--icon.demonstrate img {
-		animation: demonstrate-trash 1200ms 1000ms ease-in-out;
-	}
+	.calories--icon.calculator #calculator { display: block; }
+	.calories--icon.calculator #trash { display: none; }
+	.calories--icon.trash #calculator { display: none; }
+	.calories--icon.trash #trash { display: block; }
 
-	.calories--icon.trash-open img {
-		animation: trash-open 150ms ease-in-out forwards;
-	}
+	.calories--icon.calculator.calculator-close .calories--icon__wrapper { transform: scaleX(.1); }
+	.calories--icon.trash.calculator-close .calories--icon__wrapper { transform: scaleX(1); }
 
-	.calories--icon.trash-close img {
-		animation: trash-close 150ms ease-in-out;
-	}
+	.calories--icon.trash.trash-close .calories--icon__wrapper { transform: scaleX(.1); }
+	.calories--icon.calculator.trash-close .calories--icon__wrapper { transform: scaleX(1); }
 
 
 
