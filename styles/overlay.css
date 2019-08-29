@@ -29,10 +29,7 @@
 	
 	.overlay__set-grams__container.display { display: flex; }
 
-	.overlay__set-grams__container.visible,
-	.overlay__contact__container.visible {
-		opacity: 1;
-	}
+	.overlay__set-grams__container.visible { opacity: 1; }
 
 
 	.overlay__set-grams--image {
@@ -148,15 +145,107 @@
 
 /* CONTACT */
 .overlay__contact__container {
-	transition: height 1s ease-in-out, width 1s ease-in-out;
+	transition: width 200ms ease-in-out, height 200ms ease-in-out;
 }
+
+.overlay__contact__container.display { display: block; }
+.overlay__contact__container.visible { opacity: 1; }
+
+.overlay__contact__container.form {
+	width: 18rem;
+	height: 21.5rem;
+}
+.overlay__contact__container.thanks {
+	width: 21.5rem;
+	height: 4rem;
+}
+.overlay__contact__container.thanks.ru {
+	width: 23.5rem;
+	height: 4rem;
+}
+
+.overlay__contact__container.display.form .overlay__contact__form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.overlay__contact__container.display.form .overlay__contact__thanks { display: none; }
+.overlay__contact__container.display.thanks .overlay__contact__form { display: none; }
+.overlay__contact__container.display.thanks .overlay__contact__thanks {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	line-height: 1;
+	animation: contact-show-thanks 1700ms ease-in-out forwards;
+}
+/*.overlay__contact__container.display.thanks.ru .overlay__contact__thanks { width: 20.5rem; }*/
+
+.overlay__contact__form {
+	opacity: 0;
+	transition: opacity 200ms ease-in-out;
+}
+.overlay__contact__form.visible { opacity: 1; }
+
+
+
+/* FORM */
+.overlay__contact--input {
+	width: 15rem;
+	border: none;
+	background-color: transparent;
+	font-family: 'Lato', 'Open Sans', 'Helvetica', sans-serif;
+	font-size: 1.1rem;
+	line-height: 1.3;
+	font-weight: 300;
+	color: inherit;
+	outline: none;
+	border-radius: 1rem;
+	background-color: rgba(255, 255, 255, .6);
+	box-shadow: 0 0 2rem rgba(0, 0, 0, .08);
+	padding: .3rem .8rem;
+	resize: none;
+}
+@media screen and (max-width: 480px) {
+	.overlay__contact--input {
+		width: 13rem;
+	}
+}
+.overlay__contact--input::placeholder { color: #888; }
+
+.overlay__contact--input:first-child { margin-top: .2rem; }
+.overlay__contact--input:not(:first-child) { margin-top: 1.2rem; }
+
+.overlay__contact--btn {
+	margin-top: 1rem;
+	padding: .3rem 1rem;
+	border: none;
+	border-radius: 1rem;
+	background-color: rgba(255, 255, 255, .7);
+	box-shadow: 0 0 2rem rgba(0, 0, 0, .08);
+	color: inherit;
+	font: inherit;
+	outline: none;
+	transition: background-color 50ms ease-in-out, transform 50ms ease-in-out;
+}
+
+.overlay__contact--input.invalid { animation: invalid-input 500ms ease-in-out; }
+
+
+/*.overlay__contact__container {
+	height: 21rem;
+	width: 18rem;
+	transition: opacity 200ms ease-in-out, height 200ms ease-in-out, width 200ms ease-in-out;
+}
+.overlay__contact__container.thanks { height: 4rem; width: 22.5rem; }*/
+/* because of russian words have more letters */
+/*.overlay__contact__container.thanks.ru { height: 4rem; width: 24.5rem; }
 .overlay__contact__container.display { display: flex; }
 
 .overlay__contact__form.display {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	transition: opacity 1s ease-in-out;
+	transition: opacity 100ms ease-in-out;
 }
 
 .overlay__contact__form.hide { opacity: 0; }
@@ -203,6 +292,20 @@
 
 .overlay__contact--input.invalid { animation: invalid-input 500ms ease-in-out; }
 
-.overlay__contact__thanks { display: none; }
-.overlay__contact__thanks.display { display: block; }
+.overlay__contact__thanks {
+	display: none;
+	width: 18.5rem;
+	opacity: 0;
+	transition: opacity 100ms ease-in-out;
+}*/
+/* because russian words have more letters */
+/*.overlay__contact__container.thanks.ru .overlay__contact__thanks { width: 20.5rem; }
+.overlay__contact__thanks.display {
+	display: flex;
+	justify-content: center;
+}
+.overlay__contact__thanks.visible {
+	opacity: 1;
+}
 
+*/
