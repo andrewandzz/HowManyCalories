@@ -290,12 +290,13 @@ export default class OverlayView {
 	renderContact() {
 		const contactMarkup = `
 <div class="overlay__contact__container">
-	<form class="overlay__contact__form display">
+	<form class="overlay__contact__form visible">
 		<input class="overlay__contact--input" type="text" name="name" placeholder="" tabindex="1">
 		<input class="overlay__contact--input" type="email" name="email" placeholder="" tabindex="2">
 		<textarea class="overlay__contact--input" rows="6" placeholder="" required="required" tabindex="3"></textarea>
 		<button class="overlay__contact--btn" type="submit" tabindex="4">Send</button>
 	</form>
+	<div class="overlay__contact__thanks"></div>
 </div>`;
 		
 		DOMElems.overlay.insertAdjacentHTML('beforeend', contactMarkup);
@@ -307,31 +308,34 @@ export default class OverlayView {
 		this.model.contactElem.email = this.model.contactElem.form.querySelector('.overlay__contact--input[name="email"]');
 		this.model.contactElem.message = this.model.contactElem.form.querySelector('textarea.overlay__contact--input');
 		this.model.contactElem.btn = this.model.contactElem.form.querySelector('.overlay__contact--btn');
+		this.model.contactElem.thanks = this.model.contactElem.container.querySelector('.overlay__contact__thanks');
 	}
 
 
 	openContact() {
 		this.renderContactPlaceholders();
+		this.renderThanksText();
 
 		this.model.contactElem.container.classList.add('display');
+		this.model.contactElem.container.classList.add('form');
+		this.model.contactElem.form.classList.add('visible');
 		this.model.contactElem.name.focus();
 		// little hack to add class 'visible' just after class 'display'
 		void this.model.contactElem.container.offsetWidth;
-
 		this.model.contactElem.container.classList.add('visible');
 	}
-
-	// TO DO
 	
 
 	closeContact() {
 		const removeDisplay = () => {
-			this.model.contactElem.container.removeEventListener('transitionend', removeDisplay);
+			DOMElems.container.removeEventListener('transitionend', removeDisplay);
 			this.model.contactElem.container.classList.remove('display');
-			console.log('deleted')
+			this.model.contactElem.container.classList.remove('thanks');
+			this.model.contactElem.container.classList.remove('ru');
 		}
 
-		this.model.contactElem.container.addEventListener('transitionend', removeDisplay, false);
+		/* we listen on 'container', not on 'contact__container' */
+		DOMElems.container.addEventListener('transitionend', removeDisplay);
 		this.model.contactElem.container.classList.remove('visible');
 	}
 
@@ -348,6 +352,18 @@ export default class OverlayView {
 		this.model.contactElem.btn.textContent = btnTitle;
 	}
 
+	renderThanksText() {
+		const text = this.model.STATE.language.dictionary.contact.thanks;
+		this.model.contactElem.thanks.textContent = text;
+	}
+
+
+	clearContact() {
+		this.model.contactElem.name.value = '';
+		this.model.contactElem.email.value = '';
+		this.model.contactElem.message.value = '';
+	}
+
 
 	showContactInvalidMessage() {
 		const removeInvalid = () => {
@@ -361,42 +377,30 @@ export default class OverlayView {
 	}
 
 
-	clearContact() {
-		this.model.contactElem.name.value = '';
-		this.model.contactElem.email.value = '';
-		this.model.contactElem.message.value = '';
-
-		this.model.contactElem.thanks.remove();
-		this.model.contactElem.form.classList.remove('hide');
-		this.model.contactElem.form.classList.add('display');
-	}
-
-
-	renderContactThanks() {
-		const text = this.model.STATE.language.dictionary.contact.thanks;
-		const thanksMarkup = `
-<div class="overlay__contact__thanks">${text}</div>`;
-		
-		this.model.contactElem.container.insertAdjacentHTML('beforeend', thanksMarkup);
-		this.model.contactElem.thanks = this.model.contactElem.container.querySelector('.overlay__contact__thanks');
-	}
-
-
 	showContactThanks() {
 		return new Promise(resolve => {
-			const removeDisplay = () => {
-				this.model.contactElem.form.removeEventListener('transitionend', removeDisplay);
-				this.model.contactElem.form.classList.remove('display');
-				this.model.contactElem.thanks.classList.add('display');
-
-				setTimeout(() => {
-					resolve();
-				}, 2000);
+			const closeThanks = () => {
+				this.model.contactElem.thanks.removeEventListener('animationend', closeThanks);
+				this.model.isThanksOpened = false;
+				// now we demonstrated 'thanks' and are ready to be closed
+				resolve();
 			};
 
-			this.model.contactElem.form.addEventListener('transitionend', removeDisplay);
+			const changeToThanks = () => {
+				this.model.contactElem.form.removeEventListener('transitionend', changeToThanks);
+				this.model.contactElem.container.classList.remove('form');
 
-			this.model.contactElem.form.classList.add('hide');
+				this.model.contactElem.thanks.addEventListener('animationend', closeThanks);
+				this.model.contactElem.container.classList.add('thanks');
+			};
+
+			this.model.isThanksOpened = true;
+			this.model.contactElem.form.addEventListener('transitionend', changeToThanks);
+			this.model.contactElem.form.classList.remove('visible');
+
+			if (this.model.STATE.language.current === 'ru') {
+				this.model.contactElem.container.classList.add('ru');
+			}
 		});
 	}
 }

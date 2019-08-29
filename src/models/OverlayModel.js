@@ -8,6 +8,7 @@ export default class OverlayModel {
 		this.onFocusValue = -1;
 		this.isSetGramsOpened = false;
 		this.isContactOpened = false;
+		this.isThanksOpened = false;
 	}
 
 	setItem(itemElem) {

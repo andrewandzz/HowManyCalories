@@ -18,23 +18,6 @@ export default class OverlayController {
 		this.model.isSetGramsOpened = false;
 	}
 
-	openContact() {
-		if (!this.model.contactElem) {
-			this.view.renderContact();
-			this.setupContactListeners();
-		}
-		this.view.openOverlay();
-		this.view.openContact();
-
-		this.model.isContactOpened = true;
-	}
-
-	async closeContact() {
-		this.view.closeContact();
-		await this.view.closeOverlay();
-		this.model.isContactOpened = false;
-	}
-
 	validateGramsInput() {
 		const value = this.model.itemData.grams;
 
@@ -99,13 +82,29 @@ export default class OverlayController {
 		return this.model.firstValue !== this.model.itemData.grams;
 	}
 
+	openContact() {
+		if (!this.model.contactElem) {
+			this.view.renderContact();
+			this.setupContactListeners();
+		}
+		this.view.openOverlay();
+		this.view.openContact();
+
+		this.model.isContactOpened = true;
+	}
+
+	async closeContact() {
+		if (this.model.isThanksOpened) return;
+
+		this.model.isContactOpened = false;
+		this.view.closeContact();
+		await this.view.closeOverlay();
+	}
+
 	async sendMessage() {
 		// here SEND to PHP
-		if (!this.model.contactElem.container.querySelector('.overlay__contact__thanks')) {
-			this.view.renderContactThanks();
-		}
 		await this.view.showContactThanks();
-		await this.closeContact();
+		await this.closeContact();		
 		this.view.clearContact();
 	}
 

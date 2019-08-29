@@ -122,7 +122,7 @@ export default class CalculatorView {
 				this.closeTrash(true);
 				this.model.trashIsDemonstrated = true;
 				window.sessionStorage.setItem('trashIsDemonstrated', true);
-			}, 2000);
+			}, 1400);
 		}, 1000);
 	}
 

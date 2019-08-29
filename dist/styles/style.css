@@ -52,13 +52,13 @@ body {
 
 	--fruits-light: #ffd635;
 	--vegetables-light: #7a4e70;
-	--milk-light: #8cc8ff;
-	--fast-food-light: #a5c843;
-	--drinks-light: #6a9563;
-	--meat-light: #e38995;
-	--sea-food-light: #feaa68;
-	--desserts-light: #90e8c5;
-	--bread-light: #d85a50;
+	--milk-light: #80b9fe;
+	--fast-food-light: #9ec236;
+	--drinks-light: #60845a;
+	--meat-light: #d47280;
+	--sea-food-light: #f39d3e;
+	--desserts-light: #8ae2bf;
+	--bread-light: #c6352a;
 
 	--fruits-dark: #ff8c12;
 	--vegetables-dark: #40243a;
@@ -235,7 +235,7 @@ nav {
 			color: #fff;
 			padding-left: 1.2ch;
 
-			transition: border-radius 200ms ease-out, transform 250ms ease-out, background-color 100ms ease-out;
+			transition: border-radius 200ms ease-out, transform 250ms ease-out, background-color 200ms ease-out;
 		}
 		@media screen and (max-width: 480px) {
 			.menu__item {
@@ -326,7 +326,7 @@ nav {
 	.calories--icon__wrapper {
 		width: 1.8rem;
 		height: 1.8rem;
-		transition: transform 150ms ease-in-out;
+		transition: transform 100ms ease-in-out;
 		transform-origin: center;
 	}
 	@media screen and (max-width: 480px) {
