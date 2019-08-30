@@ -290,10 +290,10 @@ export default class OverlayView {
 	renderContact() {
 		const contactMarkup = `
 <div class="overlay__contact__container">
-	<form class="overlay__contact__form visible">
+	<form class="overlay__contact__form visible" action="./send-message.php" method="post">
 		<input class="overlay__contact--input" type="text" name="name" placeholder="" tabindex="1">
 		<input class="overlay__contact--input" type="email" name="email" placeholder="" tabindex="2">
-		<textarea class="overlay__contact--input" rows="6" placeholder="" required="required" tabindex="3"></textarea>
+		<textarea class="overlay__contact--input" rows="6" placeholder="" required="required" tabindex="3" name="message"></textarea>
 		<button class="overlay__contact--btn" type="submit" tabindex="4">Send</button>
 	</form>
 	<div class="overlay__contact__thanks"></div>

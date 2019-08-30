@@ -102,7 +102,6 @@ export default class OverlayController {
 	}
 
 	async sendMessage() {
-		// here SEND to PHP
 		await this.view.showContactThanks();
 		await this.closeContact();		
 		this.view.clearContact();
