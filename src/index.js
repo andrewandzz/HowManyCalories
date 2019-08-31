@@ -57,7 +57,7 @@ STATE.Overlay = Overlay;
 
 async function init() {
 	getItemsPerPage();
-	setBtnsBgPos();
+	setBtnsPathScale();
 	await Language.setLanguage();
 	Menu.render();
 	Footer.render();
@@ -96,14 +96,23 @@ function getDevice() {
 }
 
 
-function setBtnsBgPos() {
-	const btnPrevSvgElem = DOMElems.btnPrev.querySelector('.arrow--icon');
-	btnPrevSvgElem.style.backgroundPositionX = -btnPrevSvgElem.getBoundingClientRect().left + 'px';
-	btnPrevSvgElem.style.backgroundPositionY = -btnPrevSvgElem.getBoundingClientRect().top + 'px';
+function setBtnsPathScale() {
+	const VIEW_BOX_HEIGHT = 123;
 
-	const btnNextSvgElem = DOMElems.btnNext.querySelector('.arrow--icon');
-	btnNextSvgElem.style.backgroundPositionX = -btnNextSvgElem.getBoundingClientRect().left + 'px';
-	btnNextSvgElem.style.backgroundPositionY = -btnNextSvgElem.getBoundingClientRect().top + 'px';
+	/* button PREV */
+	const btnPrevElem = DOMElems.btnPrev.querySelector('.arrow--icon');
+	const btnPrevCoords = btnPrevElem.getBoundingClientRect();
+	const btnPrevPath = document.getElementById('arrow-left');
+
+	const scale = parseInt(btnPrevCoords.height * 100 / VIEW_BOX_HEIGHT);
+
+	btnPrevPath.setAttribute('transform', `scale(.${scale})`);
+
+	/* button NEXT */
+	const btnNextElem = DOMElems.btnNext.querySelector('.arrow--icon');
+	const btnNextPath = document.getElementById('arrow-right');
+
+	btnNextPath.setAttribute('transform', `scale(.${scale})`);
 }
 
 
@@ -151,7 +160,7 @@ DOMElems.mainContainer.addEventListener('mousedown', handleFoodsMouseDown, false
 window.addEventListener('DOMContentLoaded', init);
 window.addEventListener('load', load);
 window.addEventListener('resize', getItemsPerPage);
-window.addEventListener('resize', setBtnsBgPos);
+window.addEventListener('resize', setBtnsPathScale);
 window.addEventListener('dblclick', event => event.preventDefault());
 
 

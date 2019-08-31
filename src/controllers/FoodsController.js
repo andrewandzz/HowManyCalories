@@ -6,7 +6,9 @@ export default class FoodsController {
 
 	async openFoodsSet(type, clear = true, page = 1) {
 		if (!this.model.contains(type)) {
+			this.view.showLoading();
 			await this.model.fetchFoodsSet(type);
+			this.view.hideLoading();
 		}
 
 		if (clear) this.view.clearFoodsPages();

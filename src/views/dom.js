@@ -4,6 +4,7 @@ export default {
 	caloriesText: document.querySelector('.calories--text'),
 	caloriesIcon: document.querySelector('.calories--icon'),
 	mainContainer: document.querySelector('main.foods'),
+	loading: document.querySelector('.foods__loading'),
 	btnPrev: document.querySelector('.btn__prev'),
 	btnNext: document.querySelector('.btn__next'),
 	footerBlock: document.querySelector('footer .bottom'),

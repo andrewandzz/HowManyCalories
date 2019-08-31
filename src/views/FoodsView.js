@@ -60,7 +60,11 @@ export default class FoodsView {
 
 
 	clearFoodsPages() {
-		DOMElems.mainContainer.innerHTML = '';
+		// DOMElems.mainContainer.innerHTML = '';
+		const pages = DOMElems.mainContainer.querySelectorAll('.foods__page__list');
+		Array.from(pages).forEach(pageElem => {
+			pageElem.remove();
+		});
 	}
 
 
@@ -196,6 +200,16 @@ export default class FoodsView {
 		});
 	}
 
+	showLoading() {
+		DOMElems.loading.classList.add('display');
+		void DOMElems.loading.offsetWidth;
+		DOMElems.loading.classList.add('visible');
+	}
+
+	hideLoading() {
+		DOMElems.loading.classList.remove('visible');
+		DOMElems.loading.classList.remove('display');
+	}
 
 	scrollToFirstPage() {
 		const zeroPage = DOMElems.mainContainer.querySelector('.foods__page__list[data-page="0"]');

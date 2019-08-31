@@ -374,9 +374,10 @@ nav {
 
 .btn__prev,
 .btn__next {
-	display: block;
 	justify-self: stretch;
 	align-self: stretch;
+	display: flex;
+	justify-content: center;
 	cursor: pointer;
 	background: transparent;
 	border: none;
@@ -391,22 +392,24 @@ nav {
 	}
 }
 
-	.arrow--icon {
-		background-image: linear-gradient(to bottom right, rgba(204, 255, 51, 1) 0%, rgba(0, 153, 51, 1) 100%), url('../images/background.png');
-		background-blend-mode: hard-light;
-		background-attachment: fixed;
-		height: 2.4rem;
-		width: 2.4rem;
-	}
-	@media screen and (max-width: 480px) {
-		.arrow--icon {
-			height: 1.6rem;
-			width: 1.6rem;
-		}
-	}
-	
-	.arrow { transition: margin 100ms ease-in-out; }
 	.arrow:active { margin-top: .15rem; }
+
+		.arrow--icon {
+			background-image: linear-gradient(to bottom right, rgba(204, 255, 51, 1) 0%, rgba(0, 153, 51, 1) 100%), url('../images/background.png');
+			background-blend-mode: hard-light;
+			background-attachment: fixed;
+			height: 2.4rem;
+			width: 2.4rem;
+		}
+		@media screen and (max-width: 480px) {
+			.arrow--icon {
+				height: 1.6rem;
+				width: 1.6rem;
+			}
+		}
+
+		.btn__prev .arrow--icon { clip-path: url('#arrow-left'); }
+		.btn__next .arrow--icon { clip-path: url('#arrow-right'); }
 
 
 
@@ -431,6 +434,41 @@ main {
 main::-webkit-scrollbar {
 	display: none;
 }
+
+.foods__loading {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	background-color: #fff;
+	opacity: 0;
+}
+.foods__loading.display { display: flex; }
+.foods__loading.visible {
+	opacity: .8;
+	transition: opacity 30ms ease-in-out;
+}
+
+	.foods__loading--icon__wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 5rem;
+		height: 5rem;
+		background-image: linear-gradient(to bottom right, rgba(204, 255, 51, 1) calc(50% - 50vw), rgba(0, 153, 51, 1) calc(50% + 50vw)), url('../images/background.png');
+		background-blend-mode: hard-light;
+		clip-path: circle(2.4rem at 2.5rem 2.5rem);
+	}
+
+	.foods__loading--icon {
+		width: 5rem;
+		height: 5rem;
+	}
+	.foods__loading.display .foods__loading--icon { animation: loading-rotate 1400ms linear infinite; }
 
 .foods__page__list {	
 	display: grid;
