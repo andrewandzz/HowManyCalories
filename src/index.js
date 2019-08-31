@@ -569,14 +569,11 @@ function handleLongPress(event) {
 
 
 
-
-
-
 function fetchSessionStorage() {
 	const trashIsDemonstrated = window.sessionStorage.getItem('trashIsDemonstrated');
 	const handIsDemonstrated = window.sessionStorage.getItem('handIsDemonstrated');
 
-	if (!trashIsDemonstrated) STATE.trashIsDemonstrated = false;
+	if (!trashIsDemonstrated) Calculator.model.trashIsDemonstrated = false;
 	else Calculator.model.trashIsDemonstrated = true;
 
 	if (!handIsDemonstrated) Foods.model.handIsDemonstrated = false;
@@ -585,7 +582,7 @@ function fetchSessionStorage() {
 
 
 // testing
-window.s = STATE;
+// window.s = STATE;
 
 
 

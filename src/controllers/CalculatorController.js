@@ -43,6 +43,10 @@ export default class CalculatorController {
 	}
 
 	clearTotalCalories() {
+		// if clicked, then obviously user knows about the trash
+		this.model.trashIsDemonstrated = true;
+		window.sessionStorage.setItem('trashIsDemonstrated', true);
+		
 		this.model.clearTotalCalories();
 		this.view.clearTotalCalories();
 	}

@@ -5,6 +5,7 @@ export default class CalculatorModel {
 		this.STATE = STATE;
 		this.totalCalories = 0;
 		this.items = [];
+		this.trashIsDemonstrated = null;
 	}
 
 	addItem(itemObj) {

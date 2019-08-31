@@ -102,6 +102,8 @@ export default class OverlayController {
 	}
 
 	async sendMessage() {
+		window.location.href = 'mailto:andrewandzz1@gmail.com?subject=Msg&body=Hello';
+
 		await this.view.showContactThanks();
 		await this.closeContact();		
 		this.view.clearContact();
