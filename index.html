@@ -8,8 +8,16 @@
 	<link rel="icon" type="image/png" href="./images/icon.png">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
 	<meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+	<style type="text/css">
+		#clipped {
+			mask: url('#mask');
+			/*animation: loading-rotate 10s linear infinite;*/
+		}
+	</style>
 </head>
 <body>
+
+	
 
 	<div class="container">		
 
@@ -41,14 +49,26 @@
 
 		<!-- MIDDLE -->
 		<button class="btn__prev">
-			<div class="arrow">
-				<svg class="arrow--icon">
-					<use xlink:href="./images/icons.svg#arrow-left"></use>
-				</svg>
-			</div>
+			<div class="arrow--icon"></div>
+			<svg width="0" height="0" viewBox="0 0 123 123">
+				<defs>
+					<clipPath id="arrow-left" transform="scale(.35)">
+						<path fill="#fff" d="M49.652 61.526 95.666 15.51c1.267-1.264 1.964-2.954 1.964-4.756 0-1.803-.697-3.492-1.964-4.758l-4.032-4.03C90.369.698 88.678 0 86.876 0s-3.491.698-4.757 1.966L27.332 56.752c-1.271 1.27-1.967 2.967-1.962 4.771-.005 1.812.69 3.507 1.962 4.778l54.736 54.733c1.266 1.268 2.955 1.966 4.758 1.966 1.802 0 3.491-.698 4.758-1.966l4.031-4.03c2.623-2.623 2.623-6.893 0-9.515L49.652 61.526z"/>
+					</clipPath>
+				</defs>
+			</svg>
 		</button>
 
 		<main class="foods">
+
+			<div class="foods__loading display visible">
+				<div class="foods__loading--icon__wrapper">
+					<svg class="foods__loading--icon">
+						<use xlink:href="./images/icons.svg#loading"></use>
+					</svg>
+				</div>
+			</div>
+			
 			<!-- <ul class="foods__page__list" data-page="1">
 				<li class="foods__page__list__item">
 					<div class="foods__page__list__item__image">
@@ -63,11 +83,14 @@
 		</main>
 
 		<button class="btn__next">
-			<div class="arrow">
-				<svg class="arrow--icon">
-					<use xlink:href="./images/icons.svg#arrow-right"></use>
-				</svg>
-			</div>
+			<div class="arrow--icon"></div>
+			<svg width="0" height="0" viewBox="0 0 123 123">
+				<defs>
+					<clipPath id="arrow-right" transform="scale(.35)">
+						<path fill="#fff" d="M95.67 56.701 40.933 1.965C39.667.698 37.977 0 36.175 0s-3.492.698-4.758 1.965l-4.031 4.03c-2.623 2.626-2.623 6.894 0 9.516L73.35 61.475l-46.015 46.015c-1.266 1.267-1.965 2.956-1.965 4.757 0 1.803.699 3.492 1.965 4.76l4.031 4.029c1.267 1.267 2.956 1.965 4.758 1.965s3.492-.698 4.758-1.965L95.67 66.25c1.269-1.271 1.966-2.968 1.962-4.772C97.636 59.667 96.939 57.971 95.67 56.701z"/>
+					</clipPath>
+				</defs>
+			</svg>
 		</button>
 		
 		
