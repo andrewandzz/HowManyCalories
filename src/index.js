@@ -72,7 +72,7 @@ function load() {
 
 
 function getItemsPerPage() {
-	const content = getComputedStyle(DOMElems.footerBlock, '::after').content;
+	const content = getComputedStyle(DOMElems.footerBlock, ':after').content;
 	Foods.model.itemsPerPage = parseInt(content.replace('"', ''));
 }
 
