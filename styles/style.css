@@ -484,14 +484,14 @@ main::-webkit-scrollbar {
 
 	list-style: none;
 }
-	.bottom:after, .bottom::after { content: "9"; }
+	.bottom:after { content: "9"; }
 
 /* iPad Pro height and bigger */
 @media screen and (min-height: 1025px) {
 	.foods__page__list {
 		grid-template-rows: 170px 170px 170px 170px 170px;
 	}
-	.bottom:after, .bottom::after { content: "15"; }
+	.bottom:after { content: "15"; }
 }
 
 /* iPad height */
@@ -499,7 +499,7 @@ main::-webkit-scrollbar {
 	.foods__page__list {
 		grid-template-rows: 170px 170px 170px 170px;
 	}
-	.bottom:after, .bottom::after { content: "12"; }
+	.bottom:after { content: "12"; }
 }
 
 /*
@@ -512,7 +512,7 @@ main::-webkit-scrollbar {
 		grid-template-rows: 170px 170px 170px;
 		grid-template-columns: 170px 170px;
 	}
-	.bottom:after, .bottom::after { content: "6"; }
+	.bottom:after { content: "6"; }
 }
 
 @media screen and (min-width: 400px) and (max-width: 599px) {
@@ -521,7 +521,7 @@ main::-webkit-scrollbar {
 		grid-template-rows: calc(130px + 1.6rem) calc(130px + 1.6rem) calc(130px + 1.6rem);
 		grid-template-columns: 130px 130px;
 	}
-	.bottom:after, .bottom::after { content: "6"; }
+	.bottom:after { content: "6"; }
 }
 
 @media screen and (max-width: 399px) and (max-height: 759px) {
@@ -530,7 +530,7 @@ main::-webkit-scrollbar {
 		grid-template-rows: calc(90px + 1.8rem) calc(90px + 1.8rem) calc(90px + 1.8rem);
 		grid-template-columns: 90px 90px;
 	}
-	.bottom:after, .bottom::after { content: "6"; }
+	.bottom:after { content: "6"; }
 }
 
 /* Case of iPhone X */
@@ -540,7 +540,7 @@ main::-webkit-scrollbar {
 		grid-template-rows: calc(90px + 1.8rem) calc(90px + 1.8rem) calc(90px + 1.8rem) calc(90px + 1.8rem);
 		grid-template-columns: 90px 90px;
 	}
-	.bottom:after, .bottom::after { content: "8"; }
+	.bottom:after { content: "8"; }
 }
 
 
@@ -611,8 +611,7 @@ main::-webkit-scrollbar {
 
 				display: none;
 			}
-			.foods__page__list__item__text--grams:before,
-			.foods__page__list__item__text--grams::before {
+			.foods__page__list__item__text--grams:before {
 				content: "\00b7";
 				margin: 0 .5ch;
 			}
@@ -625,9 +624,7 @@ main::-webkit-scrollbar {
 					height: 3.4rem;
 				}
 				.foods__page__list__item__text--grams { font-size: .8rem; }
-				.foods__page__list__item__text--grams:before,
-				.foods__page__list__item__text--grams::before
-					{ content: ""; }
+				.foods__page__list__item__text--grams:before { content: ""; }
 
 			}
 
@@ -810,7 +807,7 @@ footer {
 
 	/* DON'T REMOVE THIS PSEUDO ELEMENT */
 	/* It takes care about how many items are shown on one page */
-	.bottom:after, .bottom::after {
+	.bottom:after {
 		display: inline;
 		font-size: 0;
 		position: absolute;
