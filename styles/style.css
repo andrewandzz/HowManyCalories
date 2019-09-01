@@ -808,7 +808,6 @@ footer {
 	/* DON'T REMOVE THIS PSEUDO ELEMENT */
 	/* It takes care about how many items are shown on one page */
 	.bottom:after {
-		display: inline;
 		font-size: 0;
 		position: absolute;
 		visibility: hidden;
