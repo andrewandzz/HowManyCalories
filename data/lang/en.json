@@ -53,6 +53,17 @@
 			"vodka": "Vodka",
 			"water": "Water",
 			"white-wine": "White wine"
+		},
+		"sea-food": {
+			"crab": "Crab",
+			"lobster": "Lobster",
+			"mussels": "Mussels",
+			"octopus": "Octopus",
+			"red-caviar": "Red caviar",
+			"salmon": "Salmon",
+			"squid": "Squid",
+			"shrimp": "Shrimp",
+			"sushi": "Sushi"
 		}
 	},
 	"footer": {

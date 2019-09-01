@@ -728,6 +728,194 @@
 
 
 
+/* SEA-FOOD */
+
+.foods__page__list[data-type="sea-food"] .foods__page__list__item__image img,
+.overlay__set-grams__wrapper[data-type="sea-food"] img {
+    background: url('../images/foods/sea-food-big.png') no-repeat;
+}
+
+#crab {
+    width: 123px;
+    height: 86px;
+    background-position: -5px -5px;
+}
+
+#lobster {
+    width: 95px;
+    height: 113px;
+    background-position: -138px -5px;
+}
+
+#mussels {
+    width: 115px;
+    height: 93px;
+    background-position: -243px -5px;
+}
+
+#octopus {
+    width: 93px;
+    height: 112px;
+    background-position: -368px -5px;
+}
+
+#red-caviar {
+    width: 87px;
+    height: 92px;
+    background-position: -471px -5px;
+}
+
+#salmon {
+    width: 98px;
+    height: 101px;
+    background-position: -568px -5px;
+}
+
+#shrimp {
+    width: 105px;
+    height: 94px;
+    background-position: -676px -5px;
+}
+
+#squid {
+    width: 122px;
+    height: 122px;
+    background-position: -791px -5px;
+}
+
+#sushi {
+    width: 95px;
+    height: 71px;
+    background-position: -923px -5px;
+}
+
+
+
+@media screen and (min-width: 400px) and (max-width: 599px) {
+    .foods__page__list[data-type="sea-food"] .foods__page__list__item__image img,
+    .overlay__set-grams__wrapper[data-type="sea-food"] img {
+        background: url('../images/foods/sea-food-mid.png') no-repeat;
+    }
+
+    #crab {
+        width: 96px;
+        height: 67px;
+        background-position: -5px -5px;
+    }
+
+    #lobster {
+        width: 74px;
+        height: 89px;
+        background-position: -111px -5px;
+    }
+
+    #mussels {
+        width: 90px;
+        height: 73px;
+        background-position: -195px -5px;
+    }
+
+    #octopus {
+        width: 73px;
+        height: 88px;
+        background-position: -295px -5px;
+    }
+
+    #red-caviar {
+        width: 68px;
+        height: 72px;
+        background-position: -378px -5px;
+    }
+
+    #salmon {
+        width: 77px;
+        height: 79px;
+        background-position: -456px -5px;
+    }
+
+    #shrimp {
+        width: 82px;
+        height: 74px;
+        background-position: -543px -5px;
+    }
+
+    #squid {
+        width: 96px;
+        height: 96px;
+        background-position: -635px -5px;
+    }
+
+    #sushi {
+        width: 74px;
+        height: 56px;
+        background-position: -741px -5px;
+    }
+}
+
+@media screen and (max-width: 399px) {
+    .foods__page__list[data-type="sea-food"] .foods__page__list__item__image img,
+    .overlay__set-grams__wrapper[data-type="sea-food"] img {
+        background: url('../images/foods/sea-food-sml.png') no-repeat;
+    }
+
+    #crab {
+        width: 70px;
+        height: 49px;
+        background-position: -5px -5px;
+    }
+
+    #lobster {
+        width: 54px;
+        height: 64px;
+        background-position: -85px -5px;
+    }
+
+    #mussels {
+        width: 66px;
+        height: 53px;
+        background-position: -149px -5px;
+    }
+
+    #octopus {
+        width: 53px;
+        height: 64px;
+        background-position: -225px -5px;
+    }
+
+    #red-caviar {
+        width: 50px;
+        height: 52px;
+        background-position: -288px -5px;
+    }
+
+    #salmon {
+        width: 55px;
+        height: 58px;
+        background-position: -348px -5px;
+    }
+
+    #shrimp {
+        width: 60px;
+        height: 53px;
+        background-position: -413px -5px;
+    }
+
+    #squid {
+        width: 69px;
+        height: 69px;
+        background-position: -483px -5px;
+    }
+
+    #sushi {
+        width: 54px;
+        height: 40px;
+        background-position: -562px -5px;
+    }
+}
+
+
+
+
 
 
 

@@ -1,0 +1,38 @@
+[
+	{
+		"title": "salmon",
+		"calories": 208
+	},
+	{
+		"title": "sushi",
+		"calories": 143
+	},
+	{
+		"title": "red-caviar",
+		"calories": 263
+	},
+	{
+		"title": "shrimp",
+		"calories": 95
+	},
+	{
+		"title": "mussels",
+		"calories": 77
+	},
+	{
+		"title": "lobster",
+		"calories": 97
+	},
+	{
+		"title": "crab",
+		"calories": 82
+	},
+	{
+		"title": "squid",
+		"calories": 122
+	},
+	{
+		"title": "octopus",
+		"calories": 82
+	}
+]
