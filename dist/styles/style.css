@@ -88,7 +88,7 @@ body {
 	width: 80%;
 	height: 93%;
 	min-width: 256px; max-width: 700px; 
-	/*max-height: 780px;*/
+	min-height: 500px; /*max-height: 780px;*/
 
 	background-color: #fff;
 	border-top-right-radius: 3rem;
@@ -175,6 +175,7 @@ nav {
 	align-self: start;
 	display: flex;
 	align-items: center;
+	position: absolute;
 }
 	.menu {
 		position: relative;
@@ -210,13 +211,12 @@ nav {
 			}
 		}
 			.menu.en { width: 13.5rem; }
-			@media screen and (max-width: 480px) {
-				.menu.en { width: 10.3rem; }
-			}
 			.menu.ru { width: 16.5rem; }
 			@media screen and (max-width: 480px) {
+				.menu.en { width: 10.3rem; }
 				.menu.ru { width: 12.5rem; }
 			}
+			
 
 	
 
@@ -237,6 +237,7 @@ nav {
 
 			transition: border-radius 200ms ease-out, transform 250ms ease-out, background-color 200ms ease-out;
 		}
+
 		@media screen and (max-width: 480px) {
 			.menu__item {
 				height: 2.1rem;
@@ -291,6 +292,8 @@ nav {
 		}
 
 		.menu.hidden .menu__item:not(:first-child) { visibility: hidden; }
+
+
 
 
 
@@ -501,6 +504,15 @@ main::-webkit-scrollbar {
 		grid-template-rows: 170px 170px 170px 170px;
 	}
 	.bottom:after { content: "12"; }
+}
+
+
+/* small height of the screen */
+@media screen and (max-height: 720px) {
+	.foods__page__list {
+		grid-template-rows: 170px 170px;
+	}
+	.bottom:after { content: "6"; }
 }
 
 /*

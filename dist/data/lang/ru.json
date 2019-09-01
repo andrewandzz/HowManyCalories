@@ -53,6 +53,17 @@
 			"vodka": "Водка",
 			"water": "Вода",
 			"white-wine": "Белое вино"
+		},
+		"sea-food": {
+			"crab": "Краб",
+			"lobster": "Рак",
+			"mussels": "Мидии",
+			"octopus": "Осьминог",
+			"red-caviar": "Красная икра",
+			"salmon": "Лосось",
+			"squid": "Кальмар",
+			"shrimp": "Креветки",
+			"sushi": "Суши"
 		}
 	},
 	"footer": {
