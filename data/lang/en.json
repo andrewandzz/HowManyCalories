@@ -40,6 +40,19 @@
 			"potato": "Potato",
 			"pumpkin": "Pumpkin",
 			"tomato": "Tomato"
+		},
+		"drinks": {
+			"beer": "Beer",
+			"champagne": "Champagne",
+			"cherry-liqueur": "Cherry liqueur",
+			"coca-cola": "Coca-Cola",
+			"cognac": "Cognac",
+			"martini": "Martini",
+			"orange-juice": "Orange juice",
+			"red-wine": "Red wine",
+			"vodka": "Vodka",
+			"water": "Water",
+			"white-wine": "White wine"
 		}
 	},
 	"footer": {

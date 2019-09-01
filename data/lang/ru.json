@@ -40,6 +40,19 @@
 			"potato": "Картошка",
 			"pumpkin": "Тыква",
 			"tomato": "Помидор"
+		},
+		"drinks": {
+			"beer": "Пиво",
+			"champagne": "Шампанское",
+			"cherry-liqueur": "Вишнёвый ликёр",
+			"coca-cola": "Coca-Cola",
+			"cognac": "Коньяк",
+			"martini": "Мартини",
+			"orange-juice": "Апельсиновый сок",
+			"red-wine": "Красное вино",
+			"vodka": "Водка",
+			"water": "Вода",
+			"white-wine": "Белое вино"
 		}
 	},
 	"footer": {

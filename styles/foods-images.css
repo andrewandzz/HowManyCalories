@@ -487,5 +487,247 @@
 
 
 
+/* DRINKS */
+
+.foods__page__list[data-type="drinks"] .foods__page__list__item__image img,
+.overlay__set-grams__wrapper[data-type="drinks"] img {
+    background: url('../images/foods/drinks-big.png') no-repeat;
+}
+
+#beer {
+    width: 73px;
+    height: 102px;
+    background-position: -5px -5px;
+}
+
+#champagne {
+    width: 63px;
+    height: 122px;
+    background-position: -88px -5px;
+}
+
+#cherry-liqueur {
+    width: 43px;
+    height: 117px;
+    background-position: -161px -5px;
+}
+
+#coca-cola {
+    width: 39px;
+    height: 111px;
+    background-position: -214px -5px;
+}
+
+#cognac {
+    width: 48px;
+    height: 121px;
+    background-position: -263px -5px;
+}
+
+#martini {
+    width: 95px;
+    height: 92px;
+    background-position: -321px -5px;
+}
+
+#orange-juice {
+    width: 56px;
+    height: 103px;
+    background-position: -426px -5px;
+}
+
+#red-wine {
+    width: 59px;
+    height: 121px;
+    background-position: -492px -5px;
+}
+
+#vodka {
+    width: 50px;
+    height: 117px;
+    background-position: -561px -5px;
+}
+
+#vodka2 {
+    width: 39px;
+    height: 113px;
+    background-position: -621px -5px;
+}
+
+#water {
+    width: 38px;
+    height: 112px;
+    background-position: -670px -5px;
+}
+
+#white-wine {
+    width: 42px;
+    height: 121px;
+    background-position: -718px -5px;
+}
+
+@media screen and (min-width: 400px) and (max-width: 599px) {
+    .foods__page__list[data-type="drinks"] .foods__page__list__item__image img,
+    .overlay__set-grams__wrapper[data-type="drinks"] img {
+        background: url('../images/foods/drinks-mid.png') no-repeat;
+    }
+
+    #beer {
+        width: 57px;
+        height: 80px;
+        background-position: -5px -5px;
+    }
+
+    #champagne {
+        width: 49px;
+        height: 96px;
+        background-position: -72px -5px;
+    }
+
+    #cherry-liqueur {
+        width: 34px;
+        height: 92px;
+        background-position: -131px -5px;
+    }
+
+    #coca-cola {
+        width: 31px;
+        height: 87px;
+        background-position: -175px -5px;
+    }
+
+    #cognac {
+        width: 38px;
+        height: 95px;
+        background-position: -216px -5px;
+    }
+
+    #martini {
+        width: 74px;
+        height: 72px;
+        background-position: -264px -5px;
+    }
+
+    #orange-juice {
+        width: 44px;
+        height: 81px;
+        background-position: -348px -5px;
+    }
+
+    #red-wine {
+        width: 46px;
+        height: 95px;
+        background-position: -402px -5px;
+    }
+
+    #vodka {
+        width: 39px;
+        height: 92px;
+        background-position: -458px -5px;
+    }
+
+    #vodka2 {
+        width: 31px;
+        height: 89px;
+        background-position: -507px -5px;
+    }
+
+    #water {
+        width: 30px;
+        height: 88px;
+        background-position: -548px -5px;
+    }
+
+    #white-wine {
+        width: 33px;
+        height: 95px;
+        background-position: -588px -5px;
+    }
+
+}
+
+@media screen and (max-width: 399px) {
+    .foods__page__list[data-type="drinks"] .foods__page__list__item__image img,
+    .overlay__set-grams__wrapper[data-type="drinks"] img {
+        background: url('../images/foods/drinks-sml.png') no-repeat;
+    }
+
+    #beer {
+        width: 41px;
+        height: 58px;
+        background-position: -5px -5px;
+    }
+
+    #champagne {
+        width: 36px;
+        height: 69px;
+        background-position: -56px -5px;
+    }
+
+    #cherry-liqueur {
+        width: 24px;
+        height: 66px;
+        background-position: -102px -5px;
+    }
+
+    #coca-cola {
+        width: 22px;
+        height: 63px;
+        background-position: -136px -5px;
+    }
+
+    #cognac {
+        width: 27px;
+        height: 69px;
+        background-position: -168px -5px;
+    }
+
+    #martini {
+        width: 54px;
+        height: 52px;
+        background-position: -205px -5px;
+    }
+
+    #orange-juice {
+        width: 32px;
+        height: 58px;
+        background-position: -269px -5px;
+    }
+
+    #red-wine {
+        width: 34px;
+        height: 68px;
+        background-position: -311px -5px;
+    }
+
+    #vodka {
+        width: 28px;
+        height: 66px;
+        background-position: -355px -5px;
+    }
+
+    #vodka2 {
+        width: 22px;
+        height: 64px;
+        background-position: -393px -5px;
+    }
+
+    #water {
+        width: 22px;
+        height: 64px;
+        background-position: -425px -5px;
+    }
+
+    #white-wine {
+        width: 24px;
+        height: 69px;
+        background-position: -457px -5px;
+    }
+}
+
+
+
+
+
 
 
