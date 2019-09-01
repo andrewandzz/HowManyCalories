@@ -8,12 +8,6 @@
 	<link rel="icon" type="image/png" href="./images/icon.png">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
 	<meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
-	<style type="text/css">
-		#clipped {
-			mask: url('#mask');
-			/*animation: loading-rotate 10s linear infinite;*/
-		}
-	</style>
 </head>
 <body>
 
@@ -62,11 +56,9 @@
 		<main class="foods">
 
 			<div class="foods__loading display visible">
-				<div class="foods__loading--icon__wrapper">
-					<svg class="foods__loading--icon">
-						<use xlink:href="./images/icons.svg#loading"></use>
-					</svg>
-				</div>
+				<svg class="foods__loading--icon">
+					<use xlink:href="./images/icons.svg#loading"></use>
+				</svg>
 			</div>
 			
 			<!-- <ul class="foods__page__list" data-page="1">

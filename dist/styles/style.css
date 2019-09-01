@@ -441,6 +441,8 @@ main::-webkit-scrollbar {
 	display: none;
 }
 
+/* LOADING-ICON */
+
 .foods__loading {
 	position: absolute;
 	top: 0;
@@ -450,31 +452,30 @@ main::-webkit-scrollbar {
 	display: none;
 	justify-content: center;
 	align-items: center;
-	background-color: #fff;
+	background-color: rgba(255, 255, 255, .8);
 	opacity: 0;
 }
 .foods__loading.display { display: flex; }
 .foods__loading.visible {
-	opacity: .8;
+	opacity: 1;
 	transition: opacity 30ms ease-in-out;
 }
 
-	.foods__loading--icon__wrapper {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 5rem;
-		height: 5rem;
-		background-image: linear-gradient(to bottom right, rgba(204, 255, 51, 1) calc(50% - 50vw), rgba(0, 153, 51, 1) calc(50% + 50vw)), url('../images/background.png');
-		background-blend-mode: hard-light;
-		clip-path: circle(2.4rem at 2.5rem 2.5rem);
-	}
-
 	.foods__loading--icon {
-		width: 5rem;
-		height: 5rem;
+		width: 4rem;
+		height: 4rem;
 	}
-	.foods__loading.display .foods__loading--icon { animation: loading-rotate 1400ms linear infinite; }
+	@media screen and (max-width: 480px) {
+		.foods__loading--icon {
+			width: 2.6rem;
+			height: 2.6rem;
+		}
+	}
+	.foods__loading.display .foods__loading--icon { animation: loading-rotate 1200ms linear infinite; }
+
+
+/* FOODS PAGE */
+
 
 .foods__page__list {	
 	display: grid;
