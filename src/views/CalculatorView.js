@@ -156,6 +156,12 @@ export default class CalculatorView {
 	openTrash() {
 		if (!DOMElems.caloriesIcon.classList.contains('active')) return;
 
+		if (!this.model.trashIsDemonstrated) {
+			// if user opens the trash, then he obviously knows about it
+			this.model.trashIsDemonstrated = true;
+			window.sessionStorage.setItem('trashIsDemonstrated', true);
+		}
+
 		const icon = DOMElems.caloriesIcon;
 
 		icon.addEventListener('transitionend', changeToTrash);

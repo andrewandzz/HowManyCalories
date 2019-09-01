@@ -1,0 +1,46 @@
+[
+	{
+		"title": "water",
+		"calories": 0
+	},
+	{
+		"title": "orange-juice",
+		"calories": 45
+	},
+	{
+		"title": "coca-cola",
+		"calories": 42
+	},
+	{
+		"title": "beer",
+		"calories": 43
+	},
+	{
+		"title": "champagne",
+		"calories": 84
+	},
+	{
+		"title": "cherry-liqueur",
+		"calories": 299
+	},
+	{
+		"title": "red-wine",
+		"calories": 85
+	},
+	{
+		"title": "white-wine",
+		"calories": 82
+	},
+	{
+		"title": "martini",
+		"calories": 226
+	},
+	{
+		"title": "cognac",
+		"calories": 239
+	},
+	{
+		"title": "vodka",
+		"calories": 231
+	}
+]
