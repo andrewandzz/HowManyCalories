@@ -77,5 +77,5 @@
 		"send": "Send",
 		"thanks": "Your message has been sent. Thank you!"
 	},
-	"tooltipText": "Press and hold<br>to change grams"
+	"tooltipText": "Press and hold<br>to change amount"
 }
